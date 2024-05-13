@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Home from "./pages/Home";
-// import SignIn from "./pages/SignIn.jsx";
-// import SignUp from "./pages/SignUp.jsx";
-// import Profile from "./pages/Dashboard.jsx";
-import NotFound from "./pages/error/404.jsx";
+import Home from "@pages/Home";
+import SignIn from "@pages/auth/SignIn";
+// import SignUp from "@pages/auth/SignUp";
+import Profile from "@pages/Profile";
+import NotFound from "@pages/error/404.jsx";
 
-import PrivateRoute from "./components/PrivateRoute";
-import Header from "./components/Header";
+import PrivateRoute from "@components/PrivateRoute";
+import Header from "@components/Header";
 
 function App() {
     return (
@@ -16,11 +16,11 @@ function App() {
 
             <Routes>
                 <Route path="/" element={<Home />} />
-                {/* <Route path="/sign-in" element={<SignIn />} />
-                <Route path="/sign-up" element={<SignUp />} /> */}
+                <Route path="/sign-in" element={<SignIn />} />
+                {/* <Route path="/sign-up" element={<SignUp />} /> */}
 
                 <Route element={<PrivateRoute />}>
-                    {/* <Route path="/profile" element={<Profile />} /> */}
+                    <Route path="/profile" element={<Profile />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

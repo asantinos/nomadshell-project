@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+// Icons
 import TwoLineHorizontal from "@icons/two-line-horizontal";
 import HomeAlt1 from "@icons/home-alt1";
 import Map from "@icons/map";
@@ -8,8 +12,8 @@ import Bell from "@icons/bell";
 import SignOut from "@icons/sign-out";
 
 function Header() {
+    const { currentUser } = useSelector((state) => state.user);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const isLogged = false;
 
     const handleMenu = () => {
         const navMenu = document.getElementById("nav-menu-container");
@@ -25,6 +29,8 @@ function Header() {
             document.body.style.overflow = "hidden";
         }
     };
+    
+    // TODO - Implement logout functionality
 
     return (
         <>
@@ -32,14 +38,14 @@ function Header() {
                 <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 items-center px-6 py-3 max-w-7xl mx-auto">
                     <div className="w-1/3 col-span-1">
                         <div className="w-fit">
-                            <a href="/">
+                            <Link to="/">
                                 <h1 className="font-extrabold uppercase text-2xl">
                                     Nomad
                                 </h1>
                                 <h1 className="font-extrabold uppercase text-2xl -mt-3">
                                     Shell
                                 </h1>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <nav
@@ -47,8 +53,8 @@ function Header() {
                         className="bg-background w-full h-content sm:h-auto col-span-1 sm:col-span-2 hidden sm:flex absolute top-header sm:static items-center justify-between"
                     >
                         <ul className="flex flex-col sm:flex-row sm:items-center justify-center gap-8 my-8 sm:my-0 px-6 sm:px-0">
-                            <a
-                                href="/homes"
+                            <Link
+                                to="/homes"
                                 className="w-full border-b-2 border-transparent sm:hover:border-black py-2"
                             >
                                 <li className="flex items-center space-x-2">
@@ -57,9 +63,9 @@ function Header() {
                                         Homes
                                     </span>
                                 </li>
-                            </a>
-                            <a
-                                href="/map"
+                            </Link>
+                            <Link
+                                to="/map"
                                 className="border-b-2 border-transparent sm:hover:border-black py-2"
                             >
                                 <li className="flex items-center space-x-2">
@@ -68,9 +74,9 @@ function Header() {
                                         Map
                                     </span>
                                 </li>
-                            </a>
-                            <a
-                                href="/pricing"
+                            </Link>
+                            <Link
+                                to="/pricing"
                                 className="border-b-2 border-transparent sm:hover:border-black py-2"
                             >
                                 <li className="flex items-center space-x-2">
@@ -79,12 +85,11 @@ function Header() {
                                         Pricing
                                     </span>
                                 </li>
-                            </a>
+                            </Link>
                         </ul>
                         <ul className="flex flex-col sm:flex-row sm:items-center justify-center sm:justify-end gap-8 sm:gap-6 px-6 sm:px-0">
-                            {isLogged ? (
+                            {currentUser ? (
                                 <>
-                                    {/* TODO: Add likes from user inside profile page */}
                                     <a
                                         href="/profile"
                                         className="border-b-2 border-transparent py-2"
@@ -124,7 +129,7 @@ function Header() {
                             ) : (
                                 <>
                                     <a
-                                        href="/login"
+                                        href="/sign-in"
                                         className="w-fit bg-black px-10 py-3 rounded-2xl sm:hover:scale-105 transition duration-150 ease-in-out"
                                     >
                                         <li className="flex items-center space-x-2">
