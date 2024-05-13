@@ -1,13 +1,11 @@
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
-import path from "path";
-// import userRouter from "./routes/user.route.js";
-// import homeRouter from "./routes/home.route.js";
-// import authRouter from "./routes/auth.route.js";
-
-dotenv.config();
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv").config();
+const cookieParser = require("cookie-parser");
+const path = require("path");
+// const userRouter = require("./routes/user.route.js");
+// const homeRouter = require("./routes/home.route.js");
+const authRouter = require("./routes/auth.route.js");
 
 // DB Connection
 mongoose
@@ -19,7 +17,7 @@ mongoose
         console.log(err);
     });
 
-const __dirname = path.resolve(); // path.resolve() returns the absolute path of the current working directory
+// const __dirname = path.resolve(); // path.resolve() returns the absolute path of the current working directory
 
 const app = express();
 
@@ -34,7 +32,7 @@ app.listen(port, () => {
 // Routes
 // app.use("/api/user", userRouter);
 // app.use("/api/home", homeRouter);
-// app.use("/api/auth", authRouter);
+app.use("/api/auth", authRouter);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
