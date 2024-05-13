@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const path = require("path");
-// const userRouter = require("./routes/user.route.js");
-// const homeRouter = require("./routes/home.route.js");
+const userRouter = require("./routes/user.route.js");
+const homeRouter = require("./routes/home.route.js");
 const authRouter = require("./routes/auth.route.js");
 
 // DB Connection
@@ -30,9 +30,14 @@ app.listen(port, () => {
 });
 
 // Routes
-// app.use("/api/user", userRouter);
-// app.use("/api/home", homeRouter);
+app.use("/api/users", userRouter);
+app.use("/api/homes", homeRouter);
 app.use("/api/auth", authRouter);
+
+// Health Check
+app.get("/health", (req, res) => {
+    res.send("OK");
+});
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
