@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const path = require("path");
@@ -18,6 +19,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

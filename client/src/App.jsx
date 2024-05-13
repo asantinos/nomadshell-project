@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "@pages/Home";
 import SignIn from "@pages/auth/SignIn";
-// import SignUp from "@pages/auth/SignUp";
+import SignUp from "@pages/auth/SignUp";
 import Profile from "@pages/Profile";
 import NotFound from "@pages/error/404.jsx";
 
@@ -17,7 +17,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/sign-in" element={<SignIn />} />
-                {/* <Route path="/sign-up" element={<SignUp />} /> */}
+                <Route path="/sign-up" element={<SignUp />} />
 
                 <Route element={<PrivateRoute />}>
                     <Route path="/profile" element={<Profile />} />

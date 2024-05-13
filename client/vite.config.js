@@ -12,6 +12,7 @@ export default defineConfig({
             "@icons": path.resolve(__dirname, "src/assets/icons"),
             "@components": path.resolve(__dirname, "src/components"),
             "@pages": path.resolve(__dirname, "src/pages"),
+            "@redux": path.resolve(__dirname, "src/redux"),
         },
     },
 });

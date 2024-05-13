@@ -115,7 +115,7 @@ function Header() {
                                     </a>
 
                                     <a
-                                        onClick={handleLogout}
+                                        // onClick={handleLogout}
                                         className="border-b-2 border-transparent py-2 cursor-pointer"
                                     >
                                         <li className="flex items-center space-x-2">

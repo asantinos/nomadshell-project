@@ -84,7 +84,7 @@ const google = async (req, res, next) => {
                 Math.random().toString(36).slice(-8);
             const hashedPassword = await bcrypt.hash(generatedPassword, 10);
             const newUser = new User({
-                avatar: req.body.photo,
+                avatar: req.body.avatar,
                 name: req.body.name,
                 surname: req.body.surname,
                 email: req.body.email,
