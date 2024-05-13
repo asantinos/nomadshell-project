@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+    signOutUserStart,
+    deleteUserSuccess,
+    deleteUserFailure,
+} from "@redux/user/userSlice";
+import axios from "axios";
 
 // Icons
 import TwoLineHorizontal from "@icons/two-line-horizontal";
@@ -12,6 +18,7 @@ import Bell from "@icons/bell";
 import SignOut from "@icons/sign-out";
 
 function Header() {
+    const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -29,7 +36,21 @@ function Header() {
             document.body.style.overflow = "hidden";
         }
     };
-    
+
+    const handleSignOut = async () => {
+        try {
+            dispatch(signOutUserStart());
+
+            const response = await axios.post(
+                "http://localhost:3000/api/auth/sign-out"
+            );
+
+            dispatch(deleteUserSuccess(response.data));
+        } catch (error) {
+            dispatch(deleteUserFailure(error.message));
+        }
+    };
+
     // TODO - Implement logout functionality
 
     return (
@@ -114,8 +135,8 @@ function Header() {
                                         </li>
                                     </a>
 
-                                    <a
-                                        // onClick={handleLogout}
+                                    <div
+                                        onClick={handleSignOut}
                                         className="border-b-2 border-transparent py-2 cursor-pointer"
                                     >
                                         <li className="flex items-center space-x-2">
@@ -124,7 +145,7 @@ function Header() {
                                                 Logout
                                             </span>
                                         </li>
-                                    </a>
+                                    </div>
                                 </>
                             ) : (
                                 <>

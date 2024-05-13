@@ -1,21 +1,23 @@
 import React, { useState } from "react";
-import GoogleFill from "@icons/google-fill";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
     signInStart,
     signInSuccess,
     signInFailure,
 } from "@redux/user/userSlice";
+import axios from "axios";
 import OAuth from "@components/OAuth";
 
 function SignIn() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [formData, setFormData] = useState({
         email: "",
         password: "",
-        rememberMe: false,
     });
-    const [rememberMe, setRememberMe] = useState(false);
-    const [error, setError] = useState(null);
+    const { loading, error } = useSelector((state) => state.user);
 
     const handleChange = (e) => {
         setFormData({
@@ -28,10 +30,21 @@ function SignIn() {
         e.preventDefault();
 
         try {
-            const response = await axios.post("/api/auth/sign-in", formData);
-            console.log(response);
+            dispatch(signInStart());
+
+            const response = await axios.post(
+                "http://localhost:3000/api/auth/sign-in",
+                formData
+            );
+
+            dispatch(signInSuccess(response.data));
+            navigate("/");
         } catch (error) {
-            setError(error.response.data.message);
+            if (error.response) {
+                dispatch(signInFailure(error.response.data.message));
+            } else {
+                dispatch(signInFailure(error.message));
+            }
         }
     };
 
@@ -42,17 +55,17 @@ function SignIn() {
                     <div className="max-w-7xl mx-auto">
                         <div className="flex flex-col items-center justify-center">
                             <h1 className="text-4xl font-bold text-center">
-                                Log In
+                                Sign In
                             </h1>
                             <p className="text-center text-gray-500 text-sm mt-4">
-                                Welcome back! Log in to your account to start
+                                Welcome back! Sign in to your account to start
                                 traveling
                             </p>
                         </div>
 
                         <div className="mt-8 w-full">
                             <form
-                                // onSubmit={handleSubmit}
+                                onSubmit={handleSubmit}
                                 className="space-y-6 max-w-md mx-auto"
                             >
                                 <div>
@@ -69,7 +82,6 @@ function SignIn() {
                                             type="email"
                                             autoComplete="email"
                                             required
-                                            value={formData.email}
                                             onChange={handleChange}
                                             className="block w-full px-3 py-3 placeholder-gray-400 border border-gray-300 rounded-2xl shadow-sm sm:text-sm"
                                         />
@@ -88,9 +100,8 @@ function SignIn() {
                                             id="password"
                                             name="password"
                                             type="password"
-                                            autoComplete="current-password"
+                                            // autoComplete="current-password"
                                             required
-                                            value={formData.password}
                                             onChange={handleChange}
                                             className="block w-full px-3 py-3 placeholder-gray-400 border border-gray-300 rounded-2xl shadow-sm sm:text-sm"
                                         />
@@ -127,10 +138,12 @@ function SignIn() {
 
                                 <div>
                                     <button
+                                        disabled={loading}
                                         type="submit"
-                                        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-2xl shadow-sm text-sm font-bold text-white bg-gray-dark hover:bg-black ring-0 outline-none transition duration-150 ease-in-out"
+                                        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-2xl shadow-sm text-sm font-bold text-white bg-gray-dark hover:bg-black ring-0 outline-none transition duration-150 ease-in-out
+                                        disabled:opacity-50 disabled:"
                                     >
-                                        Log in
+                                        {loading ? "Loading..." : "Sign In"}
                                     </button>
                                 </div>
                             </form>
