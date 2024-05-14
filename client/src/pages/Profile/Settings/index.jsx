@@ -25,7 +25,7 @@ function Settings() {
         name: currentUser.user.name,
         surname: currentUser.user.surname,
         email: currentUser.user.email,
-        password: "",
+        password: currentUser.user.password,
     });
     const fileRef = useRef(null);
     const [file, setFile] = useState(undefined);
@@ -81,12 +81,17 @@ function Settings() {
             dispatch(updateUserStart());
 
             const res = await axios.put(
-                `http://localhost:3000/api/users/update/${currentUser.user._id}`,
+                `/api/users/update/${currentUser.user._id}`,
                 formData
             );
 
             dispatch(updateUserSuccess(res.data));
+
             setUpdateSuccess(true);
+
+            setTimeout(() => {
+                setUpdateSuccess(false);
+            }, 3000);
         } catch (error) {
             if (error.response) {
                 dispatch(updateUserFailure(error.response.data.message));
@@ -99,17 +104,18 @@ function Settings() {
     const handleDeleteUser = async () => {
         try {
             dispatch(deleteUserStart());
-            const res = await fetch(`/api/users/delete/${currentUser.user._id}`, {
-                method: "DELETE",
-            });
-            const data = await res.json();
-            if (data.success === false) {
-                dispatch(deleteUserFailure(data.message));
-                return;
-            }
-            dispatch(deleteUserSuccess(data));
+
+            const res = await axios.delete(
+                `/api/users/delete/${currentUser.user._id}`
+            );
+
+            dispatch(deleteUserSuccess(res.data));
         } catch (error) {
-            dispatch(deleteUserFailure(error.message));
+            if (error.response) {
+                dispatch(deleteUserFailure(error.response.data.message));
+            } else {
+                dispatch(deleteUserFailure(error.message));
+            }
         }
     };
 
@@ -126,7 +132,7 @@ function Settings() {
                         </div>
 
                         <form onSubmit={handleSubmit} className="mt-8">
-                            <div className="flex items-center justify-between py-3">
+                            <div className="flex items-center justify-between gap-8 py-3">
                                 <label htmlFor="avatar">Avatar</label>
                                 <div className="relative">
                                     <input
@@ -146,7 +152,7 @@ function Settings() {
                                             currentUser.user.avatar
                                         }
                                         alt={`${currentUser.user.name} ${currentUser.user.surname} avatar`}
-                                        className="rounded-3xl h-10 w-10 object-cover cursor-pointer"
+                                        className="rounded-xl h-10 w-10 object-cover cursor-pointer"
                                     />
                                     <p
                                         className="absolute right-14 top-[50%] transform -translate-y-1/2
@@ -170,7 +176,7 @@ function Settings() {
                                 </div>
                             </div>
 
-                            <div className="flex items-center justify-between border-t py-3">
+                            <div className="flex items-center justify-between gap-8 border-t py-3">
                                 <label htmlFor="name">Name</label>
                                 <input
                                     type="text"
@@ -178,11 +184,11 @@ function Settings() {
                                     defaultValue={currentUser.user.name}
                                     onChange={handleChange}
                                     placeholder="Name"
-                                    className="border-none outline-none text-right"
+                                    className="border-none outline-none flex-1 text-right"
                                 />
                             </div>
 
-                            <div className="flex items-center justify-between border-t py-3">
+                            <div className="flex items-center justify-between gap-8 border-t py-3">
                                 <label htmlFor="surname">Surname</label>
                                 <input
                                     type="text"
@@ -190,11 +196,11 @@ function Settings() {
                                     defaultValue={currentUser.user.surname}
                                     onChange={handleChange}
                                     placeholder="Surname"
-                                    className="border-none outline-none text-right"
+                                    className="border-none outline-none flex-1 text-right"
                                 />
                             </div>
 
-                            <div className="flex items-center justify-between border-t py-3">
+                            <div className="flex items-center justify-between gap-8 border-t py-3">
                                 <label htmlFor="email">Email</label>
                                 <input
                                     type="email"
@@ -202,18 +208,18 @@ function Settings() {
                                     defaultValue={currentUser.user.email}
                                     onChange={handleChange}
                                     placeholder="Email"
-                                    className="border-none outline-none text-right"
+                                    className="border-none outline-none text-right flex-1"
                                 />
                             </div>
 
-                            <div className="flex items-center justify-between border-t py-3">
+                            <div className="flex items-center justify-between gap-8 border-t py-3">
                                 <label htmlFor="password">Password</label>
                                 <input
                                     type="password"
                                     id="password"
                                     onChange={handleChange}
                                     placeholder="Password"
-                                    className="border-none outline-none text-right"
+                                    className="border-none outline-none flex-1 text-right"
                                 />
                             </div>
 
@@ -226,6 +232,27 @@ function Settings() {
                                 </button>
                             </div>
                         </form>
+
+                        <div className="flex justify-end">
+                            <button
+                                onClick={handleDeleteUser}
+                                className="mt-8 border border-red-700 hover:bg-red-700 hover:text-white font-bold py-4 px-8 rounded-3xl transition duration-200 ease-in-out"
+                            >
+                                Delete Account
+                            </button>
+                        </div>
+
+                        {updateSuccess && (
+                            <div className="mx-auto w-fit mt-6 text-center bg-green-100 border border-green-400 text-green-700 px-8 py-3 rounded-2xl">
+                                User updated successfully
+                            </div>
+                        )}
+
+                        {error && (
+                            <div className="mx-auto w-fit mt-6 text-center bg-red-100 border border-red-400 text-red-700 px-8 py-3 rounded-2xl">
+                                {error}
+                            </div>
+                        )}
                     </div>
                 </section>
             </main>

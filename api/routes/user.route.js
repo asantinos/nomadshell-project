@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/", verifyToken, getUsers);
 router.get("/me", verifyToken, getUser);
-router.put("/update/:id", verifyToken, updateUser);
+router.put("/update/:id", updateUser);
 router.delete("/delete/:id", verifyToken, deleteUser);
 router.get("/:id/homes", verifyToken, getUserHomes);
 

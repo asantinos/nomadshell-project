@@ -32,16 +32,17 @@ function SignIn() {
         try {
             dispatch(signInStart());
 
-            const res = await axios.post(
-                "http://localhost:3000/api/auth/sign-in",
-                formData
-            );
+            const res = await axios.post("/api/auth/sign-in", formData);
 
             dispatch(signInSuccess(res.data));
             navigate("/");
         } catch (error) {
-            if (error.res) {
-                dispatch(signInFailure(error.res.data.message));
+            if (error.response) {
+                dispatch(signInFailure(error.response.data.message));
+
+                setTimeout(() => {
+                    dispatch(signInFailure(""));
+                }, 5000);
             } else {
                 dispatch(signInFailure(error.message));
             }
@@ -168,12 +169,12 @@ function SignIn() {
                             <div className="mt-6 text-sm text-center">
                                 <p className="text-gray-500">
                                     Don't have an account?{" "}
-                                    <a
-                                        href="/sign-up"
+                                    <Link
+                                        to="/sign-up"
                                         className="font-medium text-gray-light hover:text-gray-dark transition duration-150 ease-in-out"
                                     >
                                         Sign up
-                                    </a>
+                                    </Link>
                                 </p>
                             </div>
 

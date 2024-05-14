@@ -42,9 +42,7 @@ const signIn = async (req, res, next) => {
             return res.status(400).json({ message: "Invalid password" });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-            expiresIn: "1h",
-        });
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
         // Return user without password
         const { password: userPassword, ...userWithoutPassword } = user._doc;
@@ -64,9 +62,7 @@ const google = async (req, res, next) => {
         const user = await User.findOne({ email: req.body.email });
         if (user) {
             // Sign in
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-                expiresIn: "1h",
-            });
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
             // Return user without password
             const { password: userPassword, ...userWithoutPassword } =
@@ -92,13 +88,7 @@ const google = async (req, res, next) => {
             });
             await newUser.save();
 
-            const token = jwt.sign(
-                { id: newUser._id },
-                process.env.JWT_SECRET,
-                {
-                    expiresIn: "1h",
-                }
-            );
+            const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
 
             // Return user without password
             const { password: userPassword, ...userWithoutPassword } =

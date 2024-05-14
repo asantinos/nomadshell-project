@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import {
-    deleteUserStart,
-    deleteUserSuccess,
-    deleteUserFailure,
-} from "@redux/user/userSlice";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Footer from "@components/Footer";
@@ -14,6 +9,7 @@ import SettingsVertical from "@icons/settings-vertical";
 
 function Profile() {
     const { currentUser } = useSelector((state) => state.user);
+    const [userHomes, setUserHomes] = useState([]);
     const [userBookings, setUserBookings] = useState([
         // example booking
         {
@@ -42,21 +38,24 @@ function Profile() {
         },
     ]);
 
-    // useEffect(() => {
-    //     const fetchUserBookings = async () => {
-    //         try {
-    //             // TODO : Make Booking model, controller and route
-    //             const response = await axios.get(
-    //                 `http://localhost:3000/api/bookings/user/${currentUser.user._id}`
-    //             );
-    //             setUserBookings(response.data);
-    //         } catch (error) {
-    //             console.error(error.message);
-    //         }
-    //     };
+    // Show user homes from /api/users/:id/homes
+    // Show user bookings from /api/users/:id/bookings
+    // Use the currentUser.user.id to fetch the data
+    useEffect(() => {
+        const fetchUserHomes = async () => {
+            try {
+                const response = await axios.get(
+                    `/api/users/${currentUser.user._id}/homes`
+                );
 
-    //     fetchUserBookings();
-    // }, [currentUser.user._id]);
+                setUserHomes(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchUserHomes();
+    }, [currentUser.user.id]);
 
     return (
         <>
@@ -132,6 +131,34 @@ function Profile() {
                                 </div>
                             ) : (
                                 <div>
+                                    {userHomes.length === 0 ? (
+                                        <p className="text-gray-500">
+                                            You don't have any homes yet.
+                                        </p>
+                                    ) : (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            {userHomes.map((home) => (
+                                                <div
+                                                    key={home._id}
+                                                    className="bg-neutral-200 rounded-2xl p-6"
+                                                >
+                                                    <div className="flex items-center justify-between">
+                                                        <HomeIcon
+                                                            size="24"
+                                                            color="#000"
+                                                        />
+                                                        <p className="text-gray-500">
+                                                            {home.title}
+                                                        </p>
+                                                    </div>
+                                                    <p className="text-gray-500 mt-4">
+                                                        {home.location}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
                                     <Link
                                         to="/add-home"
                                         className="border border-black hover:bg-black hover:text-white font-bold py-4 px-8 rounded-3xl transition duration-200 ease-in-out"

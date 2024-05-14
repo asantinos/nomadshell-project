@@ -45,7 +45,7 @@ const getHomes = async (req, res, next) => {
 
         return res.status(200).json(homes);
     } catch (error) {
-        return next(errorHandler(500, "Internal Server Error"));
+        next(error);
     }
 };
 
@@ -59,7 +59,7 @@ const getHome = async (req, res, next) => {
 
         return res.status(200).json(home);
     } catch (error) {
-        return next(errorHandler(500, "Internal Server Error"));
+        next(error);
     }
 };
 
@@ -71,7 +71,7 @@ const createHome = async (req, res, next) => {
             .status(201)
             .json({ home, message: "Home created successfully" });
     } catch (error) {
-        return next(errorHandler(400, error.message));
+        next(error);
     }
 };
 
@@ -97,7 +97,7 @@ const updateHome = async (req, res, next) => {
             .status(200)
             .json({ updatedHome, message: "Home updated successfully" });
     } catch (error) {
-        return next(errorHandler(500, "Internal Server Error"));
+        next(error);
     }
 };
 
@@ -116,7 +116,7 @@ const deleteHome = async (req, res, next) => {
         await Home.findByIdAndDelete(req.params.id);
         return res.status(204).json({ message: "Home deleted successfully" });
     } catch (error) {
-        return next(errorHandler(500, "Internal Server Error"));
+        next(error);
     }
 };
 

@@ -18,7 +18,7 @@ const OAuth = () => {
         try {
             const result = await signInWithPopup(auth, provider);
 
-            const response = await axios.post("http://localhost:3000/api/auth/google", {
+            const response = await axios.post("/api/auth/google", {
                 avatar: result.user.photoURL,
                 name: result.user.displayName.split(" ")[0],
                 surname: result.user.displayName.split(" ")[1],

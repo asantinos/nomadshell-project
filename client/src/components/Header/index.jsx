@@ -42,7 +42,7 @@ function Header() {
             dispatch(signOutUserStart());
 
             const response = await axios.post(
-                "http://localhost:3000/api/auth/sign-out"
+                "/api/auth/sign-out"
             );
 
             dispatch(deleteUserSuccess(response.data));

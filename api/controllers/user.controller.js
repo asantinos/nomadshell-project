@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
-const errorHandler = require("../utils/error");
+const { errorHandler } = require("../utils/error");
 const Home = require("../models/home.model");
 
 // Get all users
@@ -9,7 +9,7 @@ const getUsers = async (req, res, next) => {
         const users = await User.find().select("-password");
         res.status(200).json(users);
     } catch (error) {
-        next(errorHandler(500, "Internal Server Error"));
+        next(error);
     }
 };
 
@@ -24,16 +24,12 @@ const getUser = async (req, res, next) => {
 
         res.status(200).json(user);
     } catch (error) {
-        next(errorHandler(500, "Internal Server Error"));
+        next(error);
     }
 };
 
 // Update user by ID
 const updateUser = async (req, res, next) => {
-    if (req.user.id !== req.params.id) {
-        return next(errorHandler(403, "Forbidden"));
-    }
-
     try {
         if (req.body.password) {
             req.body.password = bcrypt.hashSync(req.body.password, 10);
@@ -54,9 +50,9 @@ const updateUser = async (req, res, next) => {
             { new: true }
         ).select("-password");
 
-        res.status(200).json(user, { message: "User updated successfully" });
+        res.status(200).json({ user, message: "User updated successfully" });
     } catch (error) {
-        next(errorHandler(500, "Internal Server Error"));
+        next(error);
     }
 };
 
@@ -72,7 +68,7 @@ const deleteUser = async (req, res, next) => {
         res.clearCookie("access_token");
         res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
-        next(errorHandler(500, "Internal Server Error"));
+        next(error);
     }
 };
 
@@ -86,7 +82,7 @@ const getUserHomes = async (req, res, next) => {
             next(errorHandler(500, "Internal Server Error"));
         }
     } else {
-        next(errorHandler(403, "Forbidden"));
+        next(error);
     }
 };
 
