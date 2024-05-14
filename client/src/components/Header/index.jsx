@@ -41,9 +41,7 @@ function Header() {
         try {
             dispatch(signOutUserStart());
 
-            const response = await axios.post(
-                "/api/auth/sign-out"
-            );
+            const response = await axios.post("/api/auth/sign-out");
 
             dispatch(deleteUserSuccess(response.data));
         } catch (error) {
@@ -109,6 +107,13 @@ function Header() {
                         <ul className="flex flex-col sm:flex-row sm:items-center justify-center sm:justify-end gap-8 sm:gap-6 px-6 sm:px-0">
                             {currentUser ? (
                                 <>
+                                    <Link
+                                        to="/pricing"
+                                        className="font-medium text-lg sm:text-base uppercase"
+                                    >
+                                        {currentUser.user.nomadPoints} NP
+                                    </Link>
+
                                     <a
                                         href="/profile"
                                         className="border-b-2 border-transparent py-2"

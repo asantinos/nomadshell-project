@@ -38,9 +38,6 @@ function Profile() {
         },
     ]);
 
-    // Show user homes from /api/users/:id/homes
-    // Show user bookings from /api/users/:id/bookings
-    // Use the currentUser.user.id to fetch the data
     useEffect(() => {
         const fetchUserHomes = async () => {
             try {
@@ -132,39 +129,48 @@ function Profile() {
                             ) : (
                                 <div>
                                     {userHomes.length === 0 ? (
-                                        <p className="text-gray-500">
+                                        <p className="text-gray-500 mb-8">
                                             You don't have any homes yet.
                                         </p>
                                     ) : (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                            {userHomes.map((home) => (
-                                                <div
-                                                    key={home._id}
-                                                    className="bg-neutral-200 rounded-2xl p-6"
-                                                >
-                                                    <div className="flex items-center justify-between">
-                                                        <HomeIcon
-                                                            size="24"
-                                                            color="#000"
-                                                        />
-                                                        <p className="text-gray-500">
-                                                            {home.title}
+                                        <>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                                                {userHomes.map((home) => (
+                                                    <div
+                                                        key={home._id}
+                                                        className="bg-neutral-200 rounded-2xl p-6"
+                                                    >
+                                                        <div className="flex items-center justify-between">
+                                                            <HomeIcon
+                                                                size="24"
+                                                                color="#000"
+                                                            />
+                                                            <p className="text-gray-500">
+                                                                {home.title}
+                                                            </p>
+                                                        </div>
+                                                        <p className="text-gray-500 mt-4">
+                                                            {home.location}
                                                         </p>
                                                     </div>
-                                                    <p className="text-gray-500 mt-4">
-                                                        {home.location}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                        </div>
+                                                ))}
+                                                
+                                                <Link
+                                                    to="/add-home"
+                                                    className="flex items-center justify-center text-center border-4 border-dashed rounded-2xl p-6 text-lg font-semibold uppercase text-gray-400 hover:bg-gray-100"
+                                                >
+                                                    Add Home
+                                                </Link>
+                                            </div>
+                                        </>
                                     )}
 
-                                    <Link
+                                    {/* <Link
                                         to="/add-home"
                                         className="border border-black hover:bg-black hover:text-white font-bold py-4 px-8 rounded-3xl transition duration-200 ease-in-out"
                                     >
                                         Add Home
-                                    </Link>
+                                    </Link> */}
                                 </div>
                             )}
                         </div>

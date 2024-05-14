@@ -11,7 +11,7 @@ function PricingCard({
     return (
         <div
             className={`${
-                isMostPopular ? "relative border-black" : " border-transparent"
+                isMostPopular ? "relative border-black" : "border-transparent"
             } w-full flex flex-col justify-between bg-gray-lighter backdrop:opacity-50 rounded-3xl p-8 border-4`}
         >
             {isMostPopular && (
@@ -24,7 +24,7 @@ function PricingCard({
                 <p className="text-base text-gray-light mt-6">{description}</p>
                 <ul className="list-disc list-inside mt-8 text-left space-y-4">
                     {listItems.map((item, index) => (
-                        <li key={index}>{item}</li>
+                        <li key={index} className="list-inside -indent-6 pl-12">{item}</li>
                     ))}
                 </ul>
             </div>

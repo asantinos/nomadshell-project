@@ -15,6 +15,7 @@ import {
     deleteUserSuccess,
     deleteUserFailure,
 } from "@redux/user/userSlice";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Settings() {
@@ -223,6 +224,21 @@ function Settings() {
                                 />
                             </div>
 
+                            <div className="flex items-center justify-between gap-8 border-t py-3">
+                                <label htmlFor="plan">Plan</label>
+                                <div className="flex items-center gap-4 text-right border border-gray-300 rounded-2xl px-4 py-2 hover:border-black hover:bg-black hover:text-white transition duration-200 ease-in-out">
+                                    <Link to="/pricing">
+                                        Change Plan
+                                    </Link>
+                                    <span className="text-right">
+                                        {currentUser.user.planType
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                            currentUser.user.planType.slice(1)}
+                                    </span>
+                                </div>
+                            </div>
+
                             <div className="flex justify-end">
                                 <button
                                     disabled={loading}
@@ -236,7 +252,7 @@ function Settings() {
                         <div className="flex justify-end">
                             <button
                                 onClick={handleDeleteUser}
-                                className="mt-8 border border-red-700 hover:bg-red-700 hover:text-white font-bold py-4 px-8 rounded-3xl transition duration-200 ease-in-out"
+                                className="mt-8 border bg-red-100 border-red-400 hover:bg-red-700 text-red-700 hover:text-white font-bold py-4 px-8 rounded-3xl transition duration-200 ease-in-out"
                             >
                                 Delete Account
                             </button>
