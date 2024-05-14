@@ -228,7 +228,7 @@ function Settings() {
                                 <label htmlFor="plan">Plan</label>
                                 <div className="flex items-center gap-4 text-right border border-gray-300 rounded-2xl px-4 py-2 hover:border-black hover:bg-black hover:text-white transition duration-200 ease-in-out">
                                     <Link to="/pricing">Change Plan</Link>
-                                    <span className="text-right">
+                                    <span className="h-full text-center font-semibold">
                                         {currentUser.user.planType
                                             .charAt(0)
                                             .toUpperCase() +

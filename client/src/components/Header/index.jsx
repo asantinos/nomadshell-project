@@ -51,8 +51,8 @@ function Header() {
 
     return (
         <>
-            <header className="z-50 w-full bg-background">
-                <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 items-center px-6 py-3 max-w-7xl mx-auto">
+            <header className="z-50 w-full bg-white">
+                <div className="relative z-10 grid grid-cols-2 md:grid-cols-3 items-center px-6 py-3 max-w-7xl mx-auto">
                     <div className="w-1/3 col-span-1">
                         <div className="w-fit">
                             <Link to="/">
@@ -67,49 +67,49 @@ function Header() {
                     </div>
                     <nav
                         id="nav-menu-container"
-                        className="bg-background w-full h-content sm:h-auto col-span-1 sm:col-span-2 hidden sm:flex absolute top-header sm:static items-center justify-between"
+                        className="bg-white w-full h-content md:h-auto col-span-1 md:col-span-2 hidden md:flex absolute top-header md:static items-center justify-between"
                     >
-                        <ul className="flex flex-col sm:flex-row sm:items-center justify-center gap-8 my-8 sm:my-0 px-6 sm:px-0">
+                        <ul className="flex flex-col md:flex-row md:items-center justify-center gap-8 my-8 md:my-0 px-6 md:px-0">
                             <Link
                                 to="/homes"
-                                className="w-full border-b-2 border-transparent sm:hover:border-black py-2"
+                                className="w-full border-b-2 border-transparent md:hover:border-black py-2"
                             >
                                 <li className="flex items-center space-x-2">
                                     <HomeAlt1 color="#000" size="24" />
-                                    <span className="font-medium text-lg sm:text-sm uppercase">
+                                    <span className="font-medium text-lg md:text-sm uppercase">
                                         Homes
                                     </span>
                                 </li>
                             </Link>
                             <Link
                                 to="/map"
-                                className="border-b-2 border-transparent sm:hover:border-black py-2"
+                                className="border-b-2 border-transparent md:hover:border-black py-2"
                             >
                                 <li className="flex items-center space-x-2">
                                     <Map color="#000" size="24" />
-                                    <span className="font-medium text-lg sm:text-sm uppercase">
+                                    <span className="font-medium text-lg md:text-sm uppercase">
                                         Map
                                     </span>
                                 </li>
                             </Link>
                             <Link
                                 to="/pricing"
-                                className="border-b-2 border-transparent sm:hover:border-black py-2"
+                                className="border-b-2 border-transparent md:hover:border-black py-2"
                             >
                                 <li className="flex items-center space-x-2">
                                     <Money color="#000" size="24" />
-                                    <span className="font-medium text-lg sm:text-sm uppercase">
+                                    <span className="font-medium text-lg md:text-sm uppercase">
                                         Pricing
                                     </span>
                                 </li>
                             </Link>
                         </ul>
-                        <ul className="flex flex-col sm:flex-row sm:items-center justify-center sm:justify-end gap-8 sm:gap-6 px-6 sm:px-0">
+                        <ul className="flex flex-col md:flex-row md:items-center justify-center md:justify-end gap-8 md:gap-6 px-6 md:px-0">
                             {currentUser ? (
                                 <>
                                     <Link
                                         to="/pricing"
-                                        className="font-medium text-lg sm:text-base uppercase"
+                                        className="font-medium text-lg md:text-base uppercase text-nowrap"
                                     >
                                         {currentUser.user.nomadPoints} NP
                                     </Link>
@@ -120,7 +120,7 @@ function Header() {
                                     >
                                         <li className="flex items-center space-x-2">
                                             <Person color="#000" size="24" />
-                                            <span className="flex sm:hidden font-medium text-lg sm:text-sm uppercase">
+                                            <span className="flex md:hidden font-medium text-lg md:text-sm uppercase">
                                                 Profile
                                             </span>
                                         </li>
@@ -132,7 +132,7 @@ function Header() {
                                     >
                                         <li className="flex items-center space-x-2">
                                             <Bell color="#000" size="24" />
-                                            <span className="flex sm:hidden font-medium text-lg sm:text-sm uppercase">
+                                            <span className="flex md:hidden font-medium text-lg md:text-sm uppercase">
                                                 Notifications
                                             </span>
                                         </li>
@@ -144,7 +144,7 @@ function Header() {
                                     >
                                         <li className="flex items-center space-x-2">
                                             <SignOut color="#000" size="24" />
-                                            <span className="flex sm:hidden font-medium text-lg sm:text-sm uppercase">
+                                            <span className="flex md:hidden font-medium text-lg md:text-sm uppercase">
                                                 Logout
                                             </span>
                                         </li>
@@ -154,10 +154,10 @@ function Header() {
                                 <>
                                     <a
                                         href="/sign-in"
-                                        className="w-fit bg-black px-10 py-3 rounded-2xl sm:hover:scale-105 transition duration-150 ease-in-out"
+                                        className="w-fit bg-black px-10 py-3 rounded-2xl md:hover:scale-105 transition duration-150 ease-in-out"
                                     >
                                         <li className="flex items-center space-x-2">
-                                            <span className="flex font-bold text-lg text-white sm:text-sm uppercase">
+                                            <span className="flex font-bold text-lg text-white md:text-sm uppercase">
                                                 JOIN
                                             </span>
                                         </li>
@@ -167,7 +167,7 @@ function Header() {
                         </ul>
                     </nav>
 
-                    <div className="flex sm:hidden items-center justify-end">
+                    <div className="flex md:hidden items-center justify-end">
                         <div className="cursor-pointer" onClick={handleMenu}>
                             <TwoLineHorizontal
                                 color="#000"

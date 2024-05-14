@@ -54,6 +54,18 @@ function Profile() {
         fetchUserHomes();
     }, [currentUser.user.id]);
 
+    const deleteHome = async (homeId) => {
+        try {
+            await axios.delete(`/api/homes/delete/${homeId}`);
+
+            setUserHomes((prevHomes) =>
+                prevHomes.filter((home) => home._id !== homeId)
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <>
             <main className="h-auto">
@@ -138,25 +150,57 @@ function Profile() {
                                                 {userHomes.map((home) => (
                                                     <div
                                                         key={home._id}
-                                                        className="bg-neutral-200 rounded-2xl p-6"
+                                                        className="bg-neutral-100 rounded-3xl p-6"
                                                     >
                                                         <div className="flex items-center justify-between">
-                                                            <HomeIcon
-                                                                size="24"
-                                                                color="#000"
-                                                            />
-                                                            <p className="text-gray-500">
+                                                            <Link
+                                                                to={`/homes/${home._id}`}
+                                                                className="text-black font-bold"
+                                                            >
                                                                 {home.title}
-                                                            </p>
+                                                            </Link>
+                                                            <Link
+                                                                to={`/profile/homes/edit/${home._id}`}
+                                                                className="text-gray-500 hover:text-black"
+                                                            >
+                                                                Edit
+                                                            </Link>
+                                                            <button
+                                                                onClick={() =>
+                                                                    deleteHome(
+                                                                        home._id
+                                                                    )
+                                                                }
+                                                                className="text-gray-500 hover:text-black"
+                                                            >
+                                                                Delete
+                                                            </button>
                                                         </div>
+                                                        <p className="text-gray-500 mt-4">
+                                                            {home.description}
+                                                        </p>
+                                                        <p className="text-gray-500 mt-4">
+                                                            {home.price} / night
+                                                        </p>
+                                                        <p className="text-gray-500 mt-4">
+                                                            {home.sqrt} sqrt
+                                                        </p>
+                                                        <p className="text-gray-500 mt-4">
+                                                            {home.bedrooms}{" "}
+                                                            bedrooms
+                                                        </p>
+                                                        <p className="text-gray-500 mt-4">
+                                                            {home.bathrooms}{" "}
+                                                            bathrooms
+                                                        </p>
                                                         <p className="text-gray-500 mt-4">
                                                             {home.location}
                                                         </p>
                                                     </div>
                                                 ))}
-                                                
+
                                                 <Link
-                                                    to="/add-home"
+                                                    to="/profile/homes/add"
                                                     className="flex items-center justify-center text-center border-4 border-dashed rounded-2xl p-6 text-lg font-semibold uppercase text-gray-400 hover:bg-gray-100"
                                                 >
                                                     Add Home
@@ -164,13 +208,6 @@ function Profile() {
                                             </div>
                                         </>
                                     )}
-
-                                    {/* <Link
-                                        to="/add-home"
-                                        className="border border-black hover:bg-black hover:text-white font-bold py-4 px-8 rounded-3xl transition duration-200 ease-in-out"
-                                    >
-                                        Add Home
-                                    </Link> */}
                                 </div>
                             )}
                         </div>
@@ -188,7 +225,7 @@ function Profile() {
                                     {userBookings.map((booking) => (
                                         <div
                                             key={booking._id}
-                                            className="bg-neutral-200 rounded-2xl p-6"
+                                            className="bg-neutral-100 rounded-3xl p-6"
                                         >
                                             <div className="flex items-center justify-between">
                                                 <HomeIcon
