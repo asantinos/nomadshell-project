@@ -4,6 +4,8 @@ import Home from "@pages/Home";
 import SignIn from "@pages/auth/SignIn";
 import SignUp from "@pages/auth/SignUp";
 import Profile from "@pages/Profile";
+import Settings from "@pages/Profile/Settings";
+import Pricing from "@pages/Pricing";
 import NotFound from "@pages/error/404.jsx";
 
 import PrivateRoute from "@components/PrivateRoute";
@@ -18,9 +20,11 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/pricing" element={<Pricing />} />
 
                 <Route element={<PrivateRoute />}>
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/profile/settings" element={<Settings />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

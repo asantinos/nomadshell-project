@@ -51,8 +51,6 @@ function Header() {
         }
     };
 
-    // TODO - Implement logout functionality
-
     return (
         <>
             <header className="z-50 w-full bg-background">

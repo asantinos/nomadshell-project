@@ -32,16 +32,16 @@ function SignIn() {
         try {
             dispatch(signInStart());
 
-            const response = await axios.post(
+            const res = await axios.post(
                 "http://localhost:3000/api/auth/sign-in",
                 formData
             );
 
-            dispatch(signInSuccess(response.data));
+            dispatch(signInSuccess(res.data));
             navigate("/");
         } catch (error) {
-            if (error.response) {
-                dispatch(signInFailure(error.response.data.message));
+            if (error.res) {
+                dispatch(signInFailure(error.res.data.message));
             } else {
                 dispatch(signInFailure(error.message));
             }

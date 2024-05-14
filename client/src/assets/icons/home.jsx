@@ -20,7 +20,7 @@ const HomeIcon = ({ color = 'currentColor', size = '24', ...otherProps }) => {
   );
 };
 
-Home.propTypes = {
+HomeIcon.propTypes = {
   color: PropTypes.string,
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
