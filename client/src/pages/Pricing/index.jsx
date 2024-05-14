@@ -53,7 +53,7 @@ function Pricing() {
                         />
                     </div>
 
-                    <div className="mt-8">
+                    <div className="mt-16">
                         <p className="text-base text-gray-light">
                             Not sure which plan is right for you?{" "}
                             <a href="#" className="text-black hover:underline">

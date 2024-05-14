@@ -133,7 +133,7 @@ function Settings() {
                         </div>
 
                         <form onSubmit={handleSubmit} className="mt-8">
-                            <div className="flex items-center justify-between gap-8 py-3">
+                            <div className="flex items-center justify-between gap-8 py-5">
                                 <label htmlFor="avatar">Avatar</label>
                                 <div className="relative">
                                     <input
@@ -177,7 +177,7 @@ function Settings() {
                                 </div>
                             </div>
 
-                            <div className="flex items-center justify-between gap-8 border-t py-3">
+                            <div className="flex items-center justify-between gap-8 border-t py-5">
                                 <label htmlFor="name">Name</label>
                                 <input
                                     type="text"
@@ -185,11 +185,11 @@ function Settings() {
                                     defaultValue={currentUser.user.name}
                                     onChange={handleChange}
                                     placeholder="Name"
-                                    className="border-none outline-none flex-1 text-right"
+                                    className="border-none outline-none flex-1 text-right text-gray-700"
                                 />
                             </div>
 
-                            <div className="flex items-center justify-between gap-8 border-t py-3">
+                            <div className="flex items-center justify-between gap-8 border-t py-5">
                                 <label htmlFor="surname">Surname</label>
                                 <input
                                     type="text"
@@ -197,11 +197,11 @@ function Settings() {
                                     defaultValue={currentUser.user.surname}
                                     onChange={handleChange}
                                     placeholder="Surname"
-                                    className="border-none outline-none flex-1 text-right"
+                                    className="border-none outline-none flex-1 text-right text-gray-700"
                                 />
                             </div>
 
-                            <div className="flex items-center justify-between gap-8 border-t py-3">
+                            <div className="flex items-center justify-between gap-8 border-t py-5">
                                 <label htmlFor="email">Email</label>
                                 <input
                                     type="email"
@@ -209,27 +209,25 @@ function Settings() {
                                     defaultValue={currentUser.user.email}
                                     onChange={handleChange}
                                     placeholder="Email"
-                                    className="border-none outline-none text-right flex-1"
+                                    className="border-none outline-none flex-1 text-right text-gray-700"
                                 />
                             </div>
 
-                            <div className="flex items-center justify-between gap-8 border-t py-3">
+                            <div className="flex items-center justify-between gap-8 border-t py-5">
                                 <label htmlFor="password">Password</label>
                                 <input
                                     type="password"
                                     id="password"
                                     onChange={handleChange}
                                     placeholder="Password"
-                                    className="border-none outline-none flex-1 text-right"
+                                    className="border-none outline-none flex-1 text-right text-gray-700"
                                 />
                             </div>
 
-                            <div className="flex items-center justify-between gap-8 border-t py-3">
+                            <div className="flex items-center justify-between gap-8 border-t py-5">
                                 <label htmlFor="plan">Plan</label>
                                 <div className="flex items-center gap-4 text-right border border-gray-300 rounded-2xl px-4 py-2 hover:border-black hover:bg-black hover:text-white transition duration-200 ease-in-out">
-                                    <Link to="/pricing">
-                                        Change Plan
-                                    </Link>
+                                    <Link to="/pricing">Change Plan</Link>
                                     <span className="text-right">
                                         {currentUser.user.planType
                                             .charAt(0)
@@ -242,7 +240,7 @@ function Settings() {
                             <div className="flex justify-end">
                                 <button
                                     disabled={loading}
-                                    className="mt-8 border border-black hover:bg-black hover:text-white font-bold py-4 px-8 rounded-3xl transition duration-200 ease-in-out"
+                                    className="mt-3 bg-black text-white px-6 py-3 rounded-2xl transition duration-200 ease-in-out hover:bg-white hover:text-black border border-black"
                                 >
                                     {loading ? "Loading..." : "Update"}
                                 </button>
@@ -252,7 +250,7 @@ function Settings() {
                         <div className="flex justify-end">
                             <button
                                 onClick={handleDeleteUser}
-                                className="mt-8 border bg-red-100 border-red-400 hover:bg-red-700 text-red-700 hover:text-white font-bold py-4 px-8 rounded-3xl transition duration-200 ease-in-out"
+                                className="mt-10 bg-red-500 text-white px-6 py-3 rounded-2xl transition duration-200 ease-in-out hover:bg-white hover:text-red-500 border border-red-500"
                             >
                                 Delete Account
                             </button>
