@@ -3,11 +3,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "@pages/Home";
 import SignIn from "@pages/auth/SignIn";
 import SignUp from "@pages/auth/SignUp";
+import Homes from "@pages/Homes";
 import Map from "@pages/Map";
+import Pricing from "@pages/Pricing";
 import Profile from "@pages/Profile";
 import Settings from "@pages/Profile/Settings";
 import AddHome from "@pages/Profile/Homes/Add";
-import Pricing from "@pages/Pricing";
+import EditHome from "@pages/Profile/Homes/Edit";
 import NotFound from "@pages/error/404.jsx";
 
 import PrivateRoute from "@components/PrivateRoute";
@@ -24,6 +26,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/homes" element={<Homes />} />
                 <Route path="/map" element={<Map />} />
                 <Route path="/pricing" element={<Pricing />} />
 
@@ -33,9 +36,10 @@ function App() {
                 </Route>
 
                 <Route element={<PremiumRoute />}>
+                    <Route path="/profile/homes/add" element={<AddHome />} />
                     <Route
-                        path="/profile/homes/add"
-                        element={<AddHome />}
+                        path="/profile/homes/edit/:id"
+                        element={<EditHome />}
                     />
                 </Route>
 

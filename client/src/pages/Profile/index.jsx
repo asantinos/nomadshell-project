@@ -180,6 +180,9 @@ function Profile() {
                                                             {home.description}
                                                         </p>
                                                         <p className="text-gray-500 mt-4">
+                                                            {home.type}
+                                                        </p>
+                                                        <p className="text-gray-500 mt-4">
                                                             {home.price} / night
                                                         </p>
                                                         <p className="text-gray-500 mt-4">
@@ -194,22 +197,30 @@ function Profile() {
                                                             bathrooms
                                                         </p>
                                                         <p className="text-gray-500 mt-4">
-                                                            [{home.location[0]}
+                                                            {home.parking
+                                                                ? "Parking 🚗"
+                                                                : "No parking"}
+                                                        </p>
+                                                        <p className="text-gray-500 mt-4">
+                                                            Coords: [
+                                                            {home.location[0]}
                                                             {", "}
                                                             {home.location[1]}]
                                                         </p>
                                                     </div>
                                                 ))}
-
-                                                <Link
-                                                    to="/profile/homes/add"
-                                                    className="flex items-center justify-center text-center border-4 border-dashed rounded-2xl p-3 text-lg font-semibold uppercase text-gray-400 hover:bg-gray-200"
-                                                >
-                                                    Add Home
-                                                </Link>
                                             </div>
                                         </>
                                     )}
+
+                                    <div className="w-fit">
+                                        <Link
+                                            to="/profile/homes/add"
+                                            className="flex items-center justify-center text-center border-4 border-dashed rounded-2xl p-3 text-lg font-semibold uppercase text-gray-400 hover:bg-gray-200"
+                                        >
+                                            Add Home
+                                        </Link>
+                                    </div>
                                 </div>
                             )}
                         </div>

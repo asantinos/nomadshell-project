@@ -1,6 +1,7 @@
 const express = require("express");
 const {
     getUsers,
+    getUserById,
     getUser,
     updateUser,
     deleteUser,
@@ -12,6 +13,7 @@ const router = express.Router();
 
 router.get("/", verifyToken, getUsers);
 router.get("/me", verifyToken, getUser);
+router.get("/get/:id", getUserById);
 router.put("/update/:id", verifyToken, updateUser);
 router.delete("/delete/:id", verifyToken, deleteUser);
 router.get("/:id/homes", verifyToken, getUserHomes);

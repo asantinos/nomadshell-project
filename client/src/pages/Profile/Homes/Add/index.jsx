@@ -123,6 +123,13 @@ function CreateHome() {
                 [e.target.id]: e.target.value,
             });
         }
+
+        if (e.target.id === "type") {
+            setFormData({
+                ...formData,
+                [e.target.id]: e.target.value,
+            });
+        }
     };
 
     const handleSubmit = async (e) => {

@@ -13,6 +13,21 @@ const getUsers = async (req, res, next) => {
     }
 };
 
+// Get user by ID
+const getUserById = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id).select("-password");
+
+        if (!user) {
+            return next(errorHandler(404, "User not found"));
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
+}
+
 // Get actual signed in user
 const getUser = async (req, res, next) => {
     try {
@@ -86,4 +101,4 @@ const getUserHomes = async (req, res, next) => {
     }
 };
 
-module.exports = { getUsers, getUser, updateUser, deleteUser, getUserHomes };
+module.exports = { getUsers, getUserById, getUser, updateUser, deleteUser, getUserHomes };
