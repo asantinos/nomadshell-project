@@ -6,7 +6,7 @@ import SignUp from "@pages/auth/SignUp";
 import Map from "@pages/Map";
 import Profile from "@pages/Profile";
 import Settings from "@pages/Profile/Settings";
-import CreateHome from "@pages/Profile/Homes/Create";
+import AddHome from "@pages/Profile/Homes/Add";
 import Pricing from "@pages/Pricing";
 import NotFound from "@pages/error/404.jsx";
 
@@ -35,7 +35,7 @@ function App() {
                 <Route element={<PremiumRoute />}>
                     <Route
                         path="/profile/homes/add"
-                        element={<CreateHome />}
+                        element={<AddHome />}
                     />
                 </Route>
 

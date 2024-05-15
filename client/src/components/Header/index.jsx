@@ -51,7 +51,7 @@ function Header() {
 
     return (
         <>
-            <header className="z-50 w-full bg-white">
+            <header className="absolute z-50 w-full bg-white">
                 <div className="relative z-10 grid grid-cols-2 md:grid-cols-3 items-center px-6 py-3 max-w-7xl mx-auto">
                     <div className="w-1/3 col-span-1">
                         <div className="w-fit">

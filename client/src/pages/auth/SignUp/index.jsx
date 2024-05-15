@@ -46,7 +46,7 @@ function SignUp() {
     };
 
     return (
-        <main className="h-content">
+        <main className="h-content pt-header">
             <div className="h-full flex items-center justify-center max-w-7xl mx-auto p-6 py-0 sm:py-3">
                 <section className="w-full">
                     <div className="max-w-7xl mx-auto">

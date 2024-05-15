@@ -6,7 +6,7 @@ import IconChip from "@components/IconChip";
 function Home() {
     return (
         <>
-            <main className="h-content">
+            <main className="h-content pt-header">
                 {/* MAIN BANNER */}
                 <section className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 p-6 py-0 sm:py-3 gap-x-20">
                     <div>
@@ -37,7 +37,7 @@ function Home() {
                         <div className="mt-8 flex justify-center sm:justify-start">
                             <Button
                                 onClick={() => {
-                                    window.location.href = "/signup";
+                                    window.location.href = "/sign-up";
                                 }}
                                 className="border-primary-dark bg-primary-dark hover:border-primary-light hover:bg-primary-light text-white font-bold"
                             >

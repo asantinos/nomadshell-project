@@ -50,7 +50,7 @@ function SignIn() {
     };
 
     return (
-        <main className="h-content">
+        <main className="h-content pt-header">
             <div className="h-full flex items-center justify-center max-w-7xl mx-auto p-6 py-0 sm:py-3">
                 <section className="w-full">
                     <div className="max-w-7xl mx-auto">
@@ -149,7 +149,7 @@ function SignIn() {
                                 </div>
                             </form>
 
-                            <div className="mt-6 max-w-lg mx-auto">
+                            <div className="mt-6 max-w-md mx-auto">
                                 <div className="relative">
                                     <div className="absolute inset-0 flex items-center">
                                         <div className="w-full border-t border-gray-300"></div>
@@ -160,10 +160,10 @@ function SignIn() {
                                         </span>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className="mt-6">
-                                    <OAuth />
-                                </div>
+                            <div className="mt-6 max-w-md mx-auto">
+                                <OAuth />
                             </div>
 
                             <div className="mt-6 text-sm text-center">

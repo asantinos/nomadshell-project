@@ -68,16 +68,16 @@ function Profile() {
 
     return (
         <>
-            <main className="h-auto">
+            <main className="h-auto pt-header">
                 <section>
                     <div className="p-6 max-w-7xl mx-auto">
                         <div className="flex items-center justify-between gap-8">
-                            <div className="flex items-center gap-8">
+                            <div className="flex items-center gap-4 sm:gap-8">
                                 <div className="mt-4 flex flex-col items-center justify-center text-center">
                                     <img
                                         src={currentUser.user.avatar}
                                         alt={`${currentUser.user.name} ${currentUser.user.surname} avatar`}
-                                        className="w-24 h-24 rounded-3xl"
+                                        className="w-24 h-24 rounded-3xl object-cover"
                                     />
                                     <span
                                         className={`-mt-3 font-bold text-xs px-3 py-1 rounded-full text-white
@@ -121,8 +121,8 @@ function Profile() {
                             </Link>
                         </div>
 
-                        <div className="mt-10 mb-20">
-                            <h2 className="text-2xl font-bold mb-8">
+                        <div className="mt-10 sm:mb-14">
+                            <h2 className="text-2xl font-bold mb-4 sm:mb-8">
                                 My Homes
                             </h2>
                             {currentUser.user.planType === "free" ? (
@@ -146,11 +146,11 @@ function Profile() {
                                         </p>
                                     ) : (
                                         <>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 mb-8">
                                                 {userHomes.map((home) => (
                                                     <div
                                                         key={home._id}
-                                                        className="bg-neutral-100 rounded-3xl p-6"
+                                                        className="bg-neutral-200 rounded-3xl p-6"
                                                     >
                                                         <div className="flex items-center justify-between">
                                                             <Link
@@ -194,14 +194,16 @@ function Profile() {
                                                             bathrooms
                                                         </p>
                                                         <p className="text-gray-500 mt-4">
-                                                            {home.location}
+                                                            [{home.location[0]}
+                                                            {", "}
+                                                            {home.location[1]}]
                                                         </p>
                                                     </div>
                                                 ))}
 
                                                 <Link
                                                     to="/profile/homes/add"
-                                                    className="flex items-center justify-center text-center border-4 border-dashed rounded-2xl p-6 text-lg font-semibold uppercase text-gray-400 hover:bg-gray-100"
+                                                    className="flex items-center justify-center text-center border-4 border-dashed rounded-2xl p-3 text-lg font-semibold uppercase text-gray-400 hover:bg-gray-200"
                                                 >
                                                     Add Home
                                                 </Link>
@@ -213,7 +215,7 @@ function Profile() {
                         </div>
 
                         <div className="mt-8">
-                            <h2 className="text-2xl font-bold mb-4">
+                            <h2 className="text-2xl font-bold mb-4 sm:mb-8">
                                 My Bookings
                             </h2>
                             {userBookings.length === 0 ? (
@@ -221,11 +223,11 @@ function Profile() {
                                     You don't have any bookings yet.
                                 </p>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
                                     {userBookings.map((booking) => (
                                         <div
                                             key={booking._id}
-                                            className="bg-neutral-100 rounded-3xl p-6"
+                                            className="bg-neutral-200 rounded-3xl p-6"
                                         >
                                             <div className="flex items-center justify-between">
                                                 <HomeIcon

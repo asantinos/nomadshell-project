@@ -6,7 +6,7 @@ import CheckBoxFill from "@icons/check-box-fill";
 function Pricing() {
     return (
         <>
-            <main className="h-content">
+            <main className="h-auto pt-header">
                 <section className="max-w-7xl mx-auto text-center p-6">
                     <div>
                         <h3 className="text-4xl font-bold">Pricing</h3>
@@ -144,9 +144,9 @@ function Pricing() {
                         </div>
                     </div>
                 </section>
-
-                <Footer />
             </main>
+            
+            <Footer />
         </>
     );
 }

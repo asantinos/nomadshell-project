@@ -366,7 +366,7 @@ function Map() {
     }, [map, homes]);
 
     return (
-        <div className="relative h-content w-full overflow-hidden">
+        <div className="relative h-content pt-header w-full overflow-hidden">
             <div className="absolute z-50">
                 <div
                     id="map-top-container"

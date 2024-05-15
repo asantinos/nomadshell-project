@@ -18,6 +18,8 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import Footer from "@components/Footer";
+
 function Settings() {
     const dispatch = useDispatch();
     const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -122,7 +124,7 @@ function Settings() {
 
     return (
         <>
-            <main className="h-auto">
+            <main className="h-auto pt-header">
                 <section>
                     <div className="p-6 max-w-7xl mx-auto">
                         <div className="text-center">
@@ -270,6 +272,8 @@ function Settings() {
                     </div>
                 </section>
             </main>
+
+            <Footer />
         </>
     );
 }
