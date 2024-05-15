@@ -27,7 +27,6 @@ function Header() {
         const openMenu = document.getElementById("open-menu");
         setIsMenuOpen(!isMenuOpen);
         openMenu.classList.toggle("rotate-90");
-
         navMenu.classList.toggle("hidden");
 
         if (isMenuOpen) {
@@ -35,6 +34,15 @@ function Header() {
         } else {
             document.body.style.overflow = "hidden";
         }
+    };
+
+    const closeMenu = () => {
+        const navMenu = document.getElementById("nav-menu-container");
+        const openMenu = document.getElementById("open-menu");
+        setIsMenuOpen(false);
+        openMenu.classList.remove("rotate-90");
+        navMenu.classList.add("hidden");
+        document.body.style.overflow = "auto";
     };
 
     const handleSignOut = async () => {
@@ -55,7 +63,7 @@ function Header() {
                 <div className="relative z-10 grid grid-cols-2 md:grid-cols-3 items-center px-6 py-3 max-w-7xl mx-auto">
                     <div className="w-1/3 col-span-1">
                         <div className="w-fit">
-                            <Link to="/">
+                            <Link to="/" onClick={closeMenu}>
                                 <h1 className="font-extrabold uppercase text-2xl">
                                     Nomad
                                 </h1>
@@ -73,6 +81,7 @@ function Header() {
                             <Link
                                 to="/homes"
                                 className="w-full border-b-2 border-transparent md:hover:border-black py-2"
+                                onClick={closeMenu}
                             >
                                 <li className="flex items-center space-x-2">
                                     <HomeAlt1 color="#000" size="24" />
@@ -84,6 +93,7 @@ function Header() {
                             <Link
                                 to="/map"
                                 className="border-b-2 border-transparent md:hover:border-black py-2"
+                                onClick={closeMenu}
                             >
                                 <li className="flex items-center space-x-2">
                                     <Map color="#000" size="24" />
@@ -95,6 +105,7 @@ function Header() {
                             <Link
                                 to="/pricing"
                                 className="border-b-2 border-transparent md:hover:border-black py-2"
+                                onClick={closeMenu}
                             >
                                 <li className="flex items-center space-x-2">
                                     <Money color="#000" size="24" />
@@ -110,13 +121,15 @@ function Header() {
                                     <Link
                                         to="/pricing"
                                         className="font-medium text-lg md:text-base uppercase text-nowrap"
+                                        onClick={closeMenu}
                                     >
                                         {currentUser.user.nomadPoints} NP
                                     </Link>
 
-                                    <a
-                                        href="/profile"
+                                    <Link
+                                        to="/profile"
                                         className="border-b-2 border-transparent py-2"
+                                        onClick={closeMenu}
                                     >
                                         <li className="flex items-center space-x-2">
                                             <Person color="#000" size="24" />
@@ -124,11 +137,12 @@ function Header() {
                                                 Profile
                                             </span>
                                         </li>
-                                    </a>
+                                    </Link>
 
-                                    <a
-                                        href="/notifications"
+                                    <Link
+                                        to="/notifications"
                                         className="border-b-2 border-transparent py-2"
+                                        onClick={closeMenu}
                                     >
                                         <li className="flex items-center space-x-2">
                                             <Bell color="#000" size="24" />
@@ -136,7 +150,7 @@ function Header() {
                                                 Notifications
                                             </span>
                                         </li>
-                                    </a>
+                                    </Link>
 
                                     <div
                                         onClick={handleSignOut}
@@ -152,16 +166,17 @@ function Header() {
                                 </>
                             ) : (
                                 <>
-                                    <a
-                                        href="/sign-in"
+                                    <Link
+                                        to="/sign-in"
                                         className="w-fit bg-black px-10 py-3 rounded-2xl md:hover:scale-105 transition duration-150 ease-in-out"
+                                        onClick={closeMenu}
                                     >
                                         <li className="flex items-center space-x-2">
                                             <span className="flex font-bold text-lg text-white md:text-sm uppercase">
                                                 JOIN
                                             </span>
                                         </li>
-                                    </a>
+                                    </Link>
                                 </>
                             )}
                         </ul>

@@ -176,12 +176,19 @@ function CreateHome() {
             key: import.meta.env.VITE_TOMTOM_API_KEY,
             container: "map-container",
             style: style,
-            center: [-0.12755, 51.507222],
             zoom: 12,
         });
 
         map.addControl(new tt.FullscreenControl());
         map.addControl(new tt.NavigationControl());
+        map.addControl(new tt.GeolocateControl());
+
+        navigator.geolocation.getCurrentPosition((position) => {
+            map.setCenter([
+                position.coords.longitude,
+                position.coords.latitude,
+            ]);
+        });
 
         let marker;
         map.on("click", (e) => {

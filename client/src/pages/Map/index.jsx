@@ -14,6 +14,7 @@ import Square from "@icons/square";
 // import Pin from "@icons/pin";
 
 // TODO: CHECK MAP DUPLICATED IN PAGE AND COMPONENT
+// TODO : Refactor this component/page. Z-index is not working properly
 
 function Map() {
     // TODO : Import homes from database
