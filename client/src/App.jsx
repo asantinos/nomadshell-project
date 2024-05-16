@@ -16,11 +16,13 @@ import PrivateRoute from "@components/PrivateRoute";
 import PremiumRoute from "@components/PremiumRoute";
 
 import Header from "@components/Header";
+import GoToTop from "@components/GoToTop";
 
 function App() {
     return (
         <BrowserRouter>
             <Header />
+            <GoToTop />
 
             <Routes>
                 <Route path="/" element={<Home />} />

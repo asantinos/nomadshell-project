@@ -35,6 +35,8 @@ function Settings() {
     const [filePerc, setFilePerc] = useState(0);
     const [fileUploadError, setFileUploadError] = useState(false);
     const [updateSuccess, setUpdateSuccess] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [deleteConfirmation, setDeleteConfirmation] = useState("");
 
     // firebase storage
     // allow read;
@@ -80,6 +82,20 @@ function Settings() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Validation checks
+        const formFields = Object.values(formData);
+        const nonEmptyFields = formFields.filter(
+            (field) => field !== formData.password
+        );
+        const isNonEmpty = nonEmptyFields.every((field) => field.trim() !== "");
+        if (!isNonEmpty) {
+            dispatch(updateUserFailure("Please fill in all fields"));
+            setTimeout(() => {
+                dispatch(updateUserFailure(""));
+            }, 3000);
+            return;
+        }
+
         try {
             dispatch(updateUserStart());
 
@@ -105,19 +121,28 @@ function Settings() {
     };
 
     const handleDeleteUser = async () => {
-        try {
-            dispatch(deleteUserStart());
+        setIsDeleteModalOpen(true);
+    };
 
-            const res = await axios.delete(
-                `/api/users/delete/${currentUser.user._id}`
-            );
+    const confirmDelete = async () => {
+        if (deleteConfirmation === "delete") {
+            try {
+                dispatch(deleteUserStart());
 
-            dispatch(deleteUserSuccess(res.data));
-        } catch (error) {
-            if (error.response) {
-                dispatch(deleteUserFailure(error.response.data.message));
-            } else {
-                dispatch(deleteUserFailure(error.message));
+                const res = await axios.delete(
+                    `/api/users/delete/${currentUser.user._id}`
+                );
+
+                dispatch(deleteUserSuccess(res.data));
+
+                // Close modal after successful deletion
+                setIsDeleteModalOpen(false);
+            } catch (error) {
+                if (error.response) {
+                    dispatch(deleteUserFailure(error.response.data.message));
+                } else {
+                    dispatch(deleteUserFailure(error.message));
+                }
             }
         }
     };
@@ -242,17 +267,17 @@ function Settings() {
                             <div className="flex justify-end">
                                 <button
                                     disabled={loading}
-                                    className="mt-3 bg-black text-white px-6 py-3 rounded-2xl transition duration-200 ease-in-out hover:bg-white hover:text-black border border-black"
+                                    className="mt-3 bg-gray-dark text-white px-6 py-3 rounded-2xl transition duration-200 ease-in-out hover:bg-black"
                                 >
                                     {loading ? "Loading..." : "Update"}
                                 </button>
                             </div>
                         </form>
 
-                        <div className="flex justify-end">
+                        <div className="flex mt-10">
                             <button
                                 onClick={handleDeleteUser}
-                                className="mt-10 bg-red-500 text-white px-6 py-3 rounded-2xl transition duration-200 ease-in-out hover:bg-white hover:text-red-500 border border-red-500"
+                                className="flex-1 bg-red-500 text-white px-6 py-2 rounded-2xl transition duration-200 ease-in-out hover:bg-red-600 hover:text-white border border-red-500"
                             >
                                 Delete Account
                             </button>
@@ -267,6 +292,55 @@ function Settings() {
                         {error && (
                             <div className="mx-auto w-fit mt-6 text-center bg-red-100 border border-red-400 text-red-700 px-8 py-3 rounded-2xl">
                                 {error}
+                            </div>
+                        )}
+
+                        {/* Delete Confirmation Modal */}
+                        {isDeleteModalOpen && (
+                            <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+                                <div className="bg-white p-6 rounded-3xl">
+                                    <p>
+                                        Are you sure you want to{" "}
+                                        <span className="font-bold">
+                                            delete
+                                        </span>{" "}
+                                        your account?
+                                    </p>
+                                    <p>Type 'delete' to confirm:</p>
+                                    <input
+                                        type="text"
+                                        value={deleteConfirmation}
+                                        onChange={(e) =>
+                                            setDeleteConfirmation(
+                                                e.target.value
+                                            )
+                                        }
+                                        className="border border-gray-300 rounded-2xl p-2 mt-4"
+                                    />
+                                    <div className="flex justify-end gap-2 mt-8">
+                                        <button
+                                            onClick={() =>
+                                                setIsDeleteModalOpen(false)
+                                            }
+                                            className="bg-gray-100 text-gray-800 px-4 py-2 rounded-2xl hover:bg-gray-200"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            onClick={confirmDelete}
+                                            disabled={
+                                                deleteConfirmation !== "delete"
+                                            }
+                                            className={`bg-red-500 text-white px-4 py-2 rounded-2xl hover:bg-red-600 ${
+                                                deleteConfirmation !==
+                                                    "delete" &&
+                                                "opacity-50 cursor-not-allowed"
+                                            }`}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
