@@ -6,6 +6,7 @@ import Footer from "@components/Footer";
 
 import HomeIcon from "@icons/home";
 import SettingsVertical from "@icons/settings-vertical";
+import Plus from "@icons/plus";
 
 function Profile() {
     const { currentUser } = useSelector((state) => state.user);
@@ -122,9 +123,20 @@ function Profile() {
                         </div>
 
                         <div className="mt-10 sm:mb-14">
-                            <h2 className="text-2xl font-bold mb-4 sm:mb-8">
-                                My Homes
-                            </h2>
+                            <div className="flex flex-col justify-center gap-2 mb-4">
+                                <h2 className="text-2xl font-bold">My Homes</h2>
+                                {currentUser.user.planType !== "free" && (
+                                    <div className="w-fit">
+                                        <Link
+                                            to="/profile/homes/add"
+                                            className="flex items-center justify-center gap-2 text-center border border-black rounded-xl p-2 hover:bg-gray-lighter"
+                                        >
+                                            <Plus size={14} color="black" />
+                                            <span>Add Home</span>
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
                             {currentUser.user.planType === "free" ? (
                                 <div>
                                     <p className="text-gray-500 mb-8">
@@ -150,7 +162,7 @@ function Profile() {
                                                 {userHomes.map((home) => (
                                                     <div
                                                         key={home._id}
-                                                        className="bg-neutral-200 rounded-3xl p-6"
+                                                        className="bg-gray-lighter rounded-3xl p-6"
                                                     >
                                                         <div className="flex items-center justify-between">
                                                             <Link
@@ -212,21 +224,12 @@ function Profile() {
                                             </div>
                                         </>
                                     )}
-
-                                    <div className="w-fit">
-                                        <Link
-                                            to="/profile/homes/add"
-                                            className="flex items-center justify-center text-center border-4 border-dashed rounded-2xl p-3 text-lg font-semibold uppercase text-gray-400 hover:bg-gray-200"
-                                        >
-                                            Add Home
-                                        </Link>
-                                    </div>
                                 </div>
                             )}
                         </div>
 
                         <div className="mt-8">
-                            <h2 className="text-2xl font-bold mb-4 sm:mb-8">
+                            <h2 className="text-2xl font-bold mb-4">
                                 My Bookings
                             </h2>
                             {userBookings.length === 0 ? (
@@ -238,7 +241,7 @@ function Profile() {
                                     {userBookings.map((booking) => (
                                         <div
                                             key={booking._id}
-                                            className="bg-neutral-200 rounded-3xl p-6"
+                                            className="bg-gray-lighter rounded-3xl p-6"
                                         >
                                             <div className="flex items-center justify-between">
                                                 <HomeIcon

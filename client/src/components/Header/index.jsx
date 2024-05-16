@@ -14,6 +14,7 @@ import HomeAlt1 from "@icons/home-alt1";
 import Map from "@icons/map";
 import Money from "@icons/money";
 import Person from "@icons/person";
+import Dashboard from "@icons/dashboard";
 import Bell from "@icons/bell";
 import SignOut from "@icons/sign-out";
 
@@ -138,6 +139,24 @@ function Header() {
                                             </span>
                                         </li>
                                     </Link>
+
+                                    {currentUser.user.role === "admin" && (
+                                        <Link
+                                            to="/dashboard"
+                                            className="border-b-2 border-transparent py-2"
+                                            onClick={closeMenu}
+                                        >
+                                            <li className="flex items-center space-x-2">
+                                                <Dashboard
+                                                    color="#000"
+                                                    size="24"
+                                                />
+                                                <span className="flex md:hidden font-medium text-lg md:text-sm uppercase">
+                                                    Dashboard
+                                                </span>
+                                            </li>
+                                        </Link>
+                                    )}
 
                                     <Link
                                         to="/notifications"
