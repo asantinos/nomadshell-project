@@ -26,7 +26,7 @@ const getUserById = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 // Get actual signed in user
 const getUser = async (req, res, next) => {
@@ -73,7 +73,7 @@ const updateUser = async (req, res, next) => {
 
 // Delete user by ID
 const deleteUser = async (req, res, next) => {
-    if (req.user.id !== req.params.id) {
+    if (req.user.id !== req.params.id && req.user.role !== "admin") {
         return next(errorHandler(403, "Forbidden"));
     }
 
@@ -101,4 +101,11 @@ const getUserHomes = async (req, res, next) => {
     }
 };
 
-module.exports = { getUsers, getUserById, getUser, updateUser, deleteUser, getUserHomes };
+module.exports = {
+    getUsers,
+    getUserById,
+    getUser,
+    updateUser,
+    deleteUser,
+    getUserHomes,
+};

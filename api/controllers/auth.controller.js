@@ -42,7 +42,10 @@ const signIn = async (req, res, next) => {
             return res.status(400).json({ message: "Invalid password" });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            process.env.JWT_SECRET
+        );
 
         // Return user without password
         const { password: userPassword, ...userWithoutPassword } = user._doc;
@@ -57,12 +60,16 @@ const signIn = async (req, res, next) => {
     }
 };
 
+// Google OAuth
 const google = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.body.email });
         if (user) {
             // Sign in
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+            const token = jwt.sign(
+                { id: user._id, role: user.role },
+                process.env.JWT_SECRET
+            );
 
             // Return user without password
             const { password: userPassword, ...userWithoutPassword } =
@@ -79,6 +86,7 @@ const google = async (req, res, next) => {
                 Math.random().toString(36).slice(-8) +
                 Math.random().toString(36).slice(-8);
             const hashedPassword = await bcrypt.hash(generatedPassword, 10);
+
             const newUser = new User({
                 avatar: req.body.avatar,
                 name: req.body.name,

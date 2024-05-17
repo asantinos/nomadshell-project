@@ -368,10 +368,10 @@ function Map() {
 
     return (
         <div className="relative h-content pt-header w-full overflow-hidden">
-            <div className="absolute z-50">
+            <div className="absolute z-30">
                 <div
                     id="map-top-container"
-                    className="relative flex w-full top-0 left-0 p-4"
+                    className="relative flex w-full inset-0 p-4"
                 >
                     <div
                         id="map-search-container"
@@ -416,7 +416,7 @@ function Map() {
                 </div>
             </div>
 
-            <div className="absolute z-50 bottom-0 left-0 p-4">
+            <div className="absolute z-40 bottom-0 left-0 p-4">
                 <div
                     id="actual-location"
                     className="font-medium text-lg opacity-80 bg-white hover:bg-gray-lighter px-4 py-2 rounded-2xl shadow-md cursor-pointer transition-opacity duration-300"
@@ -426,7 +426,7 @@ function Map() {
                 </div>
             </div>
 
-            <div className="absolute z-50 grid grid-cols-2 bottom-0 right-0 p-4 gap-2 items-center">
+            <div className="absolute z-40 grid grid-cols-2 bottom-0 right-0 p-4 gap-2 items-center">
                 <MapButton
                     id="map-change-button"
                     onClick={changeMapStyle}

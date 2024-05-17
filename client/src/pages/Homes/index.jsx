@@ -33,7 +33,7 @@ function Homes() {
     return isLoading ? (
         <Loader />
     ) : (
-        <main className="h-content pt-header">
+        <main className="h-auto pt-header">
             <div className="max-w-7xl mx-auto p-6 py-0 sm:py-3">
                 <section className="mt-6">
                     {homes.length === 0 ? (

@@ -21,6 +21,9 @@ export default {
                 content: "calc(100dvh - 76px)",
                 "banner-image": "calc(100dvh - 124px)", // 76px + 48px (48px from the section padding)
             },
+            minHeight: {
+                content: "calc(100vh - 76px)",
+            },
             backgroundImage: {
                 "gradient-radial":
                     "linear-gradient(to right, #ffebff 0%, #fff2c4 100%)",

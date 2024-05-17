@@ -6,7 +6,7 @@ import IconChip from "@components/IconChip";
 function Home() {
     return (
         <>
-            <main className="h-content pt-header">
+            <main className="h-auto pt-header">
                 {/* MAIN BANNER */}
                 <section className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 p-6 py-0 sm:py-3 gap-x-20">
                     <div>

@@ -11,7 +11,7 @@ const verifyToken = require("../utils/verifyUser");
 
 const router = express.Router();
 
-router.get("/", verifyToken, getUsers);
+router.get("/all", verifyToken, getUsers);
 router.get("/me", verifyToken, getUser);
 router.get("/get/:id", getUserById);
 router.put("/update/:id", verifyToken, updateUser);

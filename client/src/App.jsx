@@ -11,9 +11,11 @@ import Settings from "@pages/Profile/Settings";
 import AddHome from "@pages/Profile/Homes/Add";
 import EditHome from "@pages/Profile/Homes/Edit";
 import NotFound from "@pages/error/404.jsx";
+import Dashboard from "@pages/admin/Dashboard";
 
-import PrivateRoute from "@components/PrivateRoute";
-import PremiumRoute from "@components/PremiumRoute";
+import PrivateRoute from "@components/Routes/PrivateRoute";
+import PremiumRoute from "@components/Routes/PremiumRoute";
+import AdminRoute from "@components/Routes/AdminRoute";
 
 import Header from "@components/Header";
 import GoToTop from "@components/GoToTop";
@@ -43,6 +45,10 @@ function App() {
                         path="/profile/homes/edit/:id"
                         element={<EditHome />}
                     />
+                </Route>
+
+                <Route element={<AdminRoute />}>
+                    <Route path="/dashboard/:section" element={<Dashboard />} />
                 </Route>
 
                 <Route path="*" element={<NotFound />} />

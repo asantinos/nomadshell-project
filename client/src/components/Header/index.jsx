@@ -142,7 +142,7 @@ function Header() {
 
                                     {currentUser.user.role === "admin" && (
                                         <Link
-                                            to="/dashboard"
+                                            to="/dashboard/users"
                                             className="border-b-2 border-transparent py-2"
                                             onClick={closeMenu}
                                         >
