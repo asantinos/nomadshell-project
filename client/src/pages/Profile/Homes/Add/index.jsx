@@ -10,9 +10,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import tt from "@tomtom-international/web-sdk-maps";
-import Footer from "@/components/Footer";
 
-import TrashCan from "@icons/trash-can";
+import DeleteButton from "@/components/Button/DeleteButton";
+import Footer from "@/components/Footer";
 
 function CreateHome() {
     const navigate = useNavigate();
@@ -232,15 +232,12 @@ function CreateHome() {
                                             alt="home image"
                                             className="object-cover rounded-2xl"
                                         />
-                                        <button
-                                            type="button"
+                                        <DeleteButton
                                             onClick={() =>
                                                 handleRemoveImage(index)
                                             }
-                                            className="absolute top-2 right-2 z-10 text-xs text-center bg-red-100 border border-red-400 text-red-700 p-2 rounded-2xl hover:bg-red-200"
-                                        >
-                                            <TrashCan size="20" color="red" />
-                                        </button>
+                                            className="absolute top-2 right-2"
+                                        />
                                     </div>
                                 ))}
                         </div>
