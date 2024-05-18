@@ -27,10 +27,10 @@ function Dashboard() {
             <main className="h-auto pt-header">
                 <section>
                     <div className="p-6 max-w-7xl mx-auto">
-                        <div className="flex gap-16">
+                        <div className="flex gap-8 md:gap-16">
                             <Sidebar />
 
-                            <div>{content}</div>
+                            <div className="flex-1">{content}</div>
                         </div>
                     </div>
                 </section>
