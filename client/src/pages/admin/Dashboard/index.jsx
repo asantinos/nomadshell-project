@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import Users from "@pages/admin/Dashboard/Users";
 import Homes from "@pages/admin/Dashboard/Homes";
+import Bookings from "@pages/admin/Dashboard/Bookings";
 
 import Sidebar from "@components/Dashboard/Sidebar";
 import Footer from "@components/Footer";
@@ -17,6 +18,9 @@ function Dashboard() {
             break;
         case "homes":
             content = <Homes />;
+            break;
+        case "bookings":
+            content = <Bookings />;
             break;
         default:
             content = <Users />;

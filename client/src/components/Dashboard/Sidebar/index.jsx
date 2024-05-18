@@ -40,7 +40,7 @@ function Sidebar() {
                 </li>
                 <li className="md:mb-2">
                     <Link
-                        to="dashboard/bookings"
+                        to="/dashboard/bookings"
                         className={`flex items-center p-4 rounded-3xl font-semibold hover:bg-black hover:text-white ${
                             section === "bookings" ? "bg-black text-white" : ""
                         }`}

@@ -39,7 +39,7 @@ function Home() {
                                 onClick={() => {
                                     window.location.href = "/sign-up";
                                 }}
-                                className="border-primary-dark bg-primary-dark hover:border-primary-light hover:bg-primary-light text-white font-bold"
+                                className="border-main-dark bg-main-dark hover:border-main-light hover:bg-main-light text-white font-bold"
                             >
                                 Get Started
                             </Button>
