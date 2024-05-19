@@ -201,8 +201,8 @@ function EditHome() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (formData.images.length < 1) {
-            setError("Please upload at least one image");
+        if (formData.images.length < 3) {
+            setError("Please upload at least 3 images");
             return;
         }
 
@@ -246,18 +246,18 @@ function EditHome() {
                         </div>
 
                         <div
-                            className={`grid grid-cols-1 sm:grid-cols-3 gap-2 mb-8`}
+                            className={`grid grid-cols-2 sm:grid-cols-3 gap-2 mb-8`}
                         >
                             {formData.images.length > 0 &&
                                 formData.images.map((url, index) => (
                                     <div
                                         key={url}
-                                        className="relative flex justify-between border items-center rounded-3xl"
+                                        className="relative flex justify-center items-center border rounded-3xl max-h-60 overflow-hidden"
                                     >
                                         <img
                                             src={url}
                                             alt="home image"
-                                            className="object-cover rounded-2xl"
+                                            className="object-cover object-center w-full h-full"
                                         />
                                         <button
                                             type="button"

@@ -135,8 +135,8 @@ function CreateHome() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (formData.images.length < 1) {
-            setError("Please upload at least one image");
+        if (formData.images.length < 3) {
+            setError("Please upload at least 3 images");
             return;
         }
 
