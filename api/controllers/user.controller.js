@@ -96,15 +96,11 @@ const deleteUser = async (req, res, next) => {
 
 // Get user's homes
 const getUserHomes = async (req, res, next) => {
-    if (req.user.id === req.params.id) {
-        try {
-            const homes = await Home.find({ owner: req.params.id });
-            res.status(200).json(homes);
-        } catch (error) {
-            next(errorHandler(500, "Internal Server Error"));
-        }
-    } else {
-        next(error);
+    try {
+        const homes = await Home.find({ owner: req.params.id });
+        res.status(200).json(homes);
+    } catch (error) {
+        next(errorHandler(500, "Internal Server Error"));
     }
 };
 

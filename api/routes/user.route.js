@@ -16,6 +16,6 @@ router.get("/me", verifyToken, getUser);
 router.get("/get/:id", getUserById);
 router.put("/update/:id", verifyToken, updateUser);
 router.delete("/delete/:id", verifyToken, deleteUser);
-router.get("/:id/homes", verifyToken, getUserHomes);
+router.get("/:id/homes", getUserHomes);
 
 module.exports = router;

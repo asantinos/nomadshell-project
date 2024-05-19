@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { DateRangePicker } from "@nextui-org/react";
+import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
@@ -23,12 +24,11 @@ const HomeView = () => {
     useEffect(() => {
         const fetchHomeDetails = async () => {
             try {
-                const response = await fetch(`/api/homes/${id}`);
-                const data = await response.json();
+                const { data } = await axios.get(`/api/homes/${id}`);
                 setHome(data);
                 setIsLoading(false);
             } catch (error) {
-                console.error("Error fetching home details:", error);
+                console.error(error);
             }
         };
 
@@ -52,6 +52,10 @@ const HomeView = () => {
         setCurrentSlide(index);
         setIsImagesSliderModalOpen(true);
     };
+
+    if (!home) {
+        return <Loader />;
+    }
 
     return (
         <>

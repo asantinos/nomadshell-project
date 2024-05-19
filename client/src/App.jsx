@@ -5,6 +5,7 @@ import SignIn from "@pages/auth/SignIn";
 import SignUp from "@pages/auth/SignUp";
 import Homes from "@pages/Homes";
 import HomeView from "@pages/Homes/HomeView";
+import ProfileView from "@pages/Homes/ProfileView";
 import Map from "@pages/Map";
 import Pricing from "@pages/Pricing";
 import Profile from "@pages/Profile";
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/homes" element={<Homes />} />
                 <Route path="/homes/:id" element={<HomeView />} />
+                <Route path="/users/:id" element={<ProfileView />} />
                 <Route path="/map" element={<Map />} />
                 <Route path="/pricing" element={<Pricing />} />
 

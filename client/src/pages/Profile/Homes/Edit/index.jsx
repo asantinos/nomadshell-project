@@ -226,7 +226,7 @@ function EditHome() {
         } catch (error) {
             setLoading(false);
             if (error.response) {
-                setError("Check the form and try again");
+                setError(error.response.data.message);
             } else {
                 setError("Something went wrong, please try again later");
             }
