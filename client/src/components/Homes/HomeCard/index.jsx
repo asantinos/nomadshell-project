@@ -8,23 +8,7 @@ import Key from "@icons/key";
 
 const HomeCard = ({ home }) => {
     const { currentUser } = useSelector((state) => state.user);
-    const [owner, setOwner] = useState({});
     const [isHovered, setIsHovered] = useState(false);
-
-    useEffect(() => {
-        const fetchOwner = async () => {
-            try {
-                const response = await axios.get(
-                    `/api/users/get/${home.owner}`
-                );
-                setOwner(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchOwner();
-    }, [home.owner]);
 
     return (
         <Link
@@ -87,14 +71,14 @@ const HomeCard = ({ home }) => {
                     <div className="mt-2">
                         <Link
                             to={
-                                currentUser?.user._id === owner._id
+                                currentUser?.user._id === home.owner._id
                                     ? "/profile"
-                                    : `/users/${owner._id}`
+                                    : `/users/${home.owner._id}`
                             }
                             className="w-fit flex items-center gap-1 text-sm font-medium text-gray-light hover:text-black transition duration-150 ease-in-out"
                         >
                             <Key color={"#000"} size={16} />
-                            {owner.name} {owner.surname}
+                            {home.owner.name} {home.owner.surname}
                         </Link>
                     </div>
                 </div>

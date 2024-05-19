@@ -78,7 +78,12 @@ const Homes = () => {
         return list.items.filter(
             (home) =>
                 home.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                home.owner.toLowerCase().includes(searchQuery.toLowerCase())
+                home.owner.name
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                home.owner.surname
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase())
         );
     }, [list.items, searchQuery]);
 
@@ -310,7 +315,11 @@ const Homes = () => {
                     >
                         Owner
                     </TableColumn>
-                    <TableColumn key="actions"a className="uppercase font-bold">
+                    <TableColumn
+                        key="actions"
+                        a
+                        className="uppercase font-bold"
+                    >
                         Actions
                     </TableColumn>
                 </TableHeader>
@@ -353,12 +362,12 @@ const Homes = () => {
                                 {home.price} NP
                             </TableCell>
                             <TableCell className="hidden md:table-cell">
-                                The owner is {home.owner.name}
+                                {home.owner.name} {home.owner.surname}
                             </TableCell>
                             <TableCell>
                                 <div className="relative flex items-center gap-2">
                                     <Tooltip
-                                        content={`Show ${home.name}'s profile`}
+                                        content={`Show ${home.owner.name}'s home`}
                                         closeDelay={0}
                                     >
                                         <Link
@@ -369,7 +378,7 @@ const Homes = () => {
                                         </Link>
                                     </Tooltip>
                                     <Tooltip
-                                        content={`Edit ${home.name}`}
+                                        content={`Edit ${home.title}`}
                                         closeDelay={0}
                                     >
                                         <Link

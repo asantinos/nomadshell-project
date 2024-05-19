@@ -38,7 +38,7 @@ const getHomes = async (req, res, next) => {
             type,
             ...priceQuery,
         })
-
+            .populate("owner", "name surname") // Populate the owner field with the name and surname of the user
             .sort({ [sort]: order })
             .limit(limit)
             .skip(limit * (page - 1));
