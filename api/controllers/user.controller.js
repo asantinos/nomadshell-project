@@ -65,6 +65,10 @@ const updateUser = async (req, res, next) => {
             { new: true }
         ).select("-password");
 
+        if (!user) {
+            return next(errorHandler(404, "User not found"));
+        }
+
         res.status(200).json({ user, message: "User updated successfully" });
     } catch (error) {
         next(error);

@@ -5,7 +5,7 @@ const { errorHandler } = require("../utils/error");
 const getHomes = async (req, res, next) => {
     try {
         // Pagination
-        const limit = parseInt(req.query.limit) || 9;
+        const limit = parseInt(req.query.limit) || 4;
         const page = parseInt(req.query.page) || 1;
 
         // Filters
@@ -38,7 +38,7 @@ const getHomes = async (req, res, next) => {
             type,
             ...priceQuery,
         })
-            .populate("owner", "name surname") // Populate the owner field with the name and surname of the user
+            .populate("owner", "name surname avatar planType") // Populate the owner data
             .sort({ [sort]: order })
             .limit(limit)
             .skip(limit * (page - 1));
@@ -52,7 +52,10 @@ const getHomes = async (req, res, next) => {
 // Get a home by ID
 const getHome = async (req, res, next) => {
     try {
-        const home = await Home.findById(req.params.id);
+        const home = await Home.findById(req.params.id).populate(
+            "owner",
+            "name surname avatar planType"
+        );
         if (!home) {
             return next(errorHandler(404, "Home not found"));
         }

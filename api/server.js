@@ -8,6 +8,7 @@ const connectDB = require("./config/db.js");
 const userRouter = require("./routes/user.route.js");
 const homeRouter = require("./routes/home.route.js");
 const authRouter = require("./routes/auth.route.js");
+const bookingRouter = require("./routes/booking.route.js");
 
 // Connect to MongoDB
 connectDB();
@@ -30,6 +31,7 @@ app.listen(port, () => {
 app.use("/api/users", userRouter);
 app.use("/api/homes", homeRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/bookings", bookingRouter);
 
 // Health Check
 app.get("/health", (req, res) => {

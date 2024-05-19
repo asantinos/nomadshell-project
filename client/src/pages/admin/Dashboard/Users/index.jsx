@@ -362,10 +362,10 @@ const Users = () => {
                                                         ? "success"
                                                         : user.planType ===
                                                           "explorer"
-                                                        ? "warning"
+                                                        ? "primary"
                                                         : user.planType ===
                                                           "adventurer"
-                                                        ? "primary"
+                                                        ? "warning"
                                                         : user.planType ===
                                                           "nomad"
                                                         ? "secondary"
@@ -389,9 +389,9 @@ const Users = () => {
                                         user.planType === "free"
                                             ? "success"
                                             : user.planType === "explorer"
-                                            ? "warning"
-                                            : user.planType === "adventurer"
                                             ? "primary"
+                                            : user.planType === "adventurer"
+                                            ? "warning"
                                             : user.planType === "nomad"
                                             ? "secondary"
                                             : "default"
