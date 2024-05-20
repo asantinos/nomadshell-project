@@ -1,9 +1,15 @@
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import Footer from "@components/Footer";
-import Gift from "@icons/gift";
 import Button from "@components/Button";
 import IconChip from "@components/IconChip";
+import Gift from "@icons/gift";
 
 function Home() {
+    const { currentUser } = useSelector((state) => state.user);
+    const navigate = useNavigate();
+
     return (
         <>
             <main className="h-auto pt-header">
@@ -36,9 +42,11 @@ function Home() {
 
                         <div className="mt-8 flex justify-center sm:justify-start">
                             <Button
-                                onClick={() => {
-                                    window.location.href = "/sign-up";
-                                }}
+                                onClick={() =>
+                                    currentUser
+                                        ? navigate("/homes")
+                                        : navigate("/sign-up")
+                                }
                                 className="border-main-dark bg-main-dark hover:border-main-light hover:bg-main-light text-white font-bold"
                             >
                                 Get Started
@@ -95,9 +103,11 @@ function Home() {
                         Join Nomadshell and start exploring the world today.
                     </p>
                     <button
-                        onClick={() => {
-                            window.location.href = "/signup";
-                        }}
+                        onClick={() =>
+                            currentUser
+                                ? navigate("/homes")
+                                : navigate("/sign-up")
+                        }
                         className="mt-8 border border-black hover:bg-black hover:text-white font-bold py-4 px-8 rounded-3xl transition duration-200 ease-in-out"
                     >
                         Get Started

@@ -22,6 +22,7 @@ const HomeView = () => {
         useState(false);
     const [initialSlide, setInitialSlide] = useState(0);
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [selectedRange, setSelectedRange] = useState(null);
 
     useEffect(() => {
         const fetchHomeDetails = async () => {
@@ -44,6 +45,7 @@ const HomeView = () => {
                     const { data } = await axios.get(
                         `/api/availableDates/${home._id}`
                     );
+                    console.log(data);
                     setAvailableDates(data);
                 } catch (error) {
                     console.error(error);
@@ -53,23 +55,21 @@ const HomeView = () => {
             fetchAvailableDates();
         }
     }, [home]);
+
+    const handleDateRangeChange = (range) => {
+        setSelectedRange(range);
+    };
 
     useEffect(() => {
-        if (home) {
-            const fetchAvailableDates = async () => {
-                try {
-                    const { data } = await axios.get(
-                        `/api/availableDates/${home._id}`
-                    );
-                    setAvailableDates(data);
-                } catch (error) {
-                    console.error(error);
-                }
-            };
-
-            fetchAvailableDates();
+        if (selectedRange) {
+            console.log(selectedRange);
+            console.log(
+                selectedRange.start.year,
+                selectedRange.start.month,
+                selectedRange.start.day
+            );
         }
-    }, [home]);
+    }, [selectedRange]);
 
     useEffect(() => {
         if (isImagesSliderModalOpen) {
@@ -226,7 +226,7 @@ const HomeView = () => {
                                         Book now
                                     </h2>
 
-                                    {availableDates.length === 0 ? (
+                                    {availableDates.length !== 0 ? (
                                         <div>
                                             <DateRangePicker
                                                 variant="bordered"
@@ -238,14 +238,9 @@ const HomeView = () => {
                                                 ).add(
                                                     { days: 1 } // Tomorrow
                                                 )}
-                                                // TODO : Disable all dates except the available ones
-                                                // disabledDates={(date) =>
-                                                //     !availableDates.find(
-                                                //         (d) =>
-                                                //             d.date ===
-                                                //             date.toISOString()
-                                                //     )
-                                                // }
+                                                onChange={handleDateRangeChange}
+                                                // validate={validateDateRange}
+                                                validationBehavior="native"
                                                 className="mt-2"
                                             />
                                             <button className="mt-4 px-4 py-2 bg-black text-white rounded-2xl">
@@ -303,7 +298,7 @@ const HomeView = () => {
                             ))}
                         </Swiper>
 
-                        <div className="absolute top-2 md:top-4 left-2 md:left-4 p-2 z-50 bg-white text-sm font-semibold rounded-2xl">
+                        <div className="absolute top-2 md:top-4 left-2 md:left-4 p-2 z-50 bg-white text-sm font-semibold rounded-2xl opacity-70">
                             {currentSlide + 1} / {home.images.length}
                         </div>
                     </div>

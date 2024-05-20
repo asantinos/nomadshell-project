@@ -7,9 +7,19 @@ const availableDateSchema = new mongoose.Schema(
             ref: "Home",
             required: true,
         },
-        date: {
+        startDate: {
             type: Date,
             required: true,
+        },
+        endDate: {
+            type: Date,
+            required: true,
+            validate: {
+                validator: function (value) {
+                    return this.startDate < value;
+                },
+                message: "End date must be after the start date",
+            },
         },
     },
     {
