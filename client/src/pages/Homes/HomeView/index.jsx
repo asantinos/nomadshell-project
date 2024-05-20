@@ -183,7 +183,7 @@ const HomeView = () => {
                             </div>
                         </div>
 
-                        {currentUser.user._id !== home.owner._id && (
+                        {currentUser && currentUser.user._id !== home.owner._id && (
                             <div className="mt-8">
                                 <h2 className="text-xl font-semibold">
                                     Book now

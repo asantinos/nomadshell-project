@@ -76,7 +76,7 @@ const HomeCard = ({ home }) => {
                     <div className="absolute top-3 left-3 shadow-md">
                         <Link
                             to={
-                                currentUser.user._id === home.owner._id
+                                currentUser && currentUser.user._id === home.owner._id
                                     ? "/profile"
                                     : `/users/${home.owner._id}`
                             }
