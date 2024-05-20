@@ -1,7 +1,7 @@
 const AvailableDate = require("../models/availableDate.model");
 const { errorHandler } = require("../utils/error");
 
-// Get all available dates from a home
+// Get available dates for a home
 const getAvailableDates = async (req, res) => {
     try {
         const availableDates = await AvailableDate.find({
@@ -14,37 +14,42 @@ const getAvailableDates = async (req, res) => {
     }
 };
 
-// Add a new available date for a home
-const addAvailableDate = async (req, res) => {
+// Add new available dates for a home (minimum 2 days), delete old ones
+const addAvailableDates = async (req, res) => {
     try {
-        const availableDate = await AvailableDate.create({
+        const { dates } = req.body;
+
+        if (dates.length < 2) {
+            return res.status(400).json({ message: "Minimum 2 days required" });
+        }
+
+        const availableDates = await AvailableDate.find({
             home: req.params.homeId,
-            date: req.body.date,
         });
 
-        res.status(201).json({
-            availableDate,
-            message: "Available date created successfully",
-        });
+        if (availableDates.length > 0) {
+            await AvailableDate.deleteMany({ home: req.params.homeId });
+        }
+
+        const newDates = dates.map((date) => ({
+            home: req.params.homeId,
+            date,
+        }));
+
+        const newAvailableDates = await AvailableDate.insertMany(newDates);
+
+        res.json(newAvailableDates);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
-// Delete an available date
-const deleteAvailableDate = async (req, res) => {
+// Delete all available dates for a home
+const deleteAvailableDates = async (req, res) => {
     try {
-        const availableDate = await AvailableDate.findByIdAndDelete(
-            req.params.id
-        );
+        await AvailableDate.deleteMany({ home: req.params.homeId });
 
-        if (!availableDate) {
-            return res.status(404).json({
-                message: "Available date not found",
-            });
-        }
-
-        res.json({ message: "Available date deleted successfully" });
+        res.json({ message: "Deleted all available dates" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -52,6 +57,6 @@ const deleteAvailableDate = async (req, res) => {
 
 module.exports = {
     getAvailableDates,
-    addAvailableDate,
-    deleteAvailableDate,
+    addAvailableDates,
+    deleteAvailableDates,
 };

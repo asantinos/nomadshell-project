@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Footer from "@components/Footer";
 
+import ProfileHomeCard from "@components/Profile/HomeCard";
 import Loader from "@components/Loader";
 
 import HomeIcon from "@icons/home";
@@ -142,7 +143,7 @@ function Profile() {
                                         </h2>
                                         {currentUser.user.planType !==
                                             "free" && (
-                                            <div className="w-fit">
+                                            <div className="w-fit mt-2">
                                                 <Link
                                                     to="/profile/homes/add"
                                                     className="flex items-center justify-center gap-2 text-center border border-black rounded-xl p-2 hover:bg-gray-lighter"
@@ -181,92 +182,15 @@ function Profile() {
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 mb-8">
                                                         {userHomes.map(
                                                             (home) => (
-                                                                <div
+                                                                <ProfileHomeCard
                                                                     key={
                                                                         home._id
                                                                     }
-                                                                    className="bg-gray-lighter rounded-3xl p-6"
-                                                                >
-                                                                    <div className="flex items-center justify-between">
-                                                                        <Link
-                                                                            to={`/homes/${home._id}`}
-                                                                            className="text-black font-bold"
-                                                                        >
-                                                                            {
-                                                                                home.title
-                                                                            }
-                                                                        </Link>
-                                                                        <Link
-                                                                            to={`/profile/homes/edit/${home._id}`}
-                                                                            className="text-gray-500 hover:text-black"
-                                                                        >
-                                                                            Edit
-                                                                        </Link>
-                                                                        <button
-                                                                            onClick={() =>
-                                                                                deleteHome(
-                                                                                    home._id
-                                                                                )
-                                                                            }
-                                                                            className="text-gray-500 hover:text-black"
-                                                                        >
-                                                                            Delete
-                                                                        </button>
-                                                                    </div>
-                                                                    <p className="text-gray-500 mt-4">
-                                                                        {
-                                                                            home.description
-                                                                        }
-                                                                    </p>
-                                                                    <p className="text-gray-500 mt-4">
-                                                                        {
-                                                                            home.type
-                                                                        }
-                                                                    </p>
-                                                                    <p className="text-gray-500 mt-4">
-                                                                        {
-                                                                            home.price
-                                                                        }{" "}
-                                                                        / night
-                                                                    </p>
-                                                                    <p className="text-gray-500 mt-4">
-                                                                        {
-                                                                            home.sqrt
-                                                                        }{" "}
-                                                                        sqrt
-                                                                    </p>
-                                                                    <p className="text-gray-500 mt-4">
-                                                                        {
-                                                                            home.bedrooms
-                                                                        }{" "}
-                                                                        bedrooms
-                                                                    </p>
-                                                                    <p className="text-gray-500 mt-4">
-                                                                        {
-                                                                            home.bathrooms
-                                                                        }{" "}
-                                                                        bathrooms
-                                                                    </p>
-                                                                    <p className="text-gray-500 mt-4">
-                                                                        {home.parking
-                                                                            ? "Parking 🚗"
-                                                                            : "No parking"}
-                                                                    </p>
-                                                                    <p className="text-gray-500 mt-4">
-                                                                        Coords:
-                                                                        [
-                                                                        {
-                                                                            home
-                                                                                .location[0]
-                                                                        }
-                                                                        {", "}
-                                                                        {
-                                                                            home
-                                                                                .location[1]
-                                                                        }
-                                                                        ]
-                                                                    </p>
-                                                                </div>
+                                                                    home={home}
+                                                                    deleteHome={
+                                                                        deleteHome
+                                                                    }
+                                                                />
                                                             )
                                                         )}
                                                     </div>

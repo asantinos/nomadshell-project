@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { DateRangePicker } from "@nextui-org/react";
+import { getLocalTimeZone, today } from "@internationalized/date";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -15,6 +16,7 @@ const HomeView = () => {
     const { currentUser } = useSelector((state) => state.user);
     const { id } = useParams();
     const [home, setHome] = useState(null);
+    const [availableDates, setAvailableDates] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isImagesSliderModalOpen, setIsImagesSliderModalOpen] =
         useState(false);
@@ -34,6 +36,40 @@ const HomeView = () => {
 
         fetchHomeDetails();
     }, [id]);
+
+    useEffect(() => {
+        if (home) {
+            const fetchAvailableDates = async () => {
+                try {
+                    const { data } = await axios.get(
+                        `/api/availableDates/${home._id}`
+                    );
+                    setAvailableDates(data);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            fetchAvailableDates();
+        }
+    }, [home]);
+
+    useEffect(() => {
+        if (home) {
+            const fetchAvailableDates = async () => {
+                try {
+                    const { data } = await axios.get(
+                        `/api/availableDates/${home._id}`
+                    );
+                    setAvailableDates(data);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            fetchAvailableDates();
+        }
+    }, [home]);
 
     useEffect(() => {
         if (isImagesSliderModalOpen) {
@@ -183,23 +219,46 @@ const HomeView = () => {
                             </div>
                         </div>
 
-                        {currentUser && currentUser.user._id !== home.owner._id && (
-                            <div className="mt-8">
-                                <h2 className="text-xl font-semibold">
-                                    Book now
-                                </h2>
-                                <DateRangePicker
-                                    variant="bordered"
-                                    isRequired
-                                    label="Select a date"
-                                    visibleMonths={2}
-                                    onChange={(date) => console.log(date)}
-                                />
-                                <button className="mt-4 px-4 py-2 bg-primary text-white rounded-3xl">
-                                    Book now
-                                </button>
-                            </div>
-                        )}
+                        {currentUser &&
+                            currentUser.user._id !== home.owner._id && (
+                                <div className="mt-8">
+                                    <h2 className="text-xl font-semibold">
+                                        Book now
+                                    </h2>
+
+                                    {availableDates.length === 0 ? (
+                                        <div>
+                                            <DateRangePicker
+                                                variant="bordered"
+                                                isRequired
+                                                label="Select a date"
+                                                visibleMonths={1}
+                                                minValue={today(
+                                                    getLocalTimeZone()
+                                                ).add(
+                                                    { days: 1 } // Tomorrow
+                                                )}
+                                                // TODO : Disable all dates except the available ones
+                                                // disabledDates={(date) =>
+                                                //     !availableDates.find(
+                                                //         (d) =>
+                                                //             d.date ===
+                                                //             date.toISOString()
+                                                //     )
+                                                // }
+                                                className="mt-2"
+                                            />
+                                            <button className="mt-4 px-4 py-2 bg-black text-white rounded-2xl">
+                                                Book now
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <p className="mt-2 text-red-500 font-semibold">
+                                            Not available yet.
+                                        </p>
+                                    )}
+                                </div>
+                            )}
                     </div>
                     <Footer />
                 </>

@@ -74,7 +74,6 @@ const Homes = () => {
             return list.items;
         }
 
-        // TODO : Solve owner name search
         return list.items.filter(
             (home) =>
                 home.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
