@@ -1,4 +1,5 @@
 const Home = require("../models/home.model");
+const AvailableDate = require("../models/availableDate.model");
 const { errorHandler } = require("../utils/error");
 
 // Get all homes (with filters if needed)
@@ -123,4 +124,28 @@ const deleteHome = async (req, res, next) => {
     }
 };
 
-module.exports = { getHomes, getHome, createHome, updateHome, deleteHome };
+// Get home's available dates
+const getAvailableDates = async (req, res, next) => {
+    try {
+        const availableDates = await AvailableDate.find({
+            home: req.params.id,
+        });
+
+        if (!availableDates) {
+            return next(errorHandler(404, "Available dates not found"));
+        }
+
+        return res.status(200).json(availableDates);
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = {
+    getHomes,
+    getHome,
+    createHome,
+    updateHome,
+    deleteHome,
+    getAvailableDates,
+};

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { DateRangePicker } from "@nextui-org/react";
-import { getLocalTimeZone, today } from "@internationalized/date";
+import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -16,13 +16,14 @@ const HomeView = () => {
     const { currentUser } = useSelector((state) => state.user);
     const { id } = useParams();
     const [home, setHome] = useState(null);
-    const [availableDates, setAvailableDates] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [availableDates, setAvailableDates] = useState([]);
+    const [selectedRange, setSelectedRange] = useState(null);
+
     const [isImagesSliderModalOpen, setIsImagesSliderModalOpen] =
         useState(false);
     const [initialSlide, setInitialSlide] = useState(0);
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [selectedRange, setSelectedRange] = useState(null);
 
     useEffect(() => {
         const fetchHomeDetails = async () => {
@@ -43,10 +44,10 @@ const HomeView = () => {
             const fetchAvailableDates = async () => {
                 try {
                     const { data } = await axios.get(
-                        `/api/availableDates/${home._id}`
+                        `/api/homes/${home._id}/availableDates`
                     );
-                    console.log(data);
                     setAvailableDates(data);
+                    console.log(data);
                 } catch (error) {
                     console.error(error);
                 }
@@ -56,21 +57,27 @@ const HomeView = () => {
         }
     }, [home]);
 
+    const disabledRanges = availableDates.map((date) => ({
+        start: parseDate(date.startDate.split("T")[0]),
+        end: parseDate(date.endDate.split("T")[0]),
+    }));
+
     const handleDateRangeChange = (range) => {
         setSelectedRange(range);
     };
 
-    useEffect(() => {
-        if (selectedRange) {
-            console.log(selectedRange);
-            console.log(
-                selectedRange.start.year,
-                selectedRange.start.month,
-                selectedRange.start.day
-            );
-        }
-    }, [selectedRange]);
+    // useEffect(() => {
+    //     if (selectedRange) {
+    //         console.log(selectedRange);
+    //         console.log(
+    //             selectedRange.start.year,
+    //             selectedRange.start.month,
+    //             selectedRange.start.day
+    //         );
+    //     }
+    // }, [selectedRange]);
 
+    // MODAL IMAGES SLIDER
     useEffect(() => {
         if (isImagesSliderModalOpen) {
             document.body.classList.add("overflow-hidden");
@@ -227,11 +234,11 @@ const HomeView = () => {
                                     </h2>
 
                                     {availableDates.length !== 0 ? (
-                                        <div>
+                                        <div className="w-full flex flex-col sm:items-start items-center gap-2 mt-2">
                                             <DateRangePicker
                                                 variant="bordered"
                                                 isRequired
-                                                label="Select a date"
+                                                label="Select when you want to book"
                                                 visibleMonths={1}
                                                 minValue={today(
                                                     getLocalTimeZone()
@@ -239,12 +246,18 @@ const HomeView = () => {
                                                     { days: 1 } // Tomorrow
                                                 )}
                                                 onChange={handleDateRangeChange}
-                                                // validate={validateDateRange}
-                                                validationBehavior="native"
-                                                className="mt-2"
+                                                isDateUnavailable={(date) =>
+                                                    !disabledRanges.some(
+                                                        (range) =>
+                                                            date >=
+                                                                range.start &&
+                                                            date <= range.end
+                                                    )
+                                                }
+                                                className="max-w-96"
                                             />
-                                            <button className="mt-4 px-4 py-2 bg-black text-white rounded-2xl">
-                                                Book now
+                                            <button className="max-w-96 w-full py-4 px-8 bg-gray-dark hover:bg-black text-white rounded-2xl font-semibold">
+                                                Book
                                             </button>
                                         </div>
                                     ) : (

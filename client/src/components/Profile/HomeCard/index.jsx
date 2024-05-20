@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { DateRangePicker } from "@nextui-org/react";
-import { parseDate, getLocalTimeZone } from "@internationalized/date";
-import { useDateFormatter } from "@react-aria/i18n";
+import { today, parseDate } from "@internationalized/date";
 import axios from "axios";
 
 import EditButton from "@components/Button/EditButton";
@@ -14,12 +13,76 @@ import Cross from "@icons/cross";
 
 function ProfileHomeCard({ home, deleteHome }) {
     const navigate = useNavigate();
-    const [availableDate, setAvailableDate] = useState({
-        start: parseDate("2024-05-21"),
-        end: parseDate("2024-05-23"),
-    });
+    const [availableDates, setAvailableDates] = useState([]);
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [selectedStartDate, setSelectedStartDate] = useState(null);
+    const [selectedEndDate, setSelectedEndDate] = useState(null);
+    const [calendarValue, setCalendarValue] = useState(null);
 
-    let formatter = useDateFormatter({ dateStyle: "long" });
+    useEffect(() => {
+        const fetchAvailableDates = async () => {
+            try {
+                const { data } = await axios.get(
+                    `/api/homes/${home._id}/availableDates`
+                );
+
+                if (data.length === 0) {
+                    return;
+                }
+
+                setAvailableDates(data[0]);
+                setStartDate(data[0].startDate.split("T")[0]);
+                setEndDate(data[0].endDate.split("T")[0]);
+                setCalendarValue({
+                    start: parseDate(data[0].startDate.split("T")[0]),
+                    end: parseDate(data[0].endDate.split("T")[0]),
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchAvailableDates();
+    }, [availableDates.length, home._id]);
+
+    const addOrUpdateAvailableDate = async () => {
+        try {
+            const { data } = await axios.post("/api/availableDates/create", {
+                home: home._id,
+                startDate: selectedStartDate,
+                endDate: selectedEndDate,
+            });
+            setAvailableDates(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleSelectedChange = (value) => {
+        const formatDate = (date) => {
+            const jsDate = new Date(
+                Date.UTC(date.year, date.month - 1, date.day)
+            );
+            return jsDate.toISOString();
+        };
+
+        setSelectedStartDate(formatDate(value.start));
+        setSelectedEndDate(formatDate(value.end));
+    };
+
+    const handleDeleteAvailableDate = async () => {
+        try {
+            await axios.delete(
+                `/api/availableDates/delete/${availableDates._id}`
+            );
+            setAvailableDates([]);
+            setStartDate(null);
+            setEndDate(null);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div key={home._id} className="bg-gray-lighter rounded-3xl p-6">
@@ -52,36 +115,48 @@ function ProfileHomeCard({ home, deleteHome }) {
                 Coords: [{home.location[0]}, {home.location[1]}]
             </p>
             <div className="mt-4">
-                <div className="flex items-baseline lg:items-center gap-2 mt-2">
+                <div className="flex items-center gap-2 mt-2 text-sm">
+                    {availableDates.length === 0 ? (
+                        <p className="text-red-500 font-semibold">
+                            Home is not available yet
+                        </p>
+                    ) : (
+                        <p>
+                            Home will be available from{" "}
+                            <span className="font-semibold">{startDate}</span>{" "}
+                            and <span className="font-semibold">{endDate}</span>
+                        </p>
+                    )}
+                </div>
+
+                <div className="flex items-center gap-2 mt-2">
                     <DateRangePicker
                         variant="bordered"
                         label="When is your home available?"
-                        // value={availableDate}
-                        onChange={setAvailableDate}
-                        // onChange={handleDateChange}
                         visibleMonths={1}
-                        minValue={new Date()} // Tomorrow
+                        onChange={handleSelectedChange}
+                        minValue={today().add({ days: 1 })} // Tomorrow
+                        value={calendarValue}
                     />
-                    <div className="flex flex-col lg:flex-row gap-1 lg:gap-2">
-                        <button
-                            className={`bg-${
-                                availableDate ? "red-500" : "gray-dark"
-                            } hover:bg-${
-                                availableDate ? "red-700" : "black"
-                            } text-white font-semibold p-2 rounded-2xl`}
-                        >
-                            {availableDate ? (
-                                <Cross size={20} />
-                            ) : (
-                                <Plus size={20} />
-                            )}
-                        </button>
-                        {availableDate && (
-                            <button className="bg-gray-dark hover:bg-black text-white font-semibold p-2 rounded-2xl">
-                                <ArrowRepeat size={20} />
-                            </button>
+
+                    <button
+                        className="bg-gray-dark hover:bg-black text-white p-2 rounded-2xl"
+                        onClick={addOrUpdateAvailableDate}
+                    >
+                        {availableDates.length === 0 ? (
+                            <Plus size={20} />
+                        ) : (
+                            <ArrowRepeat size={20} />
                         )}
-                    </div>
+                    </button>
+                    {availableDates.length !== 0 && (
+                        <button
+                            className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-2xl"
+                            onClick={handleDeleteAvailableDate}
+                        >
+                            <Cross size={20} />
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

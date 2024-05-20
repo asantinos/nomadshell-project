@@ -1,15 +1,14 @@
 const express = require("express");
 const {
-    getAvailableDate,
-    addAvailableDate,
+    getAvailableDates,
+    createAvailableDate,
     deleteAvailableDate,
 } = require("../controllers/availableDate.controller");
-const verifyToken = require("../utils/verifyUser");
 
 const router = express.Router();
 
-router.get("/:homeId", getAvailableDate);
-router.post("/:homeId", verifyToken, addAvailableDate);
-router.delete("/:homeId", verifyToken, deleteAvailableDate);
+router.get("/all", getAvailableDates);
+router.post("/create", createAvailableDate);
+router.delete("/delete/:id", deleteAvailableDate);
 
 module.exports = router;

@@ -1,58 +1,51 @@
 const AvailableDate = require("../models/availableDate.model");
 const { errorHandler } = require("../utils/error");
 
-// Get available date for a home
-const getAvailableDate = async (req, res) => {
+// Get all available dates
+const getAvailableDates = async (req, res) => {
     try {
-        const availableDate = await AvailableDate.find({
-            home: req.params.homeId,
-        });
-        res.json(availableDate);
+        const availableDates = await AvailableDate.find();
+        res.json(availableDates);
     } catch (error) {
         errorHandler(res, error);
     }
 };
 
-// Add new available date for a home, delete old one
-const addAvailableDate = async (req, res) => {
-    const { homeId } = req.params;
-    const { start, end } = req.body;
-
-    if (!start || !end) {
-        return res
-            .status(400)
-            .json({ message: "Checkin and checkout dates are required" });
-    }
-
+// Create a new available date and delete old one if it exists
+const createAvailableDate = async (req, res) => {
     try {
-        const availableDate = await AvailableDate.create({
-            home: homeId,
-            start,
-            end,
+        if (!req.body.startDate || !req.body.endDate) {
+            return;
+        }
+
+        const availableDate = await AvailableDate.findOne({
+            home: req.body.home,
         });
-        res.json(availableDate);
+
+        if (availableDate) {
+            await AvailableDate.findByIdAndDelete(availableDate._id);
+        }
+
+        const newAvailableDate = new AvailableDate(req.body);
+        await newAvailableDate.save();
+        res.json(newAvailableDate);
     } catch (error) {
         errorHandler(res, error);
     }
 };
 
-// Delete available date for a home
+// Delete an available date
 const deleteAvailableDate = async (req, res) => {
     try {
-        const availableDate = await AvailableDate.findByIdAndDelete(
-            req.params.id
-        );
-        if (!availableDate) {
-            return res.status(404).json({ error: "Available date not found" });
-        }
-        res.json({ message: "Available date deleted" });
+        await AvailableDate.findByIdAndDelete(req.params.id);
+        res.json({ message: "Available date deleted successfully" });
     } catch (error) {
         errorHandler(res, error);
     }
 };
 
 module.exports = {
-    getAvailableDate,
-    addAvailableDate,
+    getAvailableDates,
+    createAvailableDate,
     deleteAvailableDate,
 };
