@@ -28,6 +28,9 @@ const HomeView = () => {
     const [initialSlide, setInitialSlide] = useState(0);
     const [currentSlide, setCurrentSlide] = useState(0);
 
+    const [isBooked, setIsBooked] = useState(false);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
         const fetchHomeDetails = async () => {
             try {
@@ -88,8 +91,14 @@ const HomeView = () => {
                 checkOut,
                 totalPrice: home.price * nights,
             });
+
+            setIsBooked(true);
+
+            setTimeout(() => {
+                setIsBooked(false);
+            }, 3000);
         } catch (error) {
-            console.error(error);
+            setError(error.response.data.message);
         }
     };
 
@@ -282,6 +291,27 @@ const HomeView = () => {
                                             >
                                                 Book
                                             </button>
+
+                                            {error && (
+                                                <div className="mt-2 py-2 px-4 bg-red-100 text-red-500 rounded-2xl">
+                                                    {error}
+                                                </div>
+                                            )}
+
+                                            {selectedRange && !isBooked && (
+                                                <div className="mt-2 py-2 px-4 bg-green-100 text-green-500 rounded-2xl">
+                                                    {nights} nights from{" "}
+                                                    {checkIn.toLocaleDateString()}{" "}
+                                                    to{" "}
+                                                    {checkOut.toLocaleDateString()}
+                                                </div>
+                                            )}
+
+                                            {isBooked && (
+                                                <div className="mt-2 py-2 px-4 bg-green-100 text-green-500 rounded-2xl">
+                                                    Booked successfully!
+                                                </div>
+                                            )}
                                         </div>
                                     ) : (
                                         <p className="mt-2 text-red-500 font-semibold">

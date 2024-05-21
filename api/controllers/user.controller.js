@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 const { errorHandler } = require("../utils/error");
 const Home = require("../models/home.model");
+const Booking = require("../models/booking.model");
 
 // Get all users
 const getUsers = async (req, res, next) => {
@@ -104,6 +105,18 @@ const getUserHomes = async (req, res, next) => {
     }
 };
 
+// Get user's bookings
+const getUserBookings = async (req, res, next) => {
+    try {
+        const bookings = await Booking.find({ user: req.params.id }).populate(
+            "home"
+        );
+        res.status(200).json(bookings);
+    } catch (error) {
+        next(errorHandler(500, "Internal Server Error"));
+    }
+};
+
 module.exports = {
     getUsers,
     getUserById,
@@ -111,4 +124,5 @@ module.exports = {
     updateUser,
     deleteUser,
     getUserHomes,
+    getUserBookings,
 };

@@ -32,6 +32,16 @@ const getBooking = async (req, res) => {
 // Create a new booking
 const createBooking = async (req, res) => {
     try {
+        const { user, home } = req.body;
+
+        const existingBooking = await Booking.findOne({ user, home });
+
+        if (existingBooking) {
+            return res.status(400).json({
+                message: "You have already booked this home",
+            });
+        }
+
         const booking = await Booking.create(req.body);
 
         res.status(201).json({

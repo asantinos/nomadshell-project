@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Chip } from "@nextui-org/react";
 import axios from "axios";
 import Footer from "@components/Footer";
 
@@ -10,38 +11,20 @@ import Loader from "@components/Loader";
 import HomeIcon from "@icons/home";
 import SettingsVertical from "@icons/settings-vertical";
 import Plus from "@icons/plus";
+import Check from "@icons/check";
+import Clock from "@icons/clock";
+import Play from "@icons/play";
 
 function Profile() {
     const { currentUser } = useSelector((state) => state.user);
     const [isLoading, setIsLoading] = useState(true);
     const [userHomes, setUserHomes] = useState([]);
-    const [userBookings, setUserBookings] = useState([
-        // example booking
-        {
-            _id: "1",
-            checkInDate: "2021-12-01",
-            checkOutDate: "2021-12-05",
-            home: {
-                title: "Home Title",
-            },
-        },
-        {
-            _id: "2",
-            checkInDate: "2021-12-01",
-            checkOutDate: "2021-12-05",
-            home: {
-                title: "Home Title",
-            },
-        },
-        {
-            _id: "3",
-            checkInDate: "2021-12-01",
-            checkOutDate: "2021-12-05",
-            home: {
-                title: "Home Title",
-            },
-        },
-    ]);
+    const [userBookings, setUserBookings] = useState([]);
+    const [confirmDelete, setConfirmDelete] = useState(false);
+
+    const handleConfirmDelete = () => {
+        setConfirmDelete(!confirmDelete);
+    };
 
     useEffect(() => {
         const fetchUserHomes = async () => {
@@ -66,6 +49,35 @@ function Profile() {
 
             setUserHomes((prevHomes) =>
                 prevHomes.filter((home) => home._id !== homeId)
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        const fetchUserBookings = async () => {
+            try {
+                const response = await axios.get(
+                    `/api/users/${currentUser.user._id}/bookings`
+                );
+
+                setUserBookings(response.data);
+                setIsLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchUserBookings();
+    }, [currentUser.user.id]);
+
+    const handleCancelBooking = (bookingId) => async () => {
+        try {
+            await axios.delete(`/api/bookings/delete/${bookingId}`);
+
+            setUserBookings((prevBookings) =>
+                prevBookings.filter((booking) => booking._id !== bookingId)
             );
         } catch (error) {
             console.error(error);
@@ -146,7 +158,7 @@ function Profile() {
                                             <div className="w-fit mt-2">
                                                 <Link
                                                     to="/profile/homes/add"
-                                                    className="flex items-center justify-center gap-2 text-center border border-black rounded-xl p-2 hover:bg-gray-lighter"
+                                                    className="flex items-center justify-center gap-2 text-center border border-black rounded-2xl p-2 hover:bg-gray-lighter"
                                                 >
                                                     <Plus
                                                         size={14}
@@ -205,9 +217,17 @@ function Profile() {
                                         My Bookings
                                     </h2>
                                     {userBookings.length === 0 ? (
-                                        <p className="text-gray-500">
-                                            You don't have any bookings yet.
-                                        </p>
+                                        <div>
+                                            <p className="text-gray-500 mb-8">
+                                                You don't have any bookings yet.
+                                            </p>
+                                            <Link
+                                                to="/homes"
+                                                className="border border-black hover:bg-black hover:text-white font-bold py-4 px-8 rounded-3xl transition duration-200 ease-in-out"
+                                            >
+                                                Start Booking
+                                            </Link>
+                                        </div>
                                     ) : (
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
                                             {userBookings.map((booking) => (
@@ -215,22 +235,90 @@ function Profile() {
                                                     key={booking._id}
                                                     className="bg-gray-lighter rounded-3xl p-6"
                                                 >
-                                                    <div className="flex items-center justify-between">
-                                                        <HomeIcon
-                                                            size="24"
-                                                            color="#000"
-                                                        />
-                                                        <p className="text-gray-500">
-                                                            {booking.home.title}
-                                                        </p>
+                                                    <div className="flex items-center justify-between gap-4">
+                                                        <div className="flex items-center gap-4">
+                                                            <HomeIcon
+                                                                size="24"
+                                                                color="#000"
+                                                            />
+                                                            <p className="text-black font-semibold">
+                                                                {
+                                                                    booking.home
+                                                                        .title
+                                                                }
+                                                            </p>
+                                                        </div>
+
+                                                        <div>
+                                                            {new Date(
+                                                                booking.checkIn
+                                                            ) > new Date() ? (
+                                                                <div className="flex items-center gap-2">
+                                                                    <button
+                                                                        onClick={
+                                                                            !confirmDelete
+                                                                                ? handleConfirmDelete
+                                                                                : handleCancelBooking(
+                                                                                      booking._id
+                                                                                  )
+                                                                        }
+                                                                        className="text-xs font-bold py-1 px-2 border border-black bg-gray-200 text-black hover:bg-black hover:text-white rounded-xl"
+                                                                    >
+                                                                        {!confirmDelete
+                                                                            ? "Cancel"
+                                                                            : "Confirm"}
+                                                                    </button>
+                                                                    <Chip
+                                                                        color="warning"
+                                                                        variant="shadow"
+                                                                        className="text-white"
+                                                                    >
+                                                                        <Clock
+                                                                            size={
+                                                                                18
+                                                                            }
+                                                                        />
+                                                                    </Chip>
+                                                                </div>
+                                                            ) : new Date(
+                                                                  booking.checkIn
+                                                              ) < new Date() &&
+                                                              new Date(
+                                                                  booking.checkOut
+                                                              ) > new Date() ? (
+                                                                <Chip
+                                                                    color="primary"
+                                                                    variant="shadow"
+                                                                    className="text-white"
+                                                                >
+                                                                    <Play
+                                                                        size={
+                                                                            18
+                                                                        }
+                                                                    />
+                                                                </Chip>
+                                                            ) : (
+                                                                <Chip
+                                                                    color="success"
+                                                                    variant="shadow"
+                                                                    className="text-white"
+                                                                >
+                                                                    <Check
+                                                                        size={
+                                                                            18
+                                                                        }
+                                                                    />
+                                                                </Chip>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                     <p className="text-gray-500 mt-4">
                                                         {new Date(
-                                                            booking.checkInDate
+                                                            booking.checkIn
                                                         ).toLocaleDateString()}{" "}
                                                         -{" "}
                                                         {new Date(
-                                                            booking.checkOutDate
+                                                            booking.checkOut
                                                         ).toLocaleDateString()}
                                                     </p>
                                                 </div>

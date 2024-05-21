@@ -6,6 +6,7 @@ const {
     updateUser,
     deleteUser,
     getUserHomes,
+    getUserBookings,
 } = require("../controllers/user.controller");
 const verifyToken = require("../utils/verifyUser");
 
@@ -17,5 +18,6 @@ router.get("/get/:id", getUserById);
 router.put("/update/:id", verifyToken, updateUser);
 router.delete("/delete/:id", verifyToken, deleteUser);
 router.get("/:id/homes", getUserHomes);
+router.get("/:id/bookings", getUserBookings);
 
 module.exports = router;

@@ -180,7 +180,7 @@ function Settings() {
                                             currentUser.user.avatar
                                         }
                                         alt={`${currentUser.user.name} ${currentUser.user.surname} avatar`}
-                                        className="rounded-xl h-10 w-10 object-cover cursor-pointer"
+                                        className="rounded-2xl h-10 w-10 object-cover cursor-pointer"
                                     />
                                     <p
                                         className="absolute right-14 top-[50%] transform -translate-y-1/2
