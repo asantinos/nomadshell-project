@@ -19,6 +19,9 @@ const HomeView = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [availableDates, setAvailableDates] = useState([]);
     const [selectedRange, setSelectedRange] = useState(null);
+    const [checkIn, setCheckIn] = useState(null);
+    const [checkOut, setCheckOut] = useState(null);
+    const [nights, setNights] = useState(0);
 
     const [isImagesSliderModalOpen, setIsImagesSliderModalOpen] =
         useState(false);
@@ -47,7 +50,6 @@ const HomeView = () => {
                         `/api/homes/${home._id}/availableDates`
                     );
                     setAvailableDates(data);
-                    console.log(data);
                 } catch (error) {
                     console.error(error);
                 }
@@ -64,18 +66,32 @@ const HomeView = () => {
 
     const handleDateRangeChange = (range) => {
         setSelectedRange(range);
+
+        if (range.start && range.end) {
+            const startDate = new Date(range.start);
+            setCheckIn(startDate);
+            const endDate = new Date(range.end);
+            setCheckOut(endDate);
+
+            const timeDiff = startDate - endDate;
+            const dayDiff = -timeDiff / (1000 * 3600 * 24);
+            setNights(dayDiff);
+        }
     };
 
-    // useEffect(() => {
-    //     if (selectedRange) {
-    //         console.log(selectedRange);
-    //         console.log(
-    //             selectedRange.start.year,
-    //             selectedRange.start.month,
-    //             selectedRange.start.day
-    //         );
-    //     }
-    // }, [selectedRange]);
+    const handleBookNow = async () => {
+        try {
+            const { data } = await axios.post("/api/bookings/create", {
+                home: home._id,
+                user: currentUser.user._id,
+                checkIn,
+                checkOut,
+                totalPrice: home.price * nights,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     // MODAL IMAGES SLIDER
     useEffect(() => {
@@ -256,7 +272,14 @@ const HomeView = () => {
                                                 }
                                                 className="max-w-96"
                                             />
-                                            <button className="max-w-96 w-full py-4 px-8 bg-gray-dark hover:bg-black text-white rounded-2xl font-semibold">
+                                            <button
+                                                onClick={handleBookNow}
+                                                className={`max-w-96 w-full py-4 px-8 bg-gray-dark hover:bg-black text-white rounded-2xl font-semibold ${
+                                                    !selectedRange
+                                                        ? "pointer-events-none opacity-80"
+                                                        : ""
+                                                }`}
+                                            >
                                                 Book
                                             </button>
                                         </div>

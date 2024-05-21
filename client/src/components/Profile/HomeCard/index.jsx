@@ -44,7 +44,7 @@ function ProfileHomeCard({ home, deleteHome }) {
         };
 
         fetchAvailableDates();
-    }, [availableDates.length, home._id]);
+    }, [availableDates, startDate, endDate, home._id]);
 
     const addOrUpdateAvailableDate = async () => {
         try {
@@ -72,6 +72,10 @@ function ProfileHomeCard({ home, deleteHome }) {
     };
 
     const handleDeleteAvailableDate = async () => {
+        if (availableDates.length === 0) {
+            return;
+        }
+
         try {
             await axios.delete(
                 `/api/availableDates/delete/${availableDates._id}`
@@ -79,6 +83,7 @@ function ProfileHomeCard({ home, deleteHome }) {
             setAvailableDates([]);
             setStartDate(null);
             setEndDate(null);
+            setCalendarValue(null);
         } catch (error) {
             console.error(error);
         }
@@ -136,7 +141,11 @@ function ProfileHomeCard({ home, deleteHome }) {
                         visibleMonths={1}
                         onChange={handleSelectedChange}
                         minValue={today().add({ days: 1 })} // Tomorrow
-                        value={calendarValue}
+                        value={
+                            !selectedStartDate &&
+                            !selectedEndDate &&
+                            calendarValue
+                        }
                     />
 
                     <button
