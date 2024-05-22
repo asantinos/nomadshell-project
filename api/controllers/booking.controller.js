@@ -1,5 +1,6 @@
 const Booking = require("../models/booking.model");
 const { errorHandler } = require("../utils/error");
+const User = require("../models/user.model");
 
 // Get all bookings
 const getBookings = async (req, res) => {
@@ -32,17 +33,31 @@ const getBooking = async (req, res) => {
 // Create a new booking
 const createBooking = async (req, res) => {
     try {
-        const { user, home } = req.body;
+        const user = await User.findById(req.user.id);
 
-        const existingBooking = await Booking.findOne({ user, home });
-
-        if (existingBooking) {
-            return res.status(400).json({
-                message: "You have already booked this home",
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
             });
         }
 
-        const booking = await Booking.create(req.body);
+        // Check if user has enough nomadPoints
+        if (user.nomadPoints < req.body.totalPrice) {
+            return res.status(400).json({
+                message: "Not enough nomadPoints",
+            });
+        }
+
+        const booking = new Booking({
+            ...req.body,
+            user: req.user.id,
+        });
+
+        await booking.save();
+
+        // Update user's nomadPoints
+        user.nomadPoints -= booking.totalPrice;
+        await user.save();
 
         res.status(201).json({
             booking,

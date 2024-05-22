@@ -7,6 +7,7 @@ function PricingCard({
     listItems,
     price,
     isMostPopular,
+    onSelectPlan,
 }) {
     return (
         <div
@@ -24,15 +25,20 @@ function PricingCard({
                 <p className="text-base text-gray-light mt-6">{description}</p>
                 <ul className="list-disc list-inside mt-8 text-left space-y-4">
                     {listItems.map((item, index) => (
-                        <li key={index} className="list-inside -indent-6 pl-12">{item}</li>
+                        <li key={index} className="list-inside -indent-6 pl-12">
+                            {item}
+                        </li>
                     ))}
                 </ul>
             </div>
             <p className="text-2xl font-medium mt-4">
-                {price}{" "}
+                ${price}{" "}
                 <span className="text-sm text-gray-light mt-4">/ year</span>
             </p>
-            <button className="w-full bg-gray-dark hover:bg-black text-white font-medium rounded-full py-3 mt-8 transition duration-200 ease-in-out">
+            <button
+                className="w-full bg-gray-dark hover:bg-black text-white font-medium rounded-full py-3 mt-8 transition duration-200 ease-in-out"
+                onClick={() => onSelectPlan(price, title)}
+            >
                 Select Plan
             </button>
         </div>

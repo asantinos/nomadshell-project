@@ -10,11 +10,13 @@ const homeRouter = require("./routes/home.route.js");
 const authRouter = require("./routes/auth.route.js");
 const bookingRouter = require("./routes/booking.route.js");
 const availableDateRouter = require("./routes/availableDate.route.js");
+const paymentRouter = require("./routes/payment.route.js");
 
 // Connect to MongoDB
 connectDB();
 
-// const __dirname = path.resolve(); // path.resolve() returns the absolute path of the current working directory
+// ! Uncomment before deploying to AWS
+// const __dirname = path.resolve();
 
 const app = express();
 
@@ -34,6 +36,7 @@ app.use("/api/homes", homeRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/availableDates", availableDateRouter);
+app.use("/api/payment", paymentRouter);
 
 // Health Check
 app.get("/health", (req, res) => {

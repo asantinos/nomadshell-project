@@ -8,12 +8,14 @@ import HomeView from "@pages/Homes/HomeView";
 import ProfileView from "@pages/Homes/ProfileView";
 import Map from "@pages/Map";
 import Pricing from "@pages/Pricing";
+import Checkout from "@pages/Pricing/Checkout";
 import Profile from "@pages/Profile";
 import Settings from "@pages/Profile/Settings";
+import Dashboard from "@pages/admin/Dashboard";
+import Favorites from "@pages/Favorites";
 import AddHome from "@pages/Profile/Homes/Add";
 import EditHome from "@pages/Profile/Homes/Edit";
 import NotFound from "@pages/error/404.jsx";
-import Dashboard from "@pages/admin/Dashboard";
 
 import PrivateRoute from "@components/Routes/PrivateRoute";
 import PremiumRoute from "@components/Routes/PremiumRoute";
@@ -41,6 +43,8 @@ function App() {
                 <Route element={<PrivateRoute />}>
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/profile/settings" element={<Settings />} />
+                    <Route path="/favorites" element={<Favorites />} />
+                    <Route path="/checkout" element={<Checkout />} />
                 </Route>
 
                 <Route element={<PremiumRoute />}>

@@ -13,12 +13,40 @@ import Cross from "@icons/cross";
 
 function ProfileHomeCard({ home, deleteHome }) {
     const navigate = useNavigate();
+    const [location, setLocation] = useState({
+        city: "",
+        country: "",
+    });
     const [availableDates, setAvailableDates] = useState([]);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [selectedStartDate, setSelectedStartDate] = useState(null);
     const [selectedEndDate, setSelectedEndDate] = useState(null);
     const [calendarValue, setCalendarValue] = useState(null);
+
+    useEffect(() => {
+        const fetchLocation = async () => {
+            const apiKey = import.meta.env.VITE_TOMTOM_API_KEY;
+            const { lat, lng } = {
+                lat: home.location[1],
+                lng: home.location[0],
+            };
+            try {
+                const response = await axios.get(
+                    `https://api.tomtom.com/search/2/reverseGeocode/${lat},${lng}.json?key=${apiKey}&radius=100`
+                );
+                const address = response.data.addresses[0].address;
+                setLocation({
+                    city: address.municipality,
+                    country: address.country,
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchLocation();
+    }, [home.location]);
 
     useEffect(() => {
         const fetchAvailableDates = async () => {
@@ -117,7 +145,7 @@ function ProfileHomeCard({ home, deleteHome }) {
                 {home.parking ? "Parking 🚗" : "No parking"}
             </p>
             <p className="text-gray-500 mt-4">
-                Coords: [{home.location[0]}, {home.location[1]}]
+                Location: {location.city}, {location.country}
             </p>
             <div className="mt-4">
                 <div className="flex items-center gap-2 mt-2 text-sm">

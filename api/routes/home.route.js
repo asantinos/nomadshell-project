@@ -6,6 +6,7 @@ const {
     updateHome,
     deleteHome,
     getAvailableDates,
+    getHomeBookings
 } = require("../controllers/home.controller");
 const verifyToken = require("../utils/verifyUser");
 
@@ -17,5 +18,6 @@ router.post("/create", verifyToken, createHome);
 router.put("/update/:id", verifyToken, updateHome);
 router.delete("/delete/:id", verifyToken, deleteHome);
 router.get("/:id/availableDates", getAvailableDates);
+router.get("/:id/bookings", getHomeBookings);
 
 module.exports = router;

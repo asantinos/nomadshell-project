@@ -58,6 +58,14 @@ const userSlice = createSlice({
             state.error = action.payload;
             state.loading = false;
         },
+        updateUserNomadPoints: (state, action) => {
+            state.currentUser = {
+                user: {
+                    ...state.currentUser.user,
+                    nomadPoints: action.payload,
+                },
+            };
+        },
     },
 });
 
@@ -74,6 +82,7 @@ export const {
     signOutUserFailure,
     signOutUserSuccess,
     signOutUserStart,
+    updateUserNomadPoints,
 } = userSlice.actions;
 
 export default userSlice.reducer;

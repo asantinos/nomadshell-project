@@ -1,6 +1,7 @@
 const Home = require("../models/home.model");
 const AvailableDate = require("../models/availableDate.model");
 const { errorHandler } = require("../utils/error");
+const Booking = require("../models/booking.model");
 
 // Get all homes (with filters if needed)
 const getHomes = async (req, res, next) => {
@@ -141,6 +142,22 @@ const getAvailableDates = async (req, res, next) => {
     }
 };
 
+// Get bookings for a home
+const getHomeBookings = async (req, res, next) => {
+    try {
+        const home = await Home.findById(req.params.id);
+        if (!home) {
+            return next(errorHandler(404, "Home not found"));
+        }
+
+        const bookings = await Booking.find({ home: req.params.id });
+
+        return res.status(200).json(bookings);
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     getHomes,
     getHome,
@@ -148,4 +165,5 @@ module.exports = {
     updateHome,
     deleteHome,
     getAvailableDates,
+    getHomeBookings,
 };

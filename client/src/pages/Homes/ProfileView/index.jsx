@@ -41,6 +41,38 @@ const ProfileView = () => {
         fetchUserHomes();
     }, [id]);
 
+    useEffect(() => {
+        const fetchLocation = async (home) => {
+            const apiKey = import.meta.env.VITE_TOMTOM_API_KEY;
+            const { lat, lng } = {
+                lat: home.location[1],
+                lng: home.location[0],
+            };
+            try {
+                if (home.location.length > 0) {
+                    const response = await axios.get(
+                        `https://api.tomtom.com/search/2/reverseGeocode/${lat},${lng}.json?key=${apiKey}&radius=100`
+                    );
+                    const address = response.data.addresses[0].address;
+                    home.location = {
+                        city: address.municipality,
+                        country: address.country,
+                    };
+
+                    setUserHomes([...userHomes]);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        if (userHomes.length > 0) {
+            userHomes.forEach((home) => {
+                fetchLocation(home);
+            });
+        }
+    }, [userHomes]);
+
     if (!user) {
         return null;
     }
@@ -151,17 +183,18 @@ const ProfileView = () => {
                                                                     : "No parking"}
                                                             </p>
                                                             <p className="text-gray-500 mt-4">
-                                                                Coords: [
+                                                                Location:{" "}
                                                                 {
                                                                     home
-                                                                        .location[0]
+                                                                        .location
+                                                                        .city
                                                                 }
-                                                                {", "}
+                                                                ,{" "}
                                                                 {
                                                                     home
-                                                                        .location[1]
+                                                                        .location
+                                                                        .country
                                                                 }
-                                                                ]
                                                             </p>
                                                         </div>
                                                     ))}

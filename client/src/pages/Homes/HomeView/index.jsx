@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserNomadPoints } from "@redux/user/userSlice";
 import { DateRangePicker } from "@nextui-org/react";
 import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
 import axios from "axios";
@@ -13,6 +14,7 @@ import Footer from "@components/Footer";
 import Cross from "@icons/cross";
 
 const HomeView = () => {
+    const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
     const { id } = useParams();
     const [home, setHome] = useState(null);
@@ -21,6 +23,7 @@ const HomeView = () => {
     const [selectedRange, setSelectedRange] = useState(null);
     const [checkIn, setCheckIn] = useState(null);
     const [checkOut, setCheckOut] = useState(null);
+    const [totalPrice, setTotalPrice] = useState(0);
     const [nights, setNights] = useState(0);
 
     const [isImagesSliderModalOpen, setIsImagesSliderModalOpen] =
@@ -28,7 +31,8 @@ const HomeView = () => {
     const [initialSlide, setInitialSlide] = useState(0);
     const [currentSlide, setCurrentSlide] = useState(0);
 
-    const [isBooked, setIsBooked] = useState(false);
+    const [isHomeBooked, setIsHomeBooked] = useState(false);
+    const [isUserBooking, setIsUserBooking] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -44,6 +48,37 @@ const HomeView = () => {
 
         fetchHomeDetails();
     }, [id]);
+
+    useEffect(() => {
+        const fetchLocation = async (home) => {
+            const apiKey = import.meta.env.VITE_TOMTOM_API_KEY;
+            const { lat, lng } = {
+                lat: home.location[1],
+                lng: home.location[0],
+            };
+            try {
+                if (home.location.length > 0) {
+                    const response = await axios.get(
+                        `https://api.tomtom.com/search/2/reverseGeocode/${lat},${lng}.json?key=${apiKey}&radius=100`
+                    );
+                    const address = response.data.addresses[0].address;
+                    setHome((prevHome) => ({
+                        ...prevHome,
+                        location: {
+                            city: address.municipality,
+                            country: address.country,
+                        },
+                    }));
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        if (home) {
+            fetchLocation(home);
+        }
+    }, [home]);
 
     useEffect(() => {
         if (home) {
@@ -62,6 +97,26 @@ const HomeView = () => {
         }
     }, [home]);
 
+    useEffect(() => {
+        if (home) {
+            const fetchHomeBookings = async () => {
+                try {
+                    const { data } = await axios.get(
+                        `/api/homes/${home._id}/bookings`
+                    );
+
+                    if (data.length !== 0) {
+                        setIsHomeBooked(true);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+
+            fetchHomeBookings();
+        }
+    }, [home, currentUser]);
+
     const disabledRanges = availableDates.map((date) => ({
         start: parseDate(date.startDate.split("T")[0]),
         end: parseDate(date.endDate.split("T")[0]),
@@ -79,6 +134,7 @@ const HomeView = () => {
             const timeDiff = startDate - endDate;
             const dayDiff = -timeDiff / (1000 * 3600 * 24);
             setNights(dayDiff);
+            setTotalPrice(dayDiff * home.price);
         }
     };
 
@@ -89,13 +145,16 @@ const HomeView = () => {
                 user: currentUser.user._id,
                 checkIn,
                 checkOut,
-                totalPrice: home.price * nights,
+                totalPrice,
             });
 
-            setIsBooked(true);
+            setIsUserBooking(true);
+            dispatch(
+                updateUserNomadPoints(currentUser.user.nomadPoints - totalPrice)
+            );
 
             setTimeout(() => {
-                setIsBooked(false);
+                setIsUserBooking(false);
             }, 3000);
         } catch (error) {
             setError(error.response.data.message);
@@ -226,7 +285,8 @@ const HomeView = () => {
                                     <span className="font-semibold">
                                         Location:
                                     </span>{" "}
-                                    {home.location}
+                                    {home.location.city},{" "}
+                                    {home.location.country}
                                 </p>
                                 <p className="mt-2 text-gray-600">
                                     <span className="font-semibold">
@@ -258,7 +318,8 @@ const HomeView = () => {
                                         Book now
                                     </h2>
 
-                                    {availableDates.length !== 0 ? (
+                                    {availableDates.length !== 0 &&
+                                    !isHomeBooked ? (
                                         <div className="w-full flex flex-col sm:items-start items-center gap-2 mt-2">
                                             <DateRangePicker
                                                 variant="bordered"
@@ -298,16 +359,21 @@ const HomeView = () => {
                                                 </div>
                                             )}
 
-                                            {selectedRange && !isBooked && (
-                                                <div className="mt-2 py-2 px-4 bg-green-100 text-green-500 rounded-2xl">
-                                                    {nights} nights from{" "}
-                                                    {checkIn.toLocaleDateString()}{" "}
-                                                    to{" "}
-                                                    {checkOut.toLocaleDateString()}
-                                                </div>
-                                            )}
+                                            {selectedRange &&
+                                                !isUserBooking && (
+                                                    <div className="mt-2 py-2 px-4 bg-green-100 text-green-500 rounded-2xl">
+                                                        {nights} nights from{" "}
+                                                        {checkIn.toLocaleDateString()}{" "}
+                                                        to{" "}
+                                                        {checkOut.toLocaleDateString()}{" "}
+                                                        for{" "}
+                                                        <span className="font-semibold">
+                                                            {totalPrice} NP
+                                                        </span>
+                                                    </div>
+                                                )}
 
-                                            {isBooked && (
+                                            {isUserBooking && (
                                                 <div className="mt-2 py-2 px-4 bg-green-100 text-green-500 rounded-2xl">
                                                     Booked successfully!
                                                 </div>

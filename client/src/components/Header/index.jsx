@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -15,7 +15,7 @@ import Map from "@icons/map";
 import Money from "@icons/money";
 import Person from "@icons/person";
 import Dashboard from "@icons/dashboard";
-import Bell from "@icons/bell";
+import Heart from "@icons/heart";
 import SignOut from "@icons/sign-out";
 
 function Header() {
@@ -159,12 +159,12 @@ function Header() {
                                     )}
 
                                     <Link
-                                        to="/notifications"
+                                        to="/favorites"
                                         className="border-b-2 border-transparent py-2"
                                         onClick={closeMenu}
                                     >
                                         <li className="flex items-center space-x-2">
-                                            <Bell color="#000" size="24" />
+                                            <Heart color="#000" size="24" />
                                             <span className="flex md:hidden font-medium text-lg md:text-sm uppercase">
                                                 Notifications
                                             </span>

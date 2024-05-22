@@ -241,11 +241,23 @@ function Profile() {
                                                                 size="24"
                                                                 color="#000"
                                                             />
-                                                            <p className="text-black font-semibold">
-                                                                {
-                                                                    booking.home
-                                                                        .title
-                                                                }
+                                                            <p>
+                                                                <span className="text-black font-semibold">
+                                                                    {
+                                                                        booking
+                                                                            .home
+                                                                            .title
+                                                                    }
+                                                                </span>{" "}
+                                                                ·{" "}
+                                                                <span className="text-gray-500">
+                                                                    {
+                                                                        booking.totalPrice
+                                                                    }
+                                                                </span>{" "}
+                                                                <span className="text-sm text-gray-500">
+                                                                    NP
+                                                                </span>
                                                             </p>
                                                         </div>
 
@@ -254,20 +266,39 @@ function Profile() {
                                                                 booking.checkIn
                                                             ) > new Date() ? (
                                                                 <div className="flex items-center gap-2">
-                                                                    <button
-                                                                        onClick={
-                                                                            !confirmDelete
-                                                                                ? handleConfirmDelete
-                                                                                : handleCancelBooking(
-                                                                                      booking._id
-                                                                                  )
-                                                                        }
-                                                                        className="text-xs font-bold py-1 px-2 border border-black bg-gray-200 text-black hover:bg-black hover:text-white rounded-xl"
-                                                                    >
-                                                                        {!confirmDelete
-                                                                            ? "Cancel"
-                                                                            : "Confirm"}
-                                                                    </button>
+                                                                    {confirmDelete && (
+                                                                        <p className="text-sm text-gray-500">
+                                                                            Are
+                                                                            you
+                                                                            sure?
+                                                                        </p>
+                                                                    )}
+                                                                    <div className="flex items-center gap-1">
+                                                                        <button
+                                                                            onClick={
+                                                                                !confirmDelete
+                                                                                    ? handleConfirmDelete
+                                                                                    : handleCancelBooking(
+                                                                                          booking._id
+                                                                                      )
+                                                                            }
+                                                                            className="text-xs font-bold py-1 px-2 border border-black bg-gray-200 text-black hover:bg-black hover:text-white rounded-xl"
+                                                                        >
+                                                                            {!confirmDelete
+                                                                                ? "Cancel"
+                                                                                : "Yes"}
+                                                                        </button>
+                                                                        {confirmDelete && (
+                                                                            <button
+                                                                                onClick={
+                                                                                    handleConfirmDelete
+                                                                                }
+                                                                                className="text-xs font-bold py-1 px-2 border border-black bg-gray-200 text-black hover:bg-black hover:text-white rounded-xl"
+                                                                            >
+                                                                                No
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
                                                                     <Chip
                                                                         color="warning"
                                                                         variant="shadow"

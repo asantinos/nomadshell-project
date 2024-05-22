@@ -15,6 +15,8 @@
     "@react-aria/i18n": "^3.11.0",
     "@react-stately/data": "^3.11.3",
     "@reduxjs/toolkit": "^2.2.4",
+    "@stripe/react-stripe-js": "^2.7.1",
+    "@stripe/stripe-js": "^3.4.1",
     "@tomtom-international/web-sdk-maps": "^6.25.0",
     "apexcharts": "^3.49.1",
     "axios": "^1.6.8",
