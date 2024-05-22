@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserNomadPoints } from "@redux/user/userSlice";
 import { Link } from "react-router-dom";
 import { Chip } from "@nextui-org/react";
 import axios from "axios";
@@ -16,6 +17,7 @@ import Clock from "@icons/clock";
 import Play from "@icons/play";
 
 function Profile() {
+    const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
     const [isLoading, setIsLoading] = useState(true);
     const [userHomes, setUserHomes] = useState([]);
@@ -76,9 +78,23 @@ function Profile() {
         try {
             await axios.delete(`/api/bookings/delete/${bookingId}`);
 
-            setUserBookings((prevBookings) =>
-                prevBookings.filter((booking) => booking._id !== bookingId)
+            const canceledBooking = userBookings.find(
+                (booking) => booking._id === bookingId
             );
+
+            if (canceledBooking) {
+                const refundedNomadPoints = canceledBooking.totalPrice;
+
+                dispatch(
+                    updateUserNomadPoints(
+                        currentUser.user.nomadPoints + refundedNomadPoints
+                    )
+                );
+
+                setUserBookings((prevBookings) =>
+                    prevBookings.filter((booking) => booking._id !== bookingId)
+                );
+            }
         } catch (error) {
             console.error(error);
         }

@@ -106,6 +106,11 @@ const deleteBooking = async (req, res) => {
             });
         }
 
+        // Update user's nomadPoints
+        const user = await User.findById(booking.user);
+        user.nomadPoints += booking.totalPrice;
+        await user.save();
+
         res.json({
             message: "Booking deleted successfully",
         });
