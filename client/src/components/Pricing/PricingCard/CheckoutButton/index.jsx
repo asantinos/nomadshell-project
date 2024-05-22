@@ -1,45 +1,58 @@
 import React from "react";
 import { useStripe } from "@stripe/react-stripe-js";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { subscribeUser } from "@redux/user/userSlice";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const CheckoutButton = ({ priceId, title }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { currentUser } = useSelector((state) => state.user);
-    console.log(currentUser);
 
     const stripe = useStripe();
 
     const handleCheckout = async () => {
-        const response = await axios.post(
-            "/api/subscriptions/create-checkout-session",
-            { priceId }
-        );
+        try {
+            const response = await axios.post(
+                "/api/subscriptions/create-checkout-session",
+                {
+                    priceId,
+                    userId: currentUser.user._id,
+                    planType: title.toLowerCase(),
+                }
+            );
 
-        const session = response.data;
+            const session = response.data;
 
-        console.log(session.sessionId);
+            const result = await stripe.redirectToCheckout({
+                sessionId: session.sessionId,
+            });
 
-        const result = await stripe.redirectToCheckout({
-            sessionId: session.sessionId,
-        });
-
-        if (result.error) {
-            console.error(result.error.message);
+            if (result.error) {
+                console.error(result.error.message);
+            } else {
+                dispatch(subscribeUser(title.toLowerCase()));
+            }
+        } catch (error) {
+            console.error("Error during checkout:", error);
         }
     };
 
     return (
         <button
-            onClick={handleCheckout}
+            onClick={currentUser ? handleCheckout : () => navigate("/sign-in")}
             className={`w-full bg-gray-dark hover:bg-black text-white font-medium rounded-full py-3 mt-8 transition duration-200 ease-in-out ${
-                currentUser.user.planType === title.toLowerCase()
+                currentUser && currentUser.user.planType === title.toLowerCase()
                     ? "pointer-events-none opacity-10"
                     : "cursor-pointer"
             }`}
         >
-            {currentUser.user.planType === "free"
+            {(currentUser && currentUser.user.planType === "free") ||
+            !currentUser
                 ? "Select Plan"
-                : currentUser.user.planType === title.toLowerCase()
+                : currentUser &&
+                  currentUser.user.planType === title.toLowerCase()
                 ? "Current Plan"
                 : "Upgrade Plan"}
         </button>

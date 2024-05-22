@@ -25,7 +25,6 @@ const OAuth = () => {
                 email: result.user.email,
             });
 
-            // console.log(response.data);
             dispatch(signInSuccess(response.data));
             navigate("/");
         } catch (error) {
