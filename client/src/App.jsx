@@ -8,7 +8,6 @@ import HomeView from "@pages/Homes/HomeView";
 import ProfileView from "@pages/Homes/ProfileView";
 import Map from "@pages/Map";
 import Pricing from "@pages/Pricing";
-import Checkout from "@pages/Pricing/Checkout";
 import Profile from "@pages/Profile";
 import Settings from "@pages/Profile/Settings";
 import Dashboard from "@pages/admin/Dashboard";
@@ -44,7 +43,6 @@ function App() {
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/profile/settings" element={<Settings />} />
                     <Route path="/favorites" element={<Favorites />} />
-                    <Route path="/checkout" element={<Checkout />} />
                 </Route>
 
                 <Route element={<PremiumRoute />}>
