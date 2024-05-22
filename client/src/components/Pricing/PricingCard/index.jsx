@@ -1,8 +1,6 @@
 import React from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+import CheckoutButton from "./CheckoutButton";
 
 function PricingCard({
     title,
@@ -13,21 +11,6 @@ function PricingCard({
     isMostPopular,
     priceId,
 }) {
-    const handleSelectPlan = async () => {
-        const stripe = await stripePromise;
-
-        const { error } = await stripe.redirectToCheckout({
-            lineItems: [{ price: priceId, quantity: 1 }],
-            mode: "subscription",
-            successUrl: `${window.location.origin}/checkout/success`,
-            cancelUrl: `${window.location.origin}/checkout/cancel`,
-        });
-
-        if (error) {
-            console.error("[Error]", error);
-        }
-    };
-
     return (
         <div
             className={`${
@@ -54,12 +37,7 @@ function PricingCard({
                 ${price}{" "}
                 <span className="text-sm text-gray-light mt-4">/ year</span>
             </p>
-            <button
-                onClick={handleSelectPlan}
-                className="w-full bg-gray-dark hover:bg-black text-white font-medium rounded-full py-3 mt-8 transition duration-200 ease-in-out"
-            >
-                Select Plan
-            </button>
+            <CheckoutButton priceId={priceId} title={title} />
         </div>
     );
 }

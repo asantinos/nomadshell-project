@@ -24,7 +24,7 @@ function Pricing() {
                                 "Discounts on travel accessories",
                             ]}
                             price="199.99"
-                            priceId="price_1PJF5uFN7TUQQIly8QkwfYx7"
+                            priceId="price_1PJHcAFN7TUQQIlyLuXNkBTZ"
                         />
 
                         <PricingCard
@@ -37,7 +37,7 @@ function Pricing() {
                                 "Personalized travel recommendations",
                             ]}
                             price="249.99"
-                            priceId="price_1PJF6IFN7TUQQIlyIO7iKA6x"
+                            priceId="price_1PJHcyFN7TUQQIlyhUsXWYFy"
                         />
 
                         <PricingCard
@@ -52,7 +52,7 @@ function Pricing() {
                                 "Free language learning courses",
                             ]}
                             price="319.99"
-                            priceId="price_1PJF6aFN7TUQQIlybh7a97ef"
+                            priceId="price_1PJHdlFN7TUQQIly7VjWva4w"
                         />
                     </div>
 

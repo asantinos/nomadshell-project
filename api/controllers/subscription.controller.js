@@ -5,21 +5,25 @@ const createCheckoutSession = async (req, res) => {
 
     try {
         const session = await stripe.checkout.sessions.create({
-            mode: "subscription",
             payment_method_types: ["card"],
+            mode: "subscription",
             line_items: [
                 {
                     price: priceId,
                     quantity: 1,
                 },
             ],
-            success_url: "https://tu-sitio.com/checkout/success",
-            cancel_url: "https://tu-sitio.com/checkout/cancel",
+            success_url:
+                "http://localhost:5173/pricing/", // ! Change this to your website URL
+            cancel_url: "http://localhost:5173/pricing/", // ! Change this to your website URL
         });
 
         res.status(200).json({ sessionId: session.id });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("Error creating checkout session:", error);
+        res.status(500).json({
+            error: "An error occurred while creating the checkout session",
+        });
     }
 };
 

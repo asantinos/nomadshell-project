@@ -4,6 +4,6 @@ const {
     createCheckoutSession,
 } = require("../controllers/subscription.controller");
 
-router.post("/checkout/session", createCheckoutSession);
+router.post("/create-checkout-session", createCheckoutSession);
 
 module.exports = router;
