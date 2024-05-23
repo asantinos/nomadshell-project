@@ -65,10 +65,10 @@ function Header() {
                     <div className="w-1/3 col-span-1">
                         <div className="w-fit">
                             <Link to="/" onClick={closeMenu}>
-                                <h1 className="font-extrabold uppercase text-2xl">
+                                <h1 className="font-sans font-extrabold uppercase text-2xl">
                                     Nomad
                                 </h1>
-                                <h1 className="font-extrabold uppercase text-2xl -mt-3">
+                                <h1 className="font-sans font-extrabold uppercase text-2xl -mt-3">
                                     Shell
                                 </h1>
                             </Link>
@@ -86,7 +86,7 @@ function Header() {
                             >
                                 <li className="flex items-center space-x-2">
                                     <HomeAlt1 color="#000" size="24" />
-                                    <span className="font-medium text-lg md:text-sm uppercase">
+                                    <span className="font-semibold text-lg md:text-sm uppercase">
                                         Homes
                                     </span>
                                 </li>
@@ -98,7 +98,7 @@ function Header() {
                             >
                                 <li className="flex items-center space-x-2">
                                     <Map color="#000" size="24" />
-                                    <span className="font-medium text-lg md:text-sm uppercase">
+                                    <span className="font-semibold text-lg md:text-sm uppercase">
                                         Map
                                     </span>
                                 </li>
@@ -110,7 +110,7 @@ function Header() {
                             >
                                 <li className="flex items-center space-x-2">
                                     <Money color="#000" size="24" />
-                                    <span className="font-medium text-lg md:text-sm uppercase">
+                                    <span className="font-semibold text-lg md:text-sm uppercase">
                                         Pricing
                                     </span>
                                 </li>
@@ -121,10 +121,23 @@ function Header() {
                                 <>
                                     <Link
                                         to="/pricing"
-                                        className="font-medium text-lg md:text-base uppercase text-nowrap"
+                                        className="font-semibold text-lg md:text-base uppercase text-nowrap"
                                         onClick={closeMenu}
                                     >
                                         {currentUser.user.nomadPoints} NP
+                                    </Link>
+
+                                    <Link
+                                        to="/favorites"
+                                        className="border-b-2 border-transparent py-2"
+                                        onClick={closeMenu}
+                                    >
+                                        <li className="flex items-center space-x-2">
+                                            <Heart color="#000" size="24" />
+                                            <span className="flex md:hidden font-semibold text-lg md:text-sm uppercase">
+                                                Favorites
+                                            </span>
+                                        </li>
                                     </Link>
 
                                     <Link
@@ -134,7 +147,7 @@ function Header() {
                                     >
                                         <li className="flex items-center space-x-2">
                                             <Person color="#000" size="24" />
-                                            <span className="flex md:hidden font-medium text-lg md:text-sm uppercase">
+                                            <span className="flex md:hidden font-semibold text-lg md:text-sm uppercase">
                                                 Profile
                                             </span>
                                         </li>
@@ -151,25 +164,12 @@ function Header() {
                                                     color="#000"
                                                     size="24"
                                                 />
-                                                <span className="flex md:hidden font-medium text-lg md:text-sm uppercase">
+                                                <span className="flex md:hidden font-semibold text-lg md:text-sm uppercase">
                                                     Dashboard
                                                 </span>
                                             </li>
                                         </Link>
                                     )}
-
-                                    <Link
-                                        to="/favorites"
-                                        className="border-b-2 border-transparent py-2"
-                                        onClick={closeMenu}
-                                    >
-                                        <li className="flex items-center space-x-2">
-                                            <Heart color="#000" size="24" />
-                                            <span className="flex md:hidden font-medium text-lg md:text-sm uppercase">
-                                                Notifications
-                                            </span>
-                                        </li>
-                                    </Link>
 
                                     <div
                                         onClick={handleSignOut}
@@ -177,7 +177,7 @@ function Header() {
                                     >
                                         <li className="flex items-center space-x-2">
                                             <SignOut color="#000" size="24" />
-                                            <span className="flex md:hidden font-medium text-lg md:text-sm uppercase">
+                                            <span className="flex md:hidden font-semibold text-lg md:text-sm uppercase">
                                                 Logout
                                             </span>
                                         </li>
