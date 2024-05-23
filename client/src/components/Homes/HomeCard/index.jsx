@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarIcon, Tooltip } from "@nextui-org/react";
 import axios from "axios";
 
 import Location from "@icons/location";
 
+import Heart from "@icons/heart";
+import HeartFill from "@icons/heart-fill";
+
 const HomeCard = ({ home }) => {
+    const navigate = useNavigate();
     const { currentUser } = useSelector((state) => state.user);
     const [isHovered, setIsHovered] = useState(false);
     const [location, setLocation] = useState({
         city: "",
         country: "",
     });
+    const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
         const fetchLocation = async () => {
@@ -37,6 +42,33 @@ const HomeCard = ({ home }) => {
 
         fetchLocation();
     }, [home.location]);
+
+    useEffect(() => {
+        if (currentUser) {
+            const isFavorite = currentUser.user.favorites.includes(home._id);
+            setIsFavorite(isFavorite);
+
+            console.log(currentUser.user.favorites);
+            console.log(currentUser.user.favorites.includes(home._id));
+        }
+    }, [currentUser, home._id, isFavorite]);
+
+    // Toggle favorite with api call /api/users/toggleFavorite/:id (id = home._id)
+    const toggleFavorite = async () => {
+        if (!currentUser) {
+            navigate("/sign-in");
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                `/api/users/toggleFavorite/${home._id}`
+            );
+            setIsFavorite((prev) => !prev);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div>
@@ -76,7 +108,8 @@ const HomeCard = ({ home }) => {
                     <div className="absolute top-3 left-3 shadow-md">
                         <Link
                             to={
-                                currentUser && currentUser.user._id === home.owner._id
+                                currentUser &&
+                                currentUser.user._id === home.owner._id
                                     ? "/profile"
                                     : `/users/${home.owner._id}`
                             }
@@ -103,6 +136,27 @@ const HomeCard = ({ home }) => {
                         </Link>
                     </div>
                 </Tooltip>
+
+                {currentUser?.user._id !== home.owner._id || !currentUser ? (
+                    <div className="absolute top-3 right-3">
+                        <Tooltip
+                            content="Save to favorites"
+                            closeDelay={0}
+                            placement="left"
+                        >
+                            <button
+                                onClick={toggleFavorite}
+                                className="p-2 bg-white rounded-full shadow-md"
+                            >
+                                {isFavorite ? (
+                                    <HeartFill color="#FF385C" size={24} />
+                                ) : (
+                                    <Heart color="#FF385C" size={24} />
+                                )}
+                            </button>
+                        </Tooltip>
+                    </div>
+                ) : null}
             </div>
 
             <div className="mt-2 ml-2">

@@ -58,14 +58,14 @@ const userSlice = createSlice({
             state.error = action.payload;
             state.loading = false;
         },
-        // updateUserNomadPoints: (state, action) => {
-        //     state.currentUser = {
-        //         user: {
-        //             ...state.currentUser.user,
-        //             nomadPoints: action.payload,
-        //         },
-        //     };
-        // },
+        updateUserNomadPoints: (state, action) => {
+            state.currentUser = {
+                user: {
+                    ...state.currentUser.user,
+                    nomadPoints: action.payload,
+                },
+            };
+        },
         // TODO : Solve subscribeUser, not working
         subscribeUser: (state, action) => {
             state.currentUser = {
@@ -80,6 +80,17 @@ const userSlice = createSlice({
                             : action.payload === "nomad"
                             ? state.currentUser.user.nomadPoints + 10000
                             : state.currentUser.user.nomadPoints + 0,
+                },
+            };
+        },
+        toggleFavorite: (state, action) => {
+            state.currentUser = {
+                user: {
+                    ...state.currentUser.user,
+                    favorites: [
+                        ...state.currentUser.user.favorites,
+                        action.payload,
+                    ],
                 },
             };
         },
@@ -101,6 +112,7 @@ export const {
     signOutUserStart,
     updateUserNomadPoints,
     subscribeUser,
+    toggleFavorite,
 } = userSlice.actions;
 
 export default userSlice.reducer;

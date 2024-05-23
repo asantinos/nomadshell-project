@@ -32,7 +32,9 @@ const getUserById = async (req, res, next) => {
 // Get actual signed in user
 const getUser = async (req, res, next) => {
     try {
-        const user = await User.findById(req.user.id).select("-password");
+        const user = await User.findById(req.user.id)
+            .select("-password")
+            .populate("favorites");
 
         if (!user) {
             return next(errorHandler(404, "User not found"));
@@ -117,6 +119,30 @@ const getUserBookings = async (req, res, next) => {
     }
 };
 
+// Add or remove home from user's favorites
+const toggleFavorite = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return next(errorHandler(404, "User not found"));
+        }
+
+        const index = user.favorites.indexOf(req.params.id);
+
+        if (index === -1) {
+            user.favorites.push(req.params.id);
+        } else {
+            user.favorites.splice(index, 1);
+        }
+
+        await user.save();
+        res.status(200).json(user.favorites);
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     getUsers,
     getUserById,
@@ -125,4 +151,5 @@ module.exports = {
     deleteUser,
     getUserHomes,
     getUserBookings,
+    toggleFavorite,
 };
