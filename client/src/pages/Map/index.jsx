@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import tt from "@tomtom-international/web-sdk-maps";
-import TomTomMap from "@components/Map/TomTomMap";
+import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import MapButton from "@components/Map/MapButton";
+import "@components/Map/map.css";
 
 import Search from "@icons/search";
 import Cross from "@icons/cross";
@@ -11,26 +12,10 @@ import Plus from "@icons/plus";
 import Minus from "@icons/minus";
 import CheckIn from "@icons/check-in";
 import Square from "@icons/square";
-// import Pin from "@icons/pin";
-
-// TODO: CHECK MAP DUPLICATED IN PAGE AND COMPONENT
-// TODO : Refactor this component/page. Z-index is not working properly
 
 function Map() {
     // TODO : Import homes from database
-    // Homes with coordinates example
-    const [homes, setHomes] = useState([
-        {
-            id: 1,
-            title: "Home 1",
-            coordinates: [55.284934807074684, 25.216284970808157],
-        },
-        {
-            id: 2,
-            title: "Home 2",
-            coordinates: [-5.673403888764439, 43.52450675476761],
-        },
-    ]);
+    const [homes, setHomes] = useState([]);
 
     // TomTom API Map
     const APIKEY = "12H8RLS5QqzHkfEvdABGQONbqg2Hd5l2";
@@ -47,6 +32,20 @@ function Map() {
     const [searchQuery, setSearchQuery] = useState("");
     const [actualLocation, setActualLocation] = useState(null);
     const [currentStyle, setCurrentStyle] = useState(style);
+
+    // Get homes from database
+    useEffect(() => {
+        const fetchHomes = async () => {
+            try {
+                const response = await axios.get("/api/homes/all");
+                setHomes(response.data);
+            } catch (error) {
+                console.error("Error getting homes:", error);
+            }
+        };
+
+        fetchHomes();
+    }, []);
 
     // Get users actual location
     useEffect(() => {
@@ -346,14 +345,15 @@ function Map() {
                 const marker = new tt.Marker({
                     anchor: "bottom",
                 })
-                    .setLngLat(home.coordinates)
+                    .setLngLat(home.location)
                     .addTo(map);
 
                 const popupHTML = `
-                <div class="bg-white p-4">
-                    <div class="font-bold text-xl">${home.title}</div>
-                    <div class="text-gray-600">${home.description}</div>
-                </div>
+                <a href="/homes/${home._id}" class="bg-white">
+                    <img src=${home.images[0]} alt=${home.title} class="w-96 h-40 object-cover rounded-2xl" />
+                    <h2 class="font-bold text-2xl mt-2">${home.title}</h2>
+                    <p class="font-semibold text-base mt-1">${home.price} NP / night</p>
+                </a>
             `;
 
                 const popup = new tt.Popup({
@@ -367,7 +367,7 @@ function Map() {
     }, [map, homes]);
 
     return (
-        <div className="relative h-content pt-header w-full overflow-hidden">
+        <div className="relative h-screen pt-header w-full overflow-hidden">
             <div className="absolute z-30">
                 <div
                     id="map-top-container"
@@ -450,7 +450,7 @@ function Map() {
                 />
             </div>
 
-            <TomTomMap />
+            <div id="map-container" className="h-full w-full relative"></div>
         </div>
     );
 }
