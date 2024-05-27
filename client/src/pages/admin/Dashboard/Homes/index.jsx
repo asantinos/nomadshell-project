@@ -316,7 +316,6 @@ const Homes = () => {
                     </TableColumn>
                     <TableColumn
                         key="actions"
-                        a
                         className="uppercase font-bold"
                     >
                         Actions

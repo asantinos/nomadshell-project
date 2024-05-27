@@ -225,12 +225,12 @@ function CreateHome() {
                                 formData.images.map((url, index) => (
                                     <div
                                         key={url}
-                                        className="relative flex justify-between border items-center rounded-3xl"
+                                        className="relative flex justify-between items-center border rounded-3xl max-h-60 overflow-hidden"
                                     >
                                         <img
                                             src={url}
                                             alt="home image"
-                                            className="object-cover rounded-2xl"
+                                            className="object-cover object-center w-full h-full"
                                         />
                                         <DeleteButton
                                             onClick={() =>

@@ -5,7 +5,7 @@ const User = require("../models/user.model");
 // Get all bookings
 const getBookings = async (req, res) => {
     try {
-        const bookings = await Booking.find().populate("home");
+        const bookings = await Booking.find().populate("home").populate("user");
 
         res.json(bookings);
     } catch (error) {

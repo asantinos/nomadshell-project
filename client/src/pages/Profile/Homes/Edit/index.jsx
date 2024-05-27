@@ -10,9 +10,10 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import tt from "@tomtom-international/web-sdk-maps";
-import Footer from "@/components/Footer";
 
-import TrashCan from "@icons/trash-can";
+import Footer from "@/components/Footer";
+import DeleteButton from "@/components/Button/DeleteButton";
+
 
 function EditHome() {
     const navigate = useNavigate();
@@ -246,28 +247,25 @@ function EditHome() {
                         </div>
 
                         <div
-                            className={`grid grid-cols-2 sm:grid-cols-3 gap-2 mb-8`}
+                            className={`grid grid-cols-1 sm:grid-cols-3 gap-2 mb-8`}
                         >
                             {formData.images.length > 0 &&
                                 formData.images.map((url, index) => (
                                     <div
                                         key={url}
-                                        className="relative flex justify-center items-center border rounded-3xl max-h-60 overflow-hidden"
+                                        className="relative flex justify-between items-center border rounded-3xl max-h-60 overflow-hidden"
                                     >
                                         <img
                                             src={url}
                                             alt="home image"
                                             className="object-cover object-center w-full h-full"
                                         />
-                                        <button
-                                            type="button"
+                                        <DeleteButton
                                             onClick={() =>
                                                 handleRemoveImage(index)
                                             }
-                                            className="absolute top-2 right-2 z-10 text-xs text-center bg-red-100 border border-red-400 text-red-700 p-2 rounded-2xl hover:bg-red-200"
-                                        >
-                                            <TrashCan size="20" color="red" />
-                                        </button>
+                                            className="absolute top-2 right-2"
+                                        />
                                     </div>
                                 ))}
                         </div>
