@@ -76,13 +76,13 @@ const Bookings = () => {
 
         return list.items.filter(
             (booking) =>
-                booking.title
+                booking.home.title
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase()) ||
-                booking.owner.name
+                booking.user.name
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase()) ||
-                booking.owner.surname
+                booking.user.surname
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase())
         );
@@ -117,29 +117,29 @@ const Bookings = () => {
     };
 
     // Pie Chart
-    // const [planTypeData, setPlanTypeData] = useState([]);
+    const [homeType, setHomeType] = useState([]);
 
-    // useEffect(() => {
-    //     const type = bookings.map((booking) => booking.type);
-    //     const counts = {};
-    //     type.forEach((type) => {
-    //         counts[type] = (counts[type] || 0) + 1;
-    //     });
-    //     setPlanTypeData(Object.entries(counts));
-    // }, [bookings]);
+    useEffect(() => {
+        const type = bookings.map((booking) => booking.home.type);
+        const counts = {};
+        type.forEach((type) => {
+            counts[type] = (counts[type] || 0) + 1;
+        });
+        setHomeType(Object.entries(counts));
+    }, [bookings]);
 
-    // // Pie Chart options
-    // const pieChartOptions = {
-    //     labels: planTypeData.map(
-    //         ([type]) => type.charAt(0).toUpperCase() + type.slice(1)
-    //     ),
-    //     legend: {
-    //         position: "right",
-    //     },
-    // };
+    // Pie Chart options
+    const pieChartOptions = {
+        labels: homeType.map(
+            ([type]) => type.charAt(0).toUpperCase() + type.slice(1)
+        ),
+        legend: {
+            position: "right",
+        },
+    };
 
-    // // Pie Chart series
-    // const pieChartSeries = planTypeData.map(([_, count]) => count);
+    // Pie Chart series
+    const pieChartSeries = homeType.map(([_, count]) => count);
 
     return (
         <>
@@ -164,7 +164,7 @@ const Bookings = () => {
                         <p className="text-2xl md:text-3xl font-bold">
                             {
                                 bookings.filter(
-                                    (booking) => booking.type === "Apartment"
+                                    (booking) => booking.home.type === "Apartment"
                                 ).length
                             }
                         </p>
@@ -176,7 +176,7 @@ const Bookings = () => {
                         <p className="text-2xl md:text-3xl font-bold">
                             {
                                 bookings.filter(
-                                    (booking) => booking.type === "Farmhouse"
+                                    (booking) => booking.home.type === "Farmhouse"
                                 ).length
                             }
                         </p>
@@ -188,7 +188,7 @@ const Bookings = () => {
                         <p className="text-2xl md:text-3xl font-bold">
                             {
                                 bookings.filter(
-                                    (booking) => booking.type === "Bungalow"
+                                    (booking) => booking.home.type === "Bungalow"
                                 ).length
                             }
                         </p>
@@ -200,21 +200,21 @@ const Bookings = () => {
                         <p className="text-2xl md:text-3xl font-bold">
                             {
                                 bookings.filter(
-                                    (booking) => booking.type === "Cottage"
+                                    (booking) => booking.home.type === "Cottage"
                                 ).length
                             }
                         </p>
                     </div>
                 </div>
 
-                {/* <Accordion className="mt-4 border rounded-3xl px-4">
+                <Accordion className="mt-4 border rounded-3xl px-4">
                     <AccordionItem
                         key="1"
                         aria-label="Charts"
                         title={
                             <div className="flex items-center justify-between">
                                 <h2 className="text-lg font-semibold">
-                                    Bookings Type Distribution
+                                    Bookings Home Type Distribution
                                 </h2>
                             </div>
                         }
@@ -227,7 +227,7 @@ const Bookings = () => {
                             height="300"
                         />
                     </AccordionItem>
-                </Accordion> */}
+                </Accordion>
             </div>
 
             <h2 className="text-lg font-semibold mt-8">All Bookings</h2>
@@ -330,7 +330,7 @@ const Bookings = () => {
                     {(booking) => (
                         <TableRow key={booking._id}>
                             <TableCell className="hidden md:table-cell">
-                                {booking.user.name}
+                                {booking.user.name} {booking.user.surname}
                             </TableCell>
                             <TableCell>{booking.home.title}</TableCell>
                             <TableCell className="hidden md:table-cell">
@@ -340,7 +340,7 @@ const Bookings = () => {
                                 {booking.checkOut}
                             </TableCell>
                             <TableCell className="hidden md:table-cell">
-                                {booking.totalPrice}
+                                {booking.totalPrice} NP
                             </TableCell>
                         </TableRow>
                     )}

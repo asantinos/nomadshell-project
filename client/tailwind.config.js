@@ -26,7 +26,7 @@ export default {
             height: {
                 header: "76px",
                 content: "calc(100dvh - 76px)",
-                "banner-image": "calc(100dvh - 124px)", // 76px + 48px (48px from the section padding)
+                "banner-image": "calc(100dvh - 124px)", // 76px header + 48px section padding
             },
             minHeight: {
                 content: "calc(100vh - 76px)",

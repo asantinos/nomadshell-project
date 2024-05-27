@@ -29,12 +29,12 @@ const Favorites = () => {
     }, [currentUser]);
 
     return (
-        <>
+        <div className="flex flex-col min-h-screen">
             {isLoading ? (
                 <Loader />
             ) : (
                 <>
-                    <main className="h-auto pt-header">
+                    <main className="flex-grow pt-header">
                         <section>
                             <div className="p-6 max-w-7xl mx-auto">
                                 <h2 className="text-3xl font-bold">
@@ -80,7 +80,7 @@ const Favorites = () => {
                     <Footer />
                 </>
             )}
-        </>
+        </div>
     );
 };
 
