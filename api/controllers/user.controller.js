@@ -34,7 +34,13 @@ const getUser = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id)
             .select("-password")
-            .populate("favorites");
+            .populate({
+                path: "favorites",
+                populate: {
+                    path: "owner",
+                    model: "User",
+                }
+            });
 
         if (!user) {
             return next(errorHandler(404, "User not found"));

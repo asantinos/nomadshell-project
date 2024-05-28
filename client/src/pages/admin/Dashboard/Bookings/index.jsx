@@ -74,26 +74,29 @@ const Bookings = () => {
             return list.items;
         }
 
-        return list.items.filter(
+        const filtered = bookings.filter(
             (booking) =>
                 booking.home.title
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase()) ||
-                booking.user.name
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase()) ||
-                booking.user.surname
+                (booking.user.name + " " + booking.user.surname)
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase())
         );
-    }, [list.items, searchQuery]);
+
+        // Recalculate pagination
+        const newPages = Math.ceil(filtered.length / rowsPerPage);
+        setPage(Math.min(page, newPages));
+
+        return filtered;
+    }, [bookings, searchQuery, page, rowsPerPage]);
 
     const paginationBookings = useMemo(() => {
         return filteredBookings.slice(
             (page - 1) * rowsPerPage,
             page * rowsPerPage
         );
-    }, [filteredBookings, page]);
+    }, [filteredBookings, page, rowsPerPage]);
 
     const handleDeleteSelected = () => {
         try {
@@ -164,7 +167,8 @@ const Bookings = () => {
                         <p className="text-2xl md:text-3xl font-bold">
                             {
                                 bookings.filter(
-                                    (booking) => booking.home.type === "Apartment"
+                                    (booking) =>
+                                        booking.home.type === "Apartment"
                                 ).length
                             }
                         </p>
@@ -176,7 +180,8 @@ const Bookings = () => {
                         <p className="text-2xl md:text-3xl font-bold">
                             {
                                 bookings.filter(
-                                    (booking) => booking.home.type === "Farmhouse"
+                                    (booking) =>
+                                        booking.home.type === "Farmhouse"
                                 ).length
                             }
                         </p>
@@ -188,7 +193,8 @@ const Bookings = () => {
                         <p className="text-2xl md:text-3xl font-bold">
                             {
                                 bookings.filter(
-                                    (booking) => booking.home.type === "Bungalow"
+                                    (booking) =>
+                                        booking.home.type === "Bungalow"
                                 ).length
                             }
                         </p>

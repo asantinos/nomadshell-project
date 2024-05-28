@@ -40,16 +40,15 @@ const HomeCard = ({ home }) => {
             }
         };
 
-        fetchLocation();
-    }, [home.location]);
+        if (!location.city && !location.country) {
+            fetchLocation();
+        }
+    }, [home.location, location]);
 
     useEffect(() => {
         if (currentUser) {
             const isFavorite = currentUser.user.favorites.includes(home._id);
             setIsFavorite(isFavorite);
-
-            console.log(currentUser.user.favorites);
-            console.log(currentUser.user.favorites.includes(home._id));
         }
     }, [currentUser, home._id, isFavorite]);
 
@@ -140,7 +139,11 @@ const HomeCard = ({ home }) => {
                 {currentUser?.user._id !== home.owner._id || !currentUser ? (
                     <div className="absolute top-3 right-3">
                         <Tooltip
-                            content="Save to favorites"
+                            content={
+                                isFavorite
+                                    ? "Remove from favorites"
+                                    : "Save to favorites"
+                            }
                             closeDelay={0}
                             placement="left"
                         >

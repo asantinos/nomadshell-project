@@ -54,7 +54,7 @@ const CheckoutButton = ({ priceId, title }) => {
                 : currentUser &&
                   currentUser.user.planType === title.toLowerCase()
                 ? "Current Plan"
-                : "Upgrade Plan"}
+                : "Change Plan"}
         </button>
     );
 };

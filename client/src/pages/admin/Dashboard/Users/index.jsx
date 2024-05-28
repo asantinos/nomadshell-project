@@ -71,10 +71,10 @@ const Users = () => {
 
     const filteredUsers = useMemo(() => {
         if (!searchQuery) {
-            return list.items;
+            return users;
         }
 
-        return list.items.filter(
+        const filtered = users.filter(
             (user) =>
                 user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 user.surname
@@ -82,14 +82,20 @@ const Users = () => {
                     .includes(searchQuery.toLowerCase()) ||
                 user.email.toLowerCase().includes(searchQuery.toLowerCase())
         );
-    }, [list.items, searchQuery]);
+
+        // Recalculate pagination
+        const newPages = Math.ceil(filtered.length / rowsPerPage);
+        setPage(Math.min(page, newPages));
+
+        return filtered;
+    }, [users, searchQuery, page, rowsPerPage]);
 
     const paginationUsers = useMemo(() => {
         return filteredUsers.slice(
             (page - 1) * rowsPerPage,
             page * rowsPerPage
         );
-    }, [filteredUsers, page]);
+    }, [filteredUsers, page, rowsPerPage]);
 
     const handleDeleteSelected = () => {
         try {
@@ -350,7 +356,7 @@ const Users = () => {
                                                 {user.role}
                                             </span>
                                         </h2>
-                                        <p className="text-xs text-gray-400 truncate md:w-32">
+                                        <p className="text-xs text-gray-400 truncate w-32 md:w-full">
                                             {user.email}
                                         </p>
                                         <div className="block mt-1 md:hidden md:mt-0">

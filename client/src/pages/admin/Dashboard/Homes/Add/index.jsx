@@ -313,25 +313,38 @@ function AdminCreateHome() {
                                     onChange={handleChange}
                                     className="p-3 border border-gray-300 rounded-2xl"
                                 >
-                                    <option key="" value="">
+                                    <option key="default" value="">
                                         Select an owner
                                     </option>
-                                    {users.map((user) => (
-                                        <option key={user._id} value={user._id}>
+                                    {users.map((user, index) => (
+                                        <option
+                                            key={`${user._id}-${index}`}
+                                            value={user._id}
+                                        >
                                             {user.name} {user.surname}
                                         </option>
                                     ))}
                                 </select>
+
                                 <div className="flex gap-6 flex-wrap">
                                     <div className="flex gap-2">
+                                        <label
+                                            htmlFor="parking"
+                                            className={`cursor-pointer border rounded-2xl p-2 ${
+                                                formData.parking
+                                                    ? "bg-black text-white hover:bg-neutral-800"
+                                                    : "hover:bg-neutral-100"
+                                            } `}
+                                        >
+                                            Parking
+                                        </label>
                                         <input
                                             type="checkbox"
                                             id="parking"
-                                            className="w-5"
+                                            className="hidden"
                                             onChange={handleChange}
                                             checked={formData.parking}
                                         />
-                                        <span>Parking</span>
                                     </div>
                                 </div>
                                 <div className="flex flex-wrap gap-6">

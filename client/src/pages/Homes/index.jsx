@@ -6,11 +6,13 @@ import Search from "@icons/search";
 import Loader from "@components/Loader";
 import Footer from "@components/Footer";
 
+import Car from "@icons/car";
+
 function Homes() {
     const [isLoading, setIsLoading] = useState(true);
     const [homes, setHomes] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [priceRange, setPriceRange] = useState([0, 10000]);
+    const [priceRange, setPriceRange] = useState([]);
     const [selectedType, setSelectedType] = useState("all");
     const [parking, setParking] = useState(false);
 
@@ -56,86 +58,103 @@ function Homes() {
             <div className="max-w-7xl mx-auto p-6 py-0 sm:py-3">
                 <section className="mt-6">
                     <div className="max-w-7xl mx-auto">
-                        <form className="flex flex-col md:flex-row w-full gap-2 items-center justify-between">
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) =>
-                                        setSearchQuery(e.target.value)
-                                    }
-                                    placeholder="Search by title, location or type"
-                                    className="border rounded-2xl p-2 pl-10 placeholder:text-sm"
-                                />
-                                <Search
-                                    size={20}
-                                    color="gray"
-                                    className="absolute top-3 left-3"
-                                />
-                            </div>
-                            <div className="flex flex-col md:flex-row gap-2">
-                                <div className="flex items-center gap-2">
-                                    <label>Price Range:</label>
-                                    <input
-                                        type="number"
-                                        value={priceRange[0]}
-                                        onChange={(e) =>
-                                            setPriceRange([
-                                                e.target.value,
-                                                priceRange[1],
-                                            ])
-                                        }
-                                        placeholder="Min"
-                                        className="border rounded-2xl p-2"
-                                    />
-                                    <input
-                                        type="number"
-                                        value={priceRange[1]}
-                                        onChange={(e) =>
-                                            setPriceRange([
-                                                priceRange[0],
-                                                e.target.value,
-                                            ])
-                                        }
-                                        placeholder="Max"
-                                        className="border rounded-2xl p-2"
-                                    />
+                        <form className="flex flex-col w-full gap-2 justify-between">
+                            <h3 className="text-xl font-bold">Filters</h3>
+                            <div className="flex items-end justify-between">
+                                <div className="flex lg:items-center flex-col lg:flex-row gap-8 mt-2">
+                                    <div className="flex flex-col gap-1">
+                                        <label className="font-medium">
+                                            Price Range:
+                                        </label>
+                                        <div className="flex items-center gap-2">
+                                            <input
+                                                type="number"
+                                                value={priceRange[0]}
+                                                onChange={(e) =>
+                                                    setPriceRange([
+                                                        e.target.value,
+                                                        priceRange[1],
+                                                    ])
+                                                }
+                                                placeholder="Min"
+                                                className="border rounded-2xl p-2"
+                                            />
+                                            <input
+                                                type="number"
+                                                value={priceRange[1]}
+                                                onChange={(e) =>
+                                                    setPriceRange([
+                                                        priceRange[0],
+                                                        e.target.value,
+                                                    ])
+                                                }
+                                                placeholder="Max"
+                                                className="border rounded-2xl p-2"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label className="font-medium">
+                                            Type:
+                                        </label>
+                                        <div>
+                                            <select
+                                                value={selectedType}
+                                                onChange={(e) =>
+                                                    setSelectedType(
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className="border rounded-2xl p-2"
+                                            >
+                                                <option value="all">All</option>
+                                                <option value="Apartment">
+                                                    Apartment
+                                                </option>
+                                                <option value="Farmhouse">
+                                                    Farmhouse
+                                                </option>
+                                                <option value="Bungalow">
+                                                    Bungalow
+                                                </option>
+                                                <option value="Cottage">
+                                                    Cottage
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label className="font-medium">
+                                            Features:
+                                        </label>
+                                        <label
+                                            htmlFor="parking"
+                                            className={`cursor-pointer flex items-center gap-2 border rounded-2xl py-2 px-6 ${
+                                                parking
+                                                    ? "bg-black text-white hover:bg-neutral-800"
+                                                    : "hover:bg-neutral-100"
+                                            } `}
+                                        >
+                                            <Car size={24} />
+                                            Parking
+                                        </label>
+                                        <input
+                                            name="parking"
+                                            id="parking"
+                                            type="checkbox"
+                                            checked={parking}
+                                            onChange={() =>
+                                                setParking(!parking)
+                                            }
+                                            className="hidden"
+                                        />
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <label>Type:</label>
-                                    <select
-                                        value={selectedType}
-                                        onChange={(e) =>
-                                            setSelectedType(e.target.value)
-                                        }
-                                        className="border rounded-2xl p-2"
-                                    >
-                                        <option value="all">All</option>
-                                        <option value="Apartment">
-                                            Apartment
-                                        </option>
-                                        <option value="Farmhouse">
-                                            Farmhouse
-                                        </option>
-                                        <option value="Bungalow">
-                                            Bungalow
-                                        </option>
-                                        <option value="Cottage">Cottage</option>
-                                    </select>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <label>Parking:</label>
-                                    <input
-                                        type="checkbox"
-                                        checked={parking}
-                                        onChange={() => setParking(!parking)}
-                                        className="border rounded-2xl p-2"
-                                    />
-                                </div>
+
                                 <button
                                     type="button"
                                     onClick={handleFilterChange}
-                                    className="bg-blue-500 text-white rounded-2xl p-2"
+                                    className="w-full sm:w-44 bg-neutral-800 text-white rounded-2xl py-3 px-6 hover:bg-black mt-2"
                                 >
                                     Apply Filters
                                 </button>
@@ -151,12 +170,30 @@ function Homes() {
                         </div>
                     ) : (
                         <>
-                            <h3 className="text-3xl font-bold py-4">
-                                <span id="homes-total-results">
-                                    {filteredHomes.length}
-                                </span>{" "}
-                                Results
-                            </h3>
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-4">
+                                <h3 className="text-3xl font-bold py-4 mt-4">
+                                    <span id="homes-total-results">
+                                        {filteredHomes.length}
+                                    </span>{" "}
+                                    Results
+                                </h3>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={(e) =>
+                                            setSearchQuery(e.target.value)
+                                        }
+                                        placeholder="Search by title, location or type"
+                                        className="w-full sm:w-80 border rounded-2xl p-2 pl-10 placeholder:text-sm"
+                                    />
+                                    <Search
+                                        size={20}
+                                        color="gray"
+                                        className="absolute top-3 left-3"
+                                    />
+                                </div>
+                            </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 mt-4">
                                 {filteredHomes.map((home) => (
                                     <HomeCard key={home._id} home={home} />

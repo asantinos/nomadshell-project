@@ -71,10 +71,10 @@ const Homes = () => {
 
     const filteredHomes = useMemo(() => {
         if (!searchQuery) {
-            return list.items;
+            return homes;
         }
 
-        return list.items.filter(
+        const filtered = homes.filter(
             (home) =>
                 home.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 home.owner.name
@@ -84,14 +84,20 @@ const Homes = () => {
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase())
         );
-    }, [list.items, searchQuery]);
+
+        // Recalculate pagination
+        const newPages = Math.ceil(filtered.length / rowsPerPage);
+        setPage(Math.min(page, newPages));
+
+        return filtered;
+    }, [homes, searchQuery, page, rowsPerPage]);
 
     const paginationHomes = useMemo(() => {
         return filteredHomes.slice(
             (page - 1) * rowsPerPage,
             page * rowsPerPage
         );
-    }, [filteredHomes, page]);
+    }, [filteredHomes, page, rowsPerPage]);
 
     const handleDeleteSelected = () => {
         try {
@@ -314,10 +320,7 @@ const Homes = () => {
                     >
                         Owner
                     </TableColumn>
-                    <TableColumn
-                        key="actions"
-                        className="uppercase font-bold"
-                    >
+                    <TableColumn key="actions" className="uppercase font-bold">
                         Actions
                     </TableColumn>
                 </TableHeader>
@@ -343,10 +346,6 @@ const Homes = () => {
                                                 {home.type}
                                             </span>
                                         </h2>
-                                        <p className="text-xs text-gray-400 truncate md:w-32">
-                                            {home.location[0]},{" "}
-                                            {home.location[1]}
-                                        </p>
                                         <div className="block mt-1 md:hidden md:mt-0">
                                             {home.price} NP
                                         </div>

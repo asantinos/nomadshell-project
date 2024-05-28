@@ -7,8 +7,9 @@ const Booking = require("../models/booking.model");
 const getHomes = async (req, res, next) => {
     try {
         // Pagination
-        const limit = parseInt(req.query.limit) || 4;
-        const page = parseInt(req.query.page) || 1;
+        // const limit = parseInt(req.query.limit) || 0;
+        // const page = parseInt(req.query.page) || 1;
+        // const skip = (page - 1) * limit;
 
         // Filters
         let parking = req.query.parking;
@@ -31,8 +32,8 @@ const getHomes = async (req, res, next) => {
 
         const searchTerm = req.query.searchTerm || "";
 
-        const sort = req.query.sort || "createdAt";
-        const order = req.query.order || "desc";
+        // const sort = req.query.sort || "createdAt";
+        // const order = req.query.order || "desc";
 
         const homes = await Home.find({
             title: { $regex: searchTerm, $options: "i" }, // i for case-insensitive
@@ -41,9 +42,9 @@ const getHomes = async (req, res, next) => {
             ...priceQuery,
         })
             .populate("owner", "name surname avatar planType") // Populate the owner data
-            .sort({ [sort]: order })
-            .limit(limit)
-            .skip(limit * (page - 1));
+            // .sort({ [sort]: order })
+            // .limit(limit)
+            // .skip(skip);
 
         return res.status(200).json(homes);
     } catch (error) {

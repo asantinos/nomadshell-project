@@ -5,6 +5,7 @@ import axios from "axios";
 
 import Loader from "@components/Loader";
 import Footer from "@components/Footer";
+import HomeCard from "@components/Homes/HomeCard";
 
 const Favorites = () => {
     const { currentUser } = useSelector((state) => state.user);
@@ -43,30 +44,11 @@ const Favorites = () => {
 
                                 <div className="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3">
                                     {favorites.map((home) => (
-                                        <Link
-                                            key={home._id}
-                                            to={`/homes/${home._id}`}
-                                            className="block overflow-hidden bg-white rounded-lg shadow-lg"
-                                        >
-                                            <img
-                                                src={home.images[0]}
-                                                alt={home.title}
-                                                className="object-cover w-full h-48"
-                                            />
-
-                                            <div className="p-4">
-                                                <h3 className="text-lg font-semibold">
-                                                    {home.title}
-                                                </h3>
-                                                <p className="mt-2 text-sm">
-                                                    ${home.price}
-                                                </p>
-                                            </div>
-                                        </Link>
+                                        <HomeCard key={home._id} home={home} />
                                     ))}
 
                                     {favorites.length === 0 && (
-                                        <div className="text-center">
+                                        <div>
                                             <p className="text-lg">
                                                 No favorites found.
                                             </p>
