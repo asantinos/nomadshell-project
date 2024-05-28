@@ -25,11 +25,11 @@ function GoToTop() {
     };
 
     return (
-        <div className="z-[900]">
+        <div className="z-[900] fixed bottom-5 right-5">
             {showButton && (
                 <button
                     onClick={handleGoToTop}
-                    className="fixed bottom-5 right-5 bg-gray-dark text-white p-3 rounded-full shadow-lg hover:bg-black transition duration-200 ease-out"
+                    className="bg-gray-dark text-white p-3 rounded-full shadow-lg hover:bg-black transition duration-200 ease-out"
                 >
                     <ArrowUp size={20} color="#fff" />
                 </button>

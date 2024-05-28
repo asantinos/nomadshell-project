@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import HomeCard from "@components/Homes/HomeCard";
 import Search from "@icons/search";
@@ -60,13 +61,14 @@ function Homes() {
                     <div className="max-w-7xl mx-auto">
                         <form className="flex flex-col w-full gap-2 justify-between">
                             <h3 className="text-xl font-bold">Filters</h3>
-                            <div className="flex items-end justify-between">
-                                <div className="flex lg:items-center flex-col lg:flex-row gap-8 mt-2">
+
+                            <div className="flex justify-between">
+                                <div className="flex lg:items-center flex-col lg:flex-row gap-4 mt-2">
                                     <div className="flex flex-col gap-1">
                                         <label className="font-medium">
-                                            Price Range:
+                                            Nomadpoints:
                                         </label>
-                                        <div className="flex items-center gap-2">
+                                        <div className="w-full grid grid-cols-2 gap-2">
                                             <input
                                                 type="number"
                                                 value={priceRange[0]}
@@ -97,31 +99,27 @@ function Homes() {
                                         <label className="font-medium">
                                             Type:
                                         </label>
-                                        <div>
-                                            <select
-                                                value={selectedType}
-                                                onChange={(e) =>
-                                                    setSelectedType(
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className="border rounded-2xl p-2"
-                                            >
-                                                <option value="all">All</option>
-                                                <option value="Apartment">
-                                                    Apartment
-                                                </option>
-                                                <option value="Farmhouse">
-                                                    Farmhouse
-                                                </option>
-                                                <option value="Bungalow">
-                                                    Bungalow
-                                                </option>
-                                                <option value="Cottage">
-                                                    Cottage
-                                                </option>
-                                            </select>
-                                        </div>
+                                        <select
+                                            value={selectedType}
+                                            onChange={(e) =>
+                                                setSelectedType(e.target.value)
+                                            }
+                                            className="border rounded-2xl p-2"
+                                        >
+                                            <option value="all">All</option>
+                                            <option value="Apartment">
+                                                Apartment
+                                            </option>
+                                            <option value="Farmhouse">
+                                                Farmhouse
+                                            </option>
+                                            <option value="Bungalow">
+                                                Bungalow
+                                            </option>
+                                            <option value="Cottage">
+                                                Cottage
+                                            </option>
+                                        </select>
                                     </div>
                                     <div className="flex flex-col gap-1">
                                         <label className="font-medium">
@@ -129,7 +127,7 @@ function Homes() {
                                         </label>
                                         <label
                                             htmlFor="parking"
-                                            className={`cursor-pointer flex items-center gap-2 border rounded-2xl py-2 px-6 ${
+                                            className={`cursor-pointer flex items-center justify-center gap-2 border rounded-2xl py-2 px-6 ${
                                                 parking
                                                     ? "bg-black text-white hover:bg-neutral-800"
                                                     : "hover:bg-neutral-100"
@@ -150,15 +148,14 @@ function Homes() {
                                         />
                                     </div>
                                 </div>
-
-                                <button
-                                    type="button"
-                                    onClick={handleFilterChange}
-                                    className="w-full sm:w-44 bg-neutral-800 text-white rounded-2xl py-3 px-6 hover:bg-black mt-2"
-                                >
-                                    Apply Filters
-                                </button>
                             </div>
+                            <button
+                                type="button"
+                                onClick={handleFilterChange}
+                                className="w-full sm:w-44 bg-neutral-800 text-white rounded-2xl py-3 px-6 hover:bg-black mt-2"
+                            >
+                                Apply Filters
+                            </button>
                         </form>
                     </div>
 
@@ -194,11 +191,19 @@ function Homes() {
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 mt-4">
-                                {filteredHomes.map((home) => (
-                                    <HomeCard key={home._id} home={home} />
-                                ))}
-                            </div>
+
+                            <InfiniteScroll
+                                dataLength={filteredHomes.length}
+                                next={() => {}}
+                                hasMore={false}
+                                loader={<Loader />}
+                            >
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 mt-4">
+                                    {filteredHomes.map((home) => (
+                                        <HomeCard key={home._id} home={home} />
+                                    ))}
+                                </div>
+                            </InfiniteScroll>
                         </>
                     )}
                 </section>

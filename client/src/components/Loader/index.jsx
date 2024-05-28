@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Loader = () => {
+const Loader = ({ className }) => {
     // LOADER STYLES
     const Loader = styled.div`
         display: inline-grid;
@@ -43,7 +43,7 @@ const Loader = () => {
     `;
 
     return (
-        <div className="grid place-content-center h-content">
+        <div className={`grid place-content-center h-content ${className}`}>
             <Loader />
         </div>
     );
