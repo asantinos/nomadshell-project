@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 
 import HomeCard from "@components/Homes/HomeCard";
@@ -15,14 +16,21 @@ function Homes() {
     const [priceRange, setPriceRange] = useState([]);
     const [selectedType, setSelectedType] = useState("all");
     const [parking, setParking] = useState(false);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
     const fetchHomes = async (filters = {}) => {
         setIsLoading(true);
         try {
             const response = await axios.get("/api/homes/all", {
-                params: filters,
+                params: { ...filters, page, limit: 6 },
             });
-            setHomes(response.data);
+            if (response.data.length === 0) {
+                setHasMore(false);
+            } else {
+                setHomes((prevHomes) => [...prevHomes, ...response.data]);
+                setPage((prevPage) => prevPage + 1);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -34,12 +42,17 @@ function Homes() {
     }, []);
 
     const handleFilterChange = () => {
+        setPage(1);
+        setHasMore(true);
+        setHomes([]);
+        
         fetchHomes({
             searchTerm: searchQuery,
             minPrice: priceRange[0],
             maxPrice: priceRange[1],
             type: selectedType,
             parking,
+            page: 1,
         });
     };
 
@@ -169,7 +182,12 @@ function Homes() {
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-4">
                                 <h3 className="text-3xl font-bold py-4 mt-4">
                                     <span id="homes-total-results">
-                                        {filteredHomes.length}
+                                        {searchQuery === "" &&
+                                        priceRange.length === 0 &&
+                                        selectedType === "all" &&
+                                        parking === false
+                                            ? homes.length
+                                            : filteredHomes.length}
                                     </span>{" "}
                                     Results
                                 </h3>
@@ -191,11 +209,24 @@ function Homes() {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 mt-4">
-                                {filteredHomes.map((home) => (
-                                    <HomeCard key={home._id} home={home} />
-                                ))}
-                            </div>
+                            <InfiniteScroll
+                                dataLength={filteredHomes.length}
+                                next={fetchHomes}
+                                hasMore={hasMore}
+                                loader={<Loader />}
+                                endMessage={
+                                    <p className="text-center mt-8 text-gray-400">
+                                        No more homes to show
+                                    </p>
+                                }
+                                scrollThreshold={0.7} // Load more if 70% of the page has been scrolled
+                            >
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 mt-4">
+                                    {filteredHomes.map((home) => (
+                                        <HomeCard key={home._id} home={home} />
+                                    ))}
+                                </div>
+                            </InfiniteScroll>
                         </>
                     )}
                 </section>

@@ -40,7 +40,7 @@ const Homes = () => {
     const list = useAsyncList({
         async load() {
             try {
-                const response = await axios.get("/api/homes/all");
+                const response = await axios.get("/api/homes/all?limit=1000");
                 setHomes(response.data);
                 setIsLoading(false);
                 return { items: response.data };

@@ -7,7 +7,7 @@ const Booking = require("../models/booking.model");
 const getHomes = async (req, res, next) => {
     try {
         // Pagination
-        const limit = parseInt(req.query.limit) || 9;
+        const limit = parseInt(req.query.limit) || 6;
         const page = parseInt(req.query.page) || 1;
         const skip = (page - 1) * limit;
 
