@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 import HomeCard from "@components/Homes/HomeCard";
 import Search from "@icons/search";
@@ -192,18 +191,11 @@ function Homes() {
                                 </div>
                             </div>
 
-                            <InfiniteScroll
-                                dataLength={filteredHomes.length}
-                                next={() => {}}
-                                hasMore={false}
-                                loader={<Loader />}
-                            >
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 mt-4">
-                                    {filteredHomes.map((home) => (
-                                        <HomeCard key={home._id} home={home} />
-                                    ))}
-                                </div>
-                            </InfiniteScroll>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 mt-4">
+                                {filteredHomes.map((home) => (
+                                    <HomeCard key={home._id} home={home} />
+                                ))}
+                            </div>
                         </>
                     )}
                 </section>

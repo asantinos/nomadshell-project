@@ -7,9 +7,9 @@ const Booking = require("../models/booking.model");
 const getHomes = async (req, res, next) => {
     try {
         // Pagination
-        // const limit = parseInt(req.query.limit) || 0;
-        // const page = parseInt(req.query.page) || 1;
-        // const skip = (page - 1) * limit;
+        const limit = parseInt(req.query.limit) || 9;
+        const page = parseInt(req.query.page) || 1;
+        const skip = (page - 1) * limit;
 
         // Filters
         let parking = req.query.parking;
@@ -43,8 +43,8 @@ const getHomes = async (req, res, next) => {
         })
             .populate("owner", "name surname avatar planType") // Populate the owner data
             // .sort({ [sort]: order })
-            // .limit(limit)
-            // .skip(skip);
+            .limit(limit)
+            .skip(skip);
 
         return res.status(200).json(homes);
     } catch (error) {
