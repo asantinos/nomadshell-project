@@ -130,6 +130,8 @@ const deleteHome = async (req, res, next) => {
         });
         // Delete the home's available dates
         await AvailableDate.deleteMany({ home: req.params.id });
+        // Delete the home's bookings
+        await Booking.deleteMany({ home: req.params.id });
         await Home.findByIdAndDelete(req.params.id);
         return res.status(204).json({ message: "Home deleted successfully" });
     } catch (error) {
