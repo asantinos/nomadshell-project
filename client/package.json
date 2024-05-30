@@ -22,6 +22,7 @@
     "axios": "^1.6.8",
     "firebase": "^10.11.1",
     "framer-motion": "^11.2.4",
+    "nomadshell-project": "file:..",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
