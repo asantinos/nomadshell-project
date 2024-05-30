@@ -1,7 +1,8 @@
 const Home = require("../models/home.model");
+const User = require("../models/user.model");
 const AvailableDate = require("../models/availableDate.model");
-const { errorHandler } = require("../utils/error");
 const Booking = require("../models/booking.model");
+const { errorHandler } = require("../utils/error");
 
 // Get all homes (with filters if needed)
 const getHomes = async (req, res, next) => {
@@ -119,6 +120,16 @@ const deleteHome = async (req, res, next) => {
     }
 
     try {
+        // Delete the home from users' favorites
+        const users = await User.find({ favorites: req.params.id });
+        users.forEach(async (user) => {
+            user.favorites = user.favorites.filter(
+                (favorite) => favorite.toString() !== req.params.id
+            );
+            await user.save();
+        });
+        // Delete the home's available dates
+        await AvailableDate.deleteMany({ home: req.params.id });
         await Home.findByIdAndDelete(req.params.id);
         return res.status(204).json({ message: "Home deleted successfully" });
     } catch (error) {

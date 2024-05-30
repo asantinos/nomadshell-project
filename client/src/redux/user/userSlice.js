@@ -83,14 +83,11 @@ const userSlice = createSlice({
                 },
             };
         },
-        toggleFavorite: (state, action) => {
+        toggleUserFavorites: (state, action) => {
             state.currentUser = {
                 user: {
                     ...state.currentUser.user,
-                    favorites: [
-                        ...state.currentUser.user.favorites,
-                        action.payload,
-                    ],
+                    favorites: action.payload,
                 },
             };
         },
@@ -112,7 +109,7 @@ export const {
     signOutUserStart,
     updateUserNomadPoints,
     subscribeUser,
-    toggleFavorite,
+    toggleUserFavorites,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleUserFavorites } from "@redux/user/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarIcon, Tooltip } from "@nextui-org/react";
 import axios from "axios";
@@ -11,6 +12,7 @@ import HeartFill from "@icons/heart-fill";
 
 const HomeCard = ({ home }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
     const [isHovered, setIsHovered] = useState(false);
     const [location, setLocation] = useState({
@@ -50,9 +52,8 @@ const HomeCard = ({ home }) => {
             const isFavorite = currentUser.user.favorites.includes(home._id);
             setIsFavorite(isFavorite);
         }
-    }, [currentUser, home._id, isFavorite]);
+    }, [currentUser, home._id]);
 
-    // Toggle favorite with api call /api/users/toggleFavorite/:id (id = home._id)
     const toggleFavorite = async () => {
         if (!currentUser) {
             navigate("/sign-in");
@@ -63,7 +64,9 @@ const HomeCard = ({ home }) => {
             const response = await axios.post(
                 `/api/users/toggleFavorite/${home._id}`
             );
-            setIsFavorite((prev) => !prev);
+            const updatedFavorites = response.data;
+            dispatch(toggleUserFavorites(updatedFavorites));
+            setIsFavorite(!isFavorite);
         } catch (error) {
             console.error(error);
         }
