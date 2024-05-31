@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: auth.controller.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: auth.controller.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Controller handling authentication-related operations.
+ * @module controllers/auth.controller
+ */
+
+const User = require("../models/user.model");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+/**
+ * Signs up a new user.
+ * @function signUp
+ * @memberof module:controllers/auth.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
+const signUp = async (req, res, next) => {
+    try {
+        const { name, surname, email, password } = req.body;
+
+        const user = await User.findOne({ email });
+        if (user) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({
+            name,
+            surname,
+            email,
+            password: hashedPassword,
+        });
+        await newUser.save();
+
+        res.status(201).json({ message: "User created successfully" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Signs in a user.
+ * @function signIn
+ * @memberof module:controllers/auth.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
+const signIn = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: "Invalid password" });
+        }
+
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            process.env.JWT_SECRET
+        );
+
+        // Return user without password
+        const { password: userPassword, ...userWithoutPassword } = user._doc;
+
+        res.cookie("access_token", token, {
+            httpOnly: true,
+        })
+            .status(200)
+            .json({ user: userWithoutPassword });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Handles Google OAuth authentication.
+ * @function google
+ * @memberof module:controllers/auth.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
+const google = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        if (user) {
+            // Sign in
+            const token = jwt.sign(
+                { id: user._id, role: user.role },
+                process.env.JWT_SECRET
+            );
+
+            // Return user without password
+            const { password: userPassword, ...userWithoutPassword } =
+                user._doc;
+
+            res.cookie("access_token", token, {
+                httpOnly: true,
+            })
+                .status(200)
+                .json({ user: userWithoutPassword });
+        } else {
+            // Sign up
+            const generatedPassword =
+                Math.random().toString(36).slice(-8) +
+                Math.random().toString(36).slice(-8);
+            const hashedPassword = await bcrypt.hash(generatedPassword, 10);
+
+            const newUser = new User({
+                avatar: req.body.avatar,
+                name: req.body.name,
+                surname: req.body.surname,
+                email: req.body.email,
+                password: hashedPassword,
+            });
+            await newUser.save();
+
+            const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+
+            // Return user without password
+            const { password: userPassword, ...userWithoutPassword } =
+                newUser._doc;
+
+            res.cookie("access_token", token, {
+                httpOnly: true,
+            })
+                .status(200)
+                .json({ user: userWithoutPassword });
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
+ * Signs out a user.
+ * @function signOut
+ * @memberof module:controllers/auth.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
+const signOut = (req, res) => {
+    try {
+        res.clearCookie("access_token")
+            .status(200)
+            .json({ message: "Sign out successfully" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { signUp, signIn, google, signOut };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="controllers_auth.module_controller.html">controller</a></li><li><a href="controllers_availableDate.module_controller.html">controller</a></li><li><a href="controllers_booking.module_controller.html">controller</a></li><li><a href="controllers_home.module_controller.html">controller</a></li><li><a href="controllers_subscription.module_controller.html">controller</a></li><li><a href="controllers_user.module_controller.html">controller</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri May 31 2024 12:49:40 GMT+0200 (hora de verano de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

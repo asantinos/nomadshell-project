@@ -1,0 +1,14 @@
+{
+    "source": {
+        "include": ["controllers", "models", "routes", "utils"],
+        "includePattern": ".+\\.js$",
+        "excludePattern": "(node_modules/|docs)"
+    },
+    "opts": {
+        "destination": "docs/"
+    },
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    }
+}
