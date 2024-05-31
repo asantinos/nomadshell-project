@@ -1,14 +1,39 @@
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import axios from "axios";
 
 import Footer from "@components/Footer";
 import Button from "@components/Button";
 import IconChip from "@components/IconChip";
+import HomeCard from "@components/Homes/HomeCard";
 import Gift from "@icons/gift";
+import Plane from "@icons/plane";
+import ArrowCycle from "@icons/arrow-cycle";
+import HomeIcon from "@icons/home";
 
 function Home() {
     const { currentUser } = useSelector((state) => state.user);
     const navigate = useNavigate();
+    const [promotedHomes, setPromotedHomes] = useState([]);
+
+    useEffect(() => {
+        const fetchHomes = async () => {
+            try {
+                const response = await axios.get("/api/homes/all");
+                const randomHomes = response.data
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3);
+                setPromotedHomes(randomHomes);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchHomes();
+    }, []);
 
     return (
         <>
@@ -51,7 +76,10 @@ function Home() {
                             >
                                 Get Started
                             </Button>
-                            <Button className="ml-4 border-gray-light text-gray-light hover:border-gray-dark hover:text-gray-dark">
+                            <Button
+                                onClick={() => navigate("/terms")}
+                                className="ml-4 border-gray-light text-gray-light hover:border-gray-dark hover:text-gray-dark"
+                            >
                                 Learn More
                             </Button>
                         </div>
@@ -67,12 +95,39 @@ function Home() {
                 </section>
 
                 {/* ADVANTAGES CARDS */}
-                <section className="mt-10 bg-gray-lighter">
+                <section className="my-16 md:my-32 bg-gray-lighter">
                     <div className="p-6 max-w-7xl mx-auto">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div className="h-96 bg-neutral-200 rounded-2xl"></div>
-                            <div className="h-96 bg-neutral-200 rounded-2xl"></div>
-                            <div className="h-96 bg-neutral-200 rounded-2xl"></div>
+                            <div>
+                                <HomeIcon color="#000" size={48} />
+                                <h3 className="text-3xl font-bold mt-4">
+                                    Stay
+                                </h3>
+                                <p className="text-lg mt-4">
+                                    Find unique places to stay with local hosts
+                                    in 191 countries.
+                                </p>
+                            </div>
+                            <div>
+                                <ArrowCycle color="#000" size={48} />
+                                <h3 className="text-3xl font-bold mt-4">
+                                    Swap
+                                </h3>
+                                <p className="text-lg mt-4">
+                                    Swap homes with other travelers and save on
+                                    accommodation.
+                                </p>
+                            </div>
+                            <div>
+                                <Plane color="#000" size={48} />
+                                <h3 className="text-3xl font-bold mt-4">
+                                    Travel
+                                </h3>
+                                <p className="text-lg mt-4">
+                                    Travel better together with our community of
+                                    like-minded explorers.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -87,9 +142,121 @@ function Home() {
                             </p>
                         </div>
 
-                        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="h-96 bg-neutral-200 rounded-2xl"></div>
-                            <div className="h-96 bg-neutral-200 rounded-2xl"></div>
+                        <div className="mt-8">
+                            <Swiper
+                                spaceBetween={30}
+                                loop={true}
+                                className="mySwiper p-3"
+                            >
+                                <SwiperSlide>
+                                    <div className="shadow-medium p-6 rounded-2xl">
+                                        <p className="text-lg">
+                                            "Nomadshell is the best thing that
+                                            ever happened to me. I've met so
+                                            many amazing people and stayed in
+                                            some incredible places."
+                                        </p>
+                                        <p className="flex items-center gap-2 text-lg mt-4 font-bold">
+                                            <img
+                                                src="https://placehold.co/50"
+                                                alt="John Doe"
+                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                            />
+                                            - John Doe
+                                        </p>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className="shadow-medium p-6 rounded-2xl">
+                                        <p className="text-lg">
+                                            "I've been using Nomadshell for
+                                            years and it's always been a great
+                                            experience. I love the community and
+                                            the places I've stayed at."
+                                        </p>
+                                        <p className="flex items-center gap-2 text-lg mt-4 font-bold">
+                                            <img
+                                                src="https://placehold.co/50"
+                                                alt="Jane Doe"
+                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                            />
+                                            - Jane Doe
+                                        </p>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className="shadow-medium p-6 rounded-2xl">
+                                        <p className="text-lg">
+                                            "I've been using Nomadshell for
+                                            years and it's always been a great
+                                            experience. I love the community and
+                                            the places I've stayed at."
+                                        </p>
+                                        <p className="flex items-center gap-2 text-lg mt-4 font-bold">
+                                            <img
+                                                src="https://placehold.co/50"
+                                                alt="Jane Doe"
+                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                            />
+                                            - Jane Doe
+                                        </p>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className="shadow-medium p-6 rounded-2xl">
+                                        <p className="text-lg">
+                                            "I've been using Nomadshell for
+                                            years and it's always been a great
+                                            experience. I love the community and
+                                            the places I've stayed at."
+                                        </p>
+                                        <p className="flex items-center gap-2 text-lg mt-4 font-bold">
+                                            <img
+                                                src="https://placehold.co/50"
+                                                alt="Jane Doe"
+                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                            />
+                                            - Jane Doe
+                                        </p>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className="shadow-medium p-6 rounded-2xl">
+                                        <p className="text-lg">
+                                            "I've been using Nomadshell for
+                                            years and it's always been a great
+                                            experience. I love the community and
+                                            the places I've stayed at."
+                                        </p>
+                                        <p className="flex items-center gap-2 text-lg mt-4 font-bold">
+                                            <img
+                                                src="https://placehold.co/50"
+                                                alt="Jane Doe"
+                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                            />
+                                            - Jane Doe
+                                        </p>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className="shadow-medium p-6 rounded-2xl">
+                                        <p className="text-lg">
+                                            "I've been using Nomadshell for
+                                            years and it's always been a great
+                                            experience. I love the community and
+                                            the places I've stayed at."
+                                        </p>
+                                        <p className="flex items-center gap-2 text-lg mt-4 font-bold">
+                                            <img
+                                                src="https://placehold.co/50"
+                                                alt="Jane Doe"
+                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                            />
+                                            - Jane Doe
+                                        </p>
+                                    </div>
+                                </SwiperSlide>
+                            </Swiper>
                         </div>
                     </div>
                 </section>
@@ -127,9 +294,9 @@ function Home() {
                         </div>
 
                         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div className="h-96 bg-neutral-200 rounded-2xl"></div>
-                            <div className="h-96 bg-neutral-200 rounded-2xl"></div>
-                            <div className="h-96 bg-neutral-200 rounded-2xl"></div>
+                            {promotedHomes.map((home) => (
+                                <HomeCard key={home._id} home={home} />
+                            ))}
                         </div>
                     </div>
                 </section>

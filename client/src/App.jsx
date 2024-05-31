@@ -15,6 +15,7 @@ import Favorites from "@pages/Favorites";
 import AddHome from "@pages/Profile/Homes/Add";
 import EditHome from "@pages/Profile/Homes/Edit";
 import NotFound from "@pages/error/404.jsx";
+import Terms from "@pages/Terms";
 
 import AdminCreateHome from "@pages/admin/Dashboard/Homes/Add";
 
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/users/:id" element={<ProfileView />} />
                 <Route path="/map" element={<Map />} />
                 <Route path="/pricing" element={<Pricing />} />
+                <Route path="/terms" element={<Terms />} />
 
                 <Route element={<PrivateRoute />}>
                     <Route path="/profile" element={<Profile />} />
