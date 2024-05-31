@@ -1,0 +1,22 @@
+version: "3"
+services:
+    frontend:
+        build: ./client
+        ports:
+            - "80:80"
+        networks:
+            - nomadshell-network
+
+    backend:
+        build: ./api
+        ports:
+            - "3000:3000"
+        environment:
+            - NODE_ENV=production
+            - MONGODB_URI=${MONGO_URI} # Ensure this is defined in your .env file
+        networks:
+            - nomadshell-network
+
+networks:
+    nomadshell-network:
+        driver: bridge
