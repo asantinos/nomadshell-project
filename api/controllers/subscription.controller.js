@@ -22,6 +22,7 @@ const createCheckoutSession = async (req, res) => {
             },
         });
 
+        // TODO : Check if transaction is successful
         const user = await User.findById(userId);
         if (user) {
             user.planType = planType;

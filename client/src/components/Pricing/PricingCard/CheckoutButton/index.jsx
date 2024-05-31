@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
 import { useSelector, useDispatch } from "react-redux";
 import { subscribeUser } from "@redux/user/userSlice";
