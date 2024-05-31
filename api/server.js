@@ -1,3 +1,8 @@
+/**
+ * Express server setup and configuration.
+ * @module server
+ */
+
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
@@ -33,7 +38,15 @@ app.use("/api/bookings", bookingRouter);
 app.use("/api/availableDates", availableDateRouter);
 app.use("/api/subscriptions", subscriptionRouter);
 
-// Health Check
+/**
+ * Health Check endpoint.
+ * @name GET/health
+ * @function
+ * @memberof module:server
+ * @inner
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 app.get("/health", (req, res) => {
     res.send("OK");
 });
@@ -48,7 +61,15 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-// Error handling
+/**
+ * Global error handling middleware.
+ * @function
+ * @memberof module:server
+ * @param {Error} err - The error object.
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || "Internal Server Error";
@@ -59,7 +80,13 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start server
+/**
+ * Start the server.
+ * @function
+ * @memberof module:server
+ * @param {number} port - The port number for the server.
+ * @param {function} callback - The callback function.
+ */
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

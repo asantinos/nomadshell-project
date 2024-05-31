@@ -1,8 +1,20 @@
+/**
+ * Controller handling authentication-related operations.
+ * @module controllers/auth.controller
+ */
+
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// Sign Up
+/**
+ * Signs up a new user.
+ * @function signUp
+ * @memberof module:controllers/auth.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const signUp = async (req, res, next) => {
     try {
         const { name, surname, email, password } = req.body;
@@ -27,7 +39,14 @@ const signUp = async (req, res, next) => {
     }
 };
 
-// Sign In
+/**
+ * Signs in a user.
+ * @function signIn
+ * @memberof module:controllers/auth.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const signIn = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -60,7 +79,14 @@ const signIn = async (req, res, next) => {
     }
 };
 
-// Google OAuth
+/**
+ * Handles Google OAuth authentication.
+ * @function google
+ * @memberof module:controllers/auth.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const google = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.body.email });
@@ -113,7 +139,13 @@ const google = async (req, res, next) => {
     }
 };
 
-// Sign Out
+/**
+ * Signs out a user.
+ * @function signOut
+ * @memberof module:controllers/auth.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 const signOut = (req, res) => {
     try {
         res.clearCookie("access_token")

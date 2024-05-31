@@ -1,6 +1,18 @@
+/**
+ * Controller handling operations related to subscriptions.
+ * @module controllers/subscription.controller
+ */
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const User = require("../models/user.model");
 
+/**
+ * Creates a checkout session for subscription.
+ * @function createCheckoutSession
+ * @memberof module:controllers/subscription.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 const createCheckoutSession = async (req, res) => {
     const { priceId, userId, planType } = req.body;
 
@@ -14,8 +26,8 @@ const createCheckoutSession = async (req, res) => {
                     quantity: 1,
                 },
             ],
-            success_url: "http://localhost:5173/pricing/", // ! Change this to your website URL
-            cancel_url: "http://localhost:5173/pricing/", // ! Change this to your website URL
+            success_url: "http://nomadshell.com/pricing/", // ! Change this to your website URL
+            cancel_url: "http://nomadshell.com/pricing/", // ! Change this to your website URL
             metadata: {
                 userId: userId,
                 planType: planType,

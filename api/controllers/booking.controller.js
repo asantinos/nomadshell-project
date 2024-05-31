@@ -1,8 +1,19 @@
+/**
+ * Controller handling operations related to bookings.
+ * @module controllers/booking.controller
+ */
+
 const Booking = require("../models/booking.model");
 const { errorHandler } = require("../utils/error");
 const User = require("../models/user.model");
 
-// Get all bookings
+/**
+ * Retrieves all bookings.
+ * @function getBookings
+ * @memberof module:controllers/booking.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 const getBookings = async (req, res) => {
     try {
         const bookings = await Booking.find().populate("home").populate("user");
@@ -13,7 +24,14 @@ const getBookings = async (req, res) => {
     }
 };
 
-// Get a single booking by ID
+
+/**
+ * Retrieves a single booking by ID.
+ * @function getBooking
+ * @memberof module:controllers/booking.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 const getBooking = async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.id).populate("home");
@@ -30,7 +48,13 @@ const getBooking = async (req, res) => {
     }
 };
 
-// Create a new booking
+/**
+ * Creates a new booking.
+ * @function createBooking
+ * @memberof module:controllers/booking.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 const createBooking = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
@@ -68,7 +92,13 @@ const createBooking = async (req, res) => {
     }
 };
 
-// Update a booking
+/**
+ * Updates a booking.
+ * @function updateBooking
+ * @memberof module:controllers/booking.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 const updateBooking = async (req, res) => {
     try {
         const booking = await Booking.findByIdAndUpdate(
@@ -95,7 +125,13 @@ const updateBooking = async (req, res) => {
     }
 };
 
-// Delete a booking
+/**
+ * Deletes a booking.
+ * @function deleteBooking
+ * @memberof module:controllers/booking.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
 const deleteBooking = async (req, res) => {
     try {
         const booking = await Booking.findByIdAndDelete(req.params.id);

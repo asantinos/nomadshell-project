@@ -1,10 +1,22 @@
+/**
+ * Controller handling operations related to homes.
+ * @module controllers/home.controller
+ */
+
 const Home = require("../models/home.model");
 const User = require("../models/user.model");
 const AvailableDate = require("../models/availableDate.model");
 const Booking = require("../models/booking.model");
 const { errorHandler } = require("../utils/error");
 
-// Get all homes (with filters if needed)
+/**
+ * Retrieves all homes with optional filters and pagination.
+ * @function getHomes
+ * @memberof module:controllers/home.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const getHomes = async (req, res, next) => {
     try {
         // Pagination
@@ -53,7 +65,14 @@ const getHomes = async (req, res, next) => {
     }
 };
 
-// Get a home by ID
+/**
+ * Retrieves a single home by ID.
+ * @function getHome
+ * @memberof module:controllers/home.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const getHome = async (req, res, next) => {
     try {
         const home = await Home.findById(req.params.id).populate(
@@ -70,7 +89,14 @@ const getHome = async (req, res, next) => {
     }
 };
 
-// Create a new home
+/**
+ * Creates a new home.
+ * @function createHome
+ * @memberof module:controllers/home.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const createHome = async (req, res, next) => {
     try {
         const home = await Home.create(req.body);
@@ -82,7 +108,14 @@ const createHome = async (req, res, next) => {
     }
 };
 
-// Update a home
+/**
+ * Updates a home.
+ * @function updateHome
+ * @memberof module:controllers/home.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const updateHome = async (req, res, next) => {
     const home = await Home.findById(req.params.id);
     if (!home) {
@@ -108,7 +141,14 @@ const updateHome = async (req, res, next) => {
     }
 };
 
-// Delete a home
+/**
+ * Deletes a home.
+ * @function deleteHome
+ * @memberof module:controllers/home.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const deleteHome = async (req, res, next) => {
     const home = await Home.findById(req.params.id);
     if (!home) {
@@ -139,7 +179,14 @@ const deleteHome = async (req, res, next) => {
     }
 };
 
-// Get home's available dates
+/**
+ * Retrieves available dates for a home.
+ * @function getAvailableDates
+ * @memberof module:controllers/home.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const getAvailableDates = async (req, res, next) => {
     try {
         const availableDates = await AvailableDate.find({
@@ -156,7 +203,14 @@ const getAvailableDates = async (req, res, next) => {
     }
 };
 
-// Get bookings for a home
+/**
+ * Retrieves bookings for a home.
+ * @function getHomeBookings
+ * @memberof module:controllers/home.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const getHomeBookings = async (req, res, next) => {
     try {
         const home = await Home.findById(req.params.id);

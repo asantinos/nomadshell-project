@@ -1,10 +1,23 @@
+/**
+ * Controller handling operations related to users.
+ * @module controllers/user.controller
+ */
+
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 const { errorHandler } = require("../utils/error");
 const Home = require("../models/home.model");
 const Booking = require("../models/booking.model");
 
-// Get all users
+
+/**
+ * Retrieves all users.
+ * @function getUsers
+ * @memberof module:controllers/user.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const getUsers = async (req, res, next) => {
     try {
         const users = await User.find().select("-password");
@@ -14,7 +27,15 @@ const getUsers = async (req, res, next) => {
     }
 };
 
-// Get user by ID
+
+/**
+ * Retrieves a user by ID.
+ * @function getUserById
+ * @memberof module:controllers/user.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const getUserById = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id).select("-password");
@@ -29,7 +50,14 @@ const getUserById = async (req, res, next) => {
     }
 };
 
-// Get actual signed in user
+/**
+ * Retrieves the actual signed-in user.
+ * @function getUser
+ * @memberof module:controllers/user.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const getUser = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id)
@@ -52,7 +80,14 @@ const getUser = async (req, res, next) => {
     }
 };
 
-// Update user by ID
+/**
+ * Updates a user by ID.
+ * @function updateUser
+ * @memberof module:controllers/user.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const updateUser = async (req, res, next) => {
     try {
         if (req.body.password) {
@@ -84,7 +119,14 @@ const updateUser = async (req, res, next) => {
     }
 };
 
-// Delete user by ID
+/**
+ * Deletes a user by ID.
+ * @function deleteUser
+ * @memberof module:controllers/user.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const deleteUser = async (req, res, next) => {
     if (req.user.id !== req.params.id && req.user.role !== "admin") {
         return next(errorHandler(403, "Forbidden"));
@@ -103,7 +145,14 @@ const deleteUser = async (req, res, next) => {
     }
 };
 
-// Get user's homes
+/**
+ * Retrieves homes owned by a user.
+ * @function getUserHomes
+ * @memberof module:controllers/user.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const getUserHomes = async (req, res, next) => {
     try {
         const homes = await Home.find({ owner: req.params.id });
@@ -113,7 +162,14 @@ const getUserHomes = async (req, res, next) => {
     }
 };
 
-// Get user's bookings
+/**
+ * Retrieves bookings made by a user.
+ * @function getUserBookings
+ * @memberof module:controllers/user.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const getUserBookings = async (req, res, next) => {
     try {
         const bookings = await Booking.find({ user: req.params.id }).populate(
@@ -125,7 +181,14 @@ const getUserBookings = async (req, res, next) => {
     }
 };
 
-// Add or remove home from user's favorites
+/**
+ * Adds or removes a home from user's favorites.
+ * @function toggleFavorite
+ * @memberof module:controllers/user.controller
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {function} next - Express next middleware function.
+ */
 const toggleFavorite = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id);
