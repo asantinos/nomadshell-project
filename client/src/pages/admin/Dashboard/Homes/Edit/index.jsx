@@ -7,18 +7,19 @@ import {
 } from "firebase/storage";
 import { app } from "@/firebase";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import tt from "@tomtom-international/web-sdk-maps";
 
-import DeleteButton from "@/components/Button/DeleteButton";
 import Footer from "@/components/Footer";
+import DeleteButton from "@/components/Button/DeleteButton";
 
 import Car from "@icons/car";
 
-function AdminCreateHome() {
+function AdminEditHome() {
     const navigate = useNavigate();
     const { currentUser } = useSelector((state) => state.user);
+    const { id } = useParams();
     const [files, setFiles] = useState([]);
     const [formData, setFormData] = useState({
         title: "",
@@ -35,7 +36,7 @@ function AdminCreateHome() {
     });
     const [imageUploadError, setImageUploadError] = useState(false);
     const [uploading, setUploading] = useState(false);
-    const [users, setUsers] = useState([{}]);
+    const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
@@ -51,6 +52,72 @@ function AdminCreateHome() {
 
         fetchUsers();
     }, []);
+
+    useEffect(() => {
+        const fetchHome = async () => {
+            try {
+                const response = await axios.get(`/api/homes/${id}`);
+                const home = response.data;
+
+                setFormData({
+                    title: home.title,
+                    description: home.description,
+                    price: home.price,
+                    sqrt: home.sqrt,
+                    bedrooms: home.bedrooms,
+                    bathrooms: home.bathrooms,
+                    parking: home.parking,
+                    type: home.type,
+                    location: home.location,
+                    images: home.images,
+                    owner: home.owner._id,
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchHome();
+    }, [id]);
+
+    // Map
+    const style =
+        "https://api.tomtom.com/style/2/custom/style/dG9tdG9tQEBAdFY0bHJTN3NuSldHRzl2MDs0ZGZiMzMyNS03ZWQzLTQwNDQtYTJjYy1mN2ExMzA2YzkxYTk=.json?key=12H8RLS5QqzHkfEvdABGQONbqg2Hd5l2";
+
+    useEffect(() => {
+        const map = tt.map({
+            key: import.meta.env.VITE_TOMTOM_API_KEY,
+            container: "map-container",
+            style: style,
+            center: formData.location.length > 0 ? formData.location : [0, 0],
+            zoom: 12,
+        });
+
+        map.addControl(new tt.NavigationControl());
+        map.addControl(new tt.FullscreenControl());
+        map.addControl(new tt.GeolocateControl());
+
+        let marker;
+
+        if (formData.location.length > 0) {
+            marker = new tt.Marker().setLngLat(formData.location).addTo(map);
+        }
+
+        map.on("click", (e) => {
+            if (marker) {
+                marker.remove();
+            }
+
+            marker = new tt.Marker()
+                .setLngLat([e.lngLat.lng, e.lngLat.lat])
+                .addTo(map);
+
+            setFormData({
+                ...formData,
+                location: [e.lngLat.lng, e.lngLat.lat],
+            });
+        });
+    }, [formData.location]);
 
     const handleImageSubmit = (e) => {
         if (files.length > 0 && files.length + formData.images.length < 7) {
@@ -153,8 +220,6 @@ function AdminCreateHome() {
                 ...formData,
                 [e.target.id]: e.target.value,
             });
-
-            console.log(formData);
         }
     };
 
@@ -171,69 +236,26 @@ function AdminCreateHome() {
             return;
         }
 
-        if (formData.owner === "") {
-            setError("Please select an owner");
-            return;
-        }
-
         try {
             setLoading(true);
             setError(false);
-            const response = await axios.post("/api/homes/create", {
+            const response = await axios.put(`/api/homes/update/${id}`, {
                 ...formData,
-                owner: formData.owner,
             });
 
-            if (response.status === 201) {
+            if (response.status === 200) {
                 setLoading(false);
                 navigate("/dashboard/homes");
             }
         } catch (error) {
             setLoading(false);
             if (error.response) {
-                setError("Check the form and try again");
+                setError(error.response.data.message);
             } else {
                 setError("Something went wrong, please try again later");
             }
         }
     };
-
-    // Map
-    const style =
-        "https://api.tomtom.com/style/2/custom/style/dG9tdG9tQEBAdFY0bHJTN3NuSldHRzl2MDs0ZGZiMzMyNS03ZWQzLTQwNDQtYTJjYy1mN2ExMzA2YzkxYTk=.json?key=12H8RLS5QqzHkfEvdABGQONbqg2Hd5l2";
-
-    useEffect(() => {
-        const map = tt.map({
-            key: import.meta.env.VITE_TOMTOM_API_KEY,
-            container: "map-container",
-            style: style,
-            zoom: 12,
-        });
-
-        map.addControl(new tt.FullscreenControl());
-        map.addControl(new tt.NavigationControl());
-        map.addControl(new tt.GeolocateControl());
-
-        navigator.geolocation.getCurrentPosition((position) => {
-            map.setCenter([
-                position.coords.longitude,
-                position.coords.latitude,
-            ]);
-        });
-
-        let marker;
-        map.on("click", (e) => {
-            if (marker) {
-                marker.remove();
-            }
-
-            marker = new tt.Marker().setLngLat(e.lngLat).addTo(map);
-            setFormData((prevFormData) => ({
-                ...prevFormData,
-                location: [e.lngLat.lng, e.lngLat.lat],
-            }));
-        });
-    }, []);
 
     return (
         <>
@@ -241,11 +263,9 @@ function AdminCreateHome() {
                 <section>
                     <div className="p-6 max-w-7xl mx-auto">
                         <div className="text-center mb-8">
-                            <h3 className="text-4xl font-bold">
-                                Add a new home
-                            </h3>
+                            <h3 className="text-4xl font-bold">Edit home</h3>
                             <p className="text-lg mt-4">
-                                Complete all the fields to add a new home
+                                Update your home details
                             </p>
                         </div>
 
@@ -300,7 +320,7 @@ function AdminCreateHome() {
                                 />
                                 <div
                                     id="map-container"
-                                    className="realtive w-full aspect-square rounded-2xl"
+                                    className="relative w-full aspect-square rounded-2xl"
                                 >
                                     <h1 className="absolute z-10 px-4 py-2 m-3 bg-white rounded-2xl text-sm font-semibold">
                                         Select where your home is located
@@ -312,15 +332,13 @@ function AdminCreateHome() {
                                     id="owner"
                                     onChange={handleChange}
                                     className="p-3 border border-gray-300 rounded-2xl"
+                                    value={formData.owner}
                                 >
                                     <option key="default" value="">
                                         Select an owner
                                     </option>
-                                    {users.map((user, index) => (
-                                        <option
-                                            key={`${user._id}-${index}`}
-                                            value={user._id}
-                                        >
+                                    {users.map((user) => (
+                                        <option key={user._id} value={user._id}>
                                             {user.name} {user.surname}
                                         </option>
                                     ))}
@@ -449,7 +467,7 @@ function AdminCreateHome() {
                                         />
                                         <label
                                             htmlFor="images"
-                                            className="p-3 text-center bg-slate-700 text-white rounded-2xl uppercase hover:bg-slate-800 cursor-pointer"
+                                            className="p-3 text-center bg-neutral-800 text-white rounded-2xl uppercase hover:bg-black cursor-pointer"
                                         >
                                             Select Images
                                         </label>
@@ -475,9 +493,9 @@ function AdminCreateHome() {
                                 )}
                                 <button
                                     disabled={loading || uploading}
-                                    className="p-3 bg-slate-700 text-white rounded-2xl uppercase hover:opacity-95 disabled:opacity-80"
+                                    className="p-3 bg-neutral-800 text-white rounded-2xl uppercase hover:bg-black disabled:opacity-80"
                                 >
-                                    {loading ? "Adding..." : "Add Home"}
+                                    {loading ? "Editing..." : "Edit Home"}
                                 </button>
                                 {error && (
                                     <p className="text-center bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-2xl">
@@ -495,4 +513,4 @@ function AdminCreateHome() {
     );
 }
 
-export default AdminCreateHome;
+export default AdminEditHome;

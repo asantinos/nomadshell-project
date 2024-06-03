@@ -18,6 +18,7 @@ import NotFound from "@pages/error/404.jsx";
 import Terms from "@pages/Terms";
 
 import AdminCreateHome from "@pages/admin/Dashboard/Homes/Add";
+import AdminEditHome from "@pages/admin/Dashboard/Homes/Edit";
 
 import PrivateRoute from "@components/Routes/PrivateRoute";
 import PremiumRoute from "@components/Routes/PremiumRoute";
@@ -62,6 +63,10 @@ function App() {
                     <Route
                         path="/dashboard/homes/add"
                         element={<AdminCreateHome />}
+                    />
+                    <Route
+                        path="/dashboard/homes/edit/:id"
+                        element={<AdminEditHome />}
                     />
                 </Route>
 

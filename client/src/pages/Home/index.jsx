@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import axios from "axios";
 
@@ -144,8 +145,18 @@ function Home() {
 
                         <div className="mt-8">
                             <Swiper
+                                modules={[Autoplay]}
                                 spaceBetween={30}
                                 loop={true}
+                                {...(window.innerWidth < 768 && {
+                                    slidesPerView: 1,
+                                })}
+                                {...(window.innerWidth >= 768 && {
+                                    slidesPerView: 2,
+                                })}
+                                autoplay={{
+                                    delay: 5000,
+                                }}
                                 className="mySwiper p-3"
                             >
                                 <SwiperSlide>
@@ -162,7 +173,7 @@ function Home() {
                                                 alt="John Doe"
                                                 className="w-8 h-8 rounded-full inline-block mr-2"
                                             />
-                                            - John Doe
+                                            - John Doe 1
                                         </p>
                                     </div>
                                 </SwiperSlide>
@@ -180,7 +191,25 @@ function Home() {
                                                 alt="Jane Doe"
                                                 className="w-8 h-8 rounded-full inline-block mr-2"
                                             />
-                                            - Jane Doe
+                                            - Jane Doe 2
+                                        </p>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className="shadow-medium p-6 rounded-2xl">
+                                        <p className="text-lg">
+                                            "Nomadshell is the best thing that
+                                            ever happened to me. I've met so
+                                            many amazing people and stayed in
+                                            some incredible places."
+                                        </p>
+                                        <p className="flex items-center gap-2 text-lg mt-4 font-bold">
+                                            <img
+                                                src="https://placehold.co/50"
+                                                alt="Jane Doe"
+                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                            />
+                                            - Jane Doe 3
                                         </p>
                                     </div>
                                 </SwiperSlide>
@@ -198,7 +227,25 @@ function Home() {
                                                 alt="Jane Doe"
                                                 className="w-8 h-8 rounded-full inline-block mr-2"
                                             />
-                                            - Jane Doe
+                                            - Jane Doe 4
+                                        </p>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide>
+                                    <div className="shadow-medium p-6 rounded-2xl">
+                                        <p className="text-lg">
+                                            "Nomadshell is the best thing that
+                                            ever happened to me. I've met so
+                                            many amazing people and stayed in
+                                            some incredible places."
+                                        </p>
+                                        <p className="flex items-center gap-2 text-lg mt-4 font-bold">
+                                            <img
+                                                src="https://placehold.co/50"
+                                                alt="Jane Doe"
+                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                            />
+                                            - Jane Doe 5
                                         </p>
                                     </div>
                                 </SwiperSlide>
@@ -216,43 +263,7 @@ function Home() {
                                                 alt="Jane Doe"
                                                 className="w-8 h-8 rounded-full inline-block mr-2"
                                             />
-                                            - Jane Doe
-                                        </p>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className="shadow-medium p-6 rounded-2xl">
-                                        <p className="text-lg">
-                                            "I've been using Nomadshell for
-                                            years and it's always been a great
-                                            experience. I love the community and
-                                            the places I've stayed at."
-                                        </p>
-                                        <p className="flex items-center gap-2 text-lg mt-4 font-bold">
-                                            <img
-                                                src="https://placehold.co/50"
-                                                alt="Jane Doe"
-                                                className="w-8 h-8 rounded-full inline-block mr-2"
-                                            />
-                                            - Jane Doe
-                                        </p>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <div className="shadow-medium p-6 rounded-2xl">
-                                        <p className="text-lg">
-                                            "I've been using Nomadshell for
-                                            years and it's always been a great
-                                            experience. I love the community and
-                                            the places I've stayed at."
-                                        </p>
-                                        <p className="flex items-center gap-2 text-lg mt-4 font-bold">
-                                            <img
-                                                src="https://placehold.co/50"
-                                                alt="Jane Doe"
-                                                className="w-8 h-8 rounded-full inline-block mr-2"
-                                            />
-                                            - Jane Doe
+                                            - Jane Doe 6
                                         </p>
                                     </div>
                                 </SwiperSlide>

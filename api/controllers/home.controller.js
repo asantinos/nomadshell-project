@@ -122,7 +122,7 @@ const updateHome = async (req, res, next) => {
         return next(errorHandler(404, "Home not found"));
     }
 
-    if (req.user.id !== home.owner.toString()) {
+    if (req.user.id !== home.owner.toString() && req.user.role !== "admin") {
         return next(errorHandler(403, "Forbidden"));
     }
 
