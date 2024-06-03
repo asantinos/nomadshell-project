@@ -71,6 +71,7 @@ const Homes = () => {
 
     const filteredHomes = useMemo(() => {
         if (!searchQuery) {
+            setPage(1);
             return homes;
         }
 

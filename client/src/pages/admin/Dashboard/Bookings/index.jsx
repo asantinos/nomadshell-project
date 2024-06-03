@@ -71,7 +71,8 @@ const Bookings = () => {
 
     const filteredBookings = useMemo(() => {
         if (!searchQuery) {
-            return list.items;
+            setPage(1);
+            return bookings;
         }
 
         const filtered = bookings.filter(
@@ -79,7 +80,10 @@ const Bookings = () => {
                 booking.home.title
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase()) ||
-                (booking.user.name + " " + booking.user.surname)
+                booking.user.name
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                booking.user.surname
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase())
         );

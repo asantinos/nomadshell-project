@@ -71,6 +71,7 @@ const Users = () => {
 
     const filteredUsers = useMemo(() => {
         if (!searchQuery) {
+            setPage(1);
             return users;
         }
 
