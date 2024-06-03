@@ -14,6 +14,7 @@ import tt from "@tomtom-international/web-sdk-maps";
 import Footer from "@/components/Footer";
 import DeleteButton from "@/components/Button/DeleteButton";
 
+import Car from "@icons/car";
 
 function EditHome() {
     const navigate = useNavigate();
@@ -305,17 +306,25 @@ function EditHome() {
                                 </div>
                             </div>
                             <div className="flex flex-col flex-1 gap-4">
-                                <div className="flex gap-6 flex-wrap">
-                                    <div className="flex gap-2">
-                                        <input
-                                            type="checkbox"
-                                            id="parking"
-                                            className="w-5"
-                                            onChange={handleChange}
-                                            checked={formData.parking}
-                                        />
-                                        <span>Parking</span>
-                                    </div>
+                                <div className="flex gap-2">
+                                    <label
+                                        htmlFor="parking"
+                                        className={`cursor-pointer flex items-center justify-center gap-2 border rounded-2xl py-2 px-6 ${
+                                            formData.parking
+                                                ? "bg-black text-white hover:bg-neutral-800"
+                                                : "hover:bg-neutral-100"
+                                        } `}
+                                    >
+                                        <Car size={24} />
+                                        Parking
+                                    </label>
+                                    <input
+                                        type="checkbox"
+                                        id="parking"
+                                        className="hidden"
+                                        onChange={handleChange}
+                                        checked={formData.parking}
+                                    />
                                 </div>
                                 <div className="flex flex-wrap gap-6">
                                     <div className="flex items-center gap-2">
@@ -418,7 +427,7 @@ function EditHome() {
                                         />
                                         <label
                                             htmlFor="images"
-                                            className="p-3 text-center bg-slate-700 text-white rounded-2xl uppercase hover:bg-slate-800 cursor-pointer"
+                                            className="p-3 text-center bg-neutral-800 text-white rounded-2xl uppercase hover:bg-black cursor-pointer"
                                         >
                                             Select Images
                                         </label>
@@ -444,7 +453,7 @@ function EditHome() {
                                 )}
                                 <button
                                     disabled={loading || uploading}
-                                    className="p-3 bg-slate-700 text-white rounded-2xl uppercase hover:opacity-95 disabled:opacity-80"
+                                    className="p-3 bg-neutral-800 hover:bg-black text-white rounded-2xl uppercase hover:opacity-95 disabled:opacity-80"
                                 >
                                     {loading ? "Editing..." : "Edit Home"}
                                 </button>

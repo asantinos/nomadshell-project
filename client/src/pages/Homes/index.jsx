@@ -15,7 +15,7 @@ function Homes() {
     const [isLoading, setIsLoading] = useState(true);
     const [homes, setHomes] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [priceRange, setPriceRange] = useState([]);
+    const [priceRange, setPriceRange] = useState([,]);
     const [selectedType, setSelectedType] = useState("all");
     const [parking, setParking] = useState(false);
     const [page, setPage] = useState(1);

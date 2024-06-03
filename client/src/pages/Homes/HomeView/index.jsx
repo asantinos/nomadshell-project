@@ -12,6 +12,7 @@ import Loader from "@components/Loader";
 import Footer from "@components/Footer";
 
 import Cross from "@icons/cross";
+import Check from "@icons/check";
 
 const HomeView = () => {
     const dispatch = useDispatch();
@@ -294,19 +295,23 @@ const HomeView = () => {
                                     </span>{" "}
                                     {home.price} NP / night
                                 </p>
-                                <div className="mt-8">
-                                    <h2 className="text-xl font-semibold">
-                                        Features
-                                    </h2>
-                                    <ul className="mt-2 text-gray-600">
-                                        {home.parking && (
-                                            <li>
-                                                <span className="font-semibold">
-                                                    Parking
-                                                </span>
-                                            </li>
+                                <div className="mt-2">
+                                    <div className="flex items-center gap-2 mt-2 text-gray-600">
+                                        <span className="font-semibold">
+                                            Parking
+                                        </span>
+                                        {home.parking ? (
+                                            <Check
+                                                size={20}
+                                                color={"#10B981"}
+                                            />
+                                        ) : (
+                                            <Cross
+                                                size={20}
+                                                color={"#EF4444"}
+                                            />
                                         )}
-                                    </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>

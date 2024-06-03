@@ -33,7 +33,7 @@ const Users = () => {
     const [searchQuery, setSearchQuery] = useState("");
 
     const [page, setPage] = useState(1);
-    const rowsPerPage = 5;
+    const rowsPerPage = 10;
 
     const pages = Math.ceil(users.length / rowsPerPage);
 
@@ -324,6 +324,13 @@ const Users = () => {
                     >
                         Plan Type
                     </TableColumn>
+                    <TableColumn
+                        key="nomadPoints"
+                        allowsSorting
+                        className="hidden md:table-cell uppercase font-bold"
+                    >
+                        Nomad Points
+                    </TableColumn>
                     <TableColumn key="actions" className="uppercase font-bold">
                         Actions
                     </TableColumn>
@@ -359,6 +366,12 @@ const Users = () => {
                                         <p className="text-xs text-gray-400 truncate w-32 md:w-full">
                                             {user.email}
                                         </p>
+                                        <div className="block mt-1 md:hidden md:mt-0">
+                                            <p className="text-xs text-gray-400">
+                                                {user.nomadPoints.toLocaleString()}{" "}
+                                                NP
+                                            </p>
+                                        </div>
                                         <div className="block mt-1 md:hidden md:mt-0">
                                             <Chip
                                                 variant="dot"
@@ -405,6 +418,9 @@ const Users = () => {
                                 >
                                     {user.planType}
                                 </Chip>
+                            </TableCell>
+                            <TableCell className="hidden md:table-cell">
+                                {user.nomadPoints.toLocaleString()} NP
                             </TableCell>
                             <TableCell>
                                 <div className="relative flex items-center gap-2">

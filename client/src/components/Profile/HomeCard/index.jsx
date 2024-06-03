@@ -7,6 +7,7 @@ import axios from "axios";
 import EditButton from "@components/Button/EditButton";
 import DeleteButton from "@components/Button/DeleteButton";
 
+import Location from "@icons/location";
 import Plus from "@icons/plus";
 import ArrowRepeat from "@icons/arrow-repeat";
 import Cross from "@icons/cross";
@@ -122,9 +123,14 @@ function ProfileHomeCard({ home, deleteHome }) {
             <div className="flex items-center justify-between">
                 <Link
                     to={`/homes/${home._id}`}
-                    className="text-black font-bold"
+                    className="flex items-center gap-2 mb-4"
                 >
-                    {home.title}
+                    <img
+                        src={home.images[0]}
+                        alt={home.title}
+                        className="h-10 w-10 object-cover rounded-2xl"
+                    />
+                    <span className="text-black font-bold">{home.title}</span>
                 </Link>
                 <div className="flex items-center gap-1">
                     <EditButton
@@ -135,18 +141,42 @@ function ProfileHomeCard({ home, deleteHome }) {
                     <DeleteButton onClick={() => deleteHome(home._id)} />
                 </div>
             </div>
-            <p className="text-gray-500 mt-4">{home.description}</p>
-            <p className="text-gray-500 mt-4">{home.type}</p>
-            <p className="text-gray-500 mt-4">{home.price} / night</p>
-            <p className="text-gray-500 mt-4">{home.sqrt} sqrt</p>
-            <p className="text-gray-500 mt-4">{home.bedrooms} bedrooms</p>
-            <p className="text-gray-500 mt-4">{home.bathrooms} bathrooms</p>
-            <p className="text-gray-500 mt-4">
-                {home.parking ? "Parking 🚗" : "No parking"}
+            <p className="text-gray-500 text-sm -mt-1">{home.description}</p>
+            <div className="flex items-center gap-1 mt-1">
+                <Location color={"#9194A1"} size={16} />
+                <p className="text-sm font-medium text-gray-light">
+                    {location.city}, {location.country}
+                </p>
+            </div>
+            <div className="flex items-center gap-2 mt-2 text-gray-light font-normal">
+                <div className="flex items-center gap-1">
+                    <p className="text-sm">{home.bedrooms} bedrooms</p>
+                </div>
+                ·
+                <div className="flex items-center gap-1">
+                    <p className="text-sm">{home.bathrooms} bathrooms</p>
+                </div>
+                ·
+                <div className="flex items-center gap-1">
+                    <p className="text-sm">{home.sqrt} m²</p>
+                </div>
+            </div>
+            <p className="font-normal text-sm text-gray-light mt-2">
+                {home.parking ? "Parking" : "No parking"}
             </p>
-            <p className="text-gray-500 mt-4">
-                Location: {location.city}, {location.country}
-            </p>
+            <div className="flex items-center gap-4 mt-2">
+                <p className="text-sm font-medium text-gray-dark">
+                    {home.type}
+                </p>
+            </div>
+            <h3 className="text-xl font-bold text-black mt-4">
+                <span className="text-xl mr-1">{home.price}</span>
+                NP
+                <span className="font-normal text-sm text-gray-dark">
+                    {" "}
+                    / night
+                </span>
+            </h3>
             <div className="mt-4">
                 <div className="flex items-center gap-2 mt-2 text-sm">
                     {availableDates.length === 0 ? (
@@ -155,7 +185,7 @@ function ProfileHomeCard({ home, deleteHome }) {
                         </p>
                     ) : (
                         <p>
-                            Home will be available from{" "}
+                            Available from{" "}
                             <span className="font-semibold">{startDate}</span>{" "}
                             and <span className="font-semibold">{endDate}</span>
                         </p>
@@ -176,24 +206,26 @@ function ProfileHomeCard({ home, deleteHome }) {
                         }
                     />
 
-                    <button
-                        className="bg-gray-dark hover:bg-black text-white p-2 rounded-2xl"
-                        onClick={addOrUpdateAvailableDate}
-                    >
-                        {availableDates.length === 0 ? (
-                            <Plus size={20} />
-                        ) : (
-                            <ArrowRepeat size={20} />
-                        )}
-                    </button>
-                    {availableDates.length !== 0 && (
+                    <div className="flex flex-col sm:flex-row gap-1">
                         <button
-                            className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-2xl"
-                            onClick={handleDeleteAvailableDate}
+                            className="bg-gray-dark hover:bg-black text-white p-2 rounded-2xl"
+                            onClick={addOrUpdateAvailableDate}
                         >
-                            <Cross size={20} />
+                            {availableDates.length === 0 ? (
+                                <Plus size={20} />
+                            ) : (
+                                <ArrowRepeat size={20} />
+                            )}
                         </button>
-                    )}
+                        {availableDates.length !== 0 && (
+                            <button
+                                className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-2xl"
+                                onClick={handleDeleteAvailableDate}
+                            >
+                                <Cross size={20} />
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

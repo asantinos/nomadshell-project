@@ -12,6 +12,9 @@ function AdminEditUser() {
         name: "",
         surname: "",
         password: "",
+        nomadPoints: 0,
+        planType: "free",
+        role: "user",
     });
 
     const handleChange = (e) => {
@@ -32,6 +35,9 @@ function AdminEditUser() {
                     name: user.name,
                     surname: user.surname,
                     password: "",
+                    nomadPoints: user.nomadPoints,
+                    planType: user.planType,
+                    role: user.role,
                 });
             } catch (error) {
                 if (error.response) {
@@ -171,6 +177,73 @@ function AdminEditUser() {
                                             onChange={handleChange}
                                             className="block w-full px-3 py-3 placeholder-gray-400 border border-gray-300 rounded-2xl shadow-sm sm:text-sm"
                                         />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        htmlFor="nomadPoints"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Nomad points
+                                    </label>
+                                    <div className="mt-1">
+                                        <input
+                                            id="nomadPoints"
+                                            name="nomadPoints"
+                                            type="number"
+                                            value={formData.nomadPoints}
+                                            onChange={handleChange}
+                                            className="block w-full px-3 py-3 placeholder-gray-400 border border-gray-300 rounded-2xl shadow-sm sm:text-sm"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        htmlFor="planType"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Plan type
+                                    </label>
+                                    <div className="mt-1">
+                                        <select
+                                            id="planType"
+                                            name="planType"
+                                            value={formData.planType}
+                                            onChange={handleChange}
+                                            className="block w-full px-3 py-3 placeholder-gray-400 border border-gray-300 rounded-2xl shadow-sm sm:text-sm"
+                                        >
+                                            <option value="free">Free</option>
+                                            <option value="explorer">
+                                                Explorer
+                                            </option>
+                                            <option value="adventurer">
+                                                Adventurer
+                                            </option>
+                                            <option value="nomad">Nomad</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        htmlFor="role"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Role
+                                    </label>
+                                    <div className="mt-1">
+                                        <select
+                                            id="role"
+                                            name="role"
+                                            value={formData.role}
+                                            onChange={handleChange}
+                                            className="block w-full px-3 py-3 placeholder-gray-400 border border-gray-300 rounded-2xl shadow-sm sm:text-sm"
+                                        >
+                                            <option value="user">User</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
                                     </div>
                                 </div>
 

@@ -104,6 +104,9 @@ const updateUser = async (req, res, next) => {
                     surname: req.body.surname,
                     email: req.body.email,
                     password: req.body.password,
+                    nomadPoints: req.body.nomadPoints,
+                    planType: req.body.planType,
+                    role: req.body.role,
                 },
             },
             { new: true }

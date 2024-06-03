@@ -33,7 +33,7 @@ const Homes = () => {
     const [searchQuery, setSearchQuery] = useState("");
 
     const [page, setPage] = useState(1);
-    const rowsPerPage = 5;
+    const rowsPerPage = 10;
 
     const pages = Math.ceil(homes.length / rowsPerPage);
 

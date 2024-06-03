@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Person from "@icons/person";
 import Home from "@icons/home";
 import BookOpen from "@icons/book-open";
+import Money from "@icons/money";
 
 function Sidebar() {
     let { section } = useParams();
@@ -49,6 +50,19 @@ function Sidebar() {
                             <BookOpen size={22} color="currentColor" />
                         </span>
                         <span className="hidden md:block">Bookings</span>
+                    </Link>
+                </li>
+                <li className="md:mb-2">
+                    <Link
+                        to="/dashboard/nomadpoints"
+                        className={`flex items-center p-4 rounded-3xl font-semibold hover:bg-black hover:text-white ${
+                            section === "nomadpoints" ? "bg-black text-white" : ""
+                        }`}
+                    >
+                        <span className="md:mr-2">
+                            <Money size={22} color="currentColor" />
+                        </span>
+                        <span className="hidden md:block">NomadPoints</span>
                     </Link>
                 </li>
             </ul>

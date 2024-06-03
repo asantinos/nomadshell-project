@@ -6,7 +6,6 @@ import { Avatar, AvatarIcon, Tooltip } from "@nextui-org/react";
 import axios from "axios";
 
 import Location from "@icons/location";
-
 import Heart from "@icons/heart";
 import HeartFill from "@icons/heart-fill";
 
