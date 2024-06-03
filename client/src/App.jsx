@@ -19,6 +19,8 @@ import Terms from "@pages/Terms";
 
 import AdminCreateHome from "@pages/admin/Dashboard/Homes/Add";
 import AdminEditHome from "@pages/admin/Dashboard/Homes/Edit";
+import AdminCreateUser from "@pages/admin/Dashboard/Users/Add";
+import AdminEditUser from "@pages/admin/Dashboard/Users/Edit";
 
 import PrivateRoute from "@components/Routes/PrivateRoute";
 import PremiumRoute from "@components/Routes/PremiumRoute";
@@ -67,6 +69,14 @@ function App() {
                     <Route
                         path="/dashboard/homes/edit/:id"
                         element={<AdminEditHome />}
+                    />
+                    <Route
+                        path="/dashboard/users/add"
+                        element={<AdminCreateUser />}
+                    />
+                    <Route
+                        path="/dashboard/users/edit/:id"
+                        element={<AdminEditUser />}
                     />
                 </Route>
 

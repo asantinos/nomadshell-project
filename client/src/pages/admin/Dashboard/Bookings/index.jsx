@@ -71,7 +71,6 @@ const Bookings = () => {
 
     const filteredBookings = useMemo(() => {
         if (!searchQuery) {
-            setPage(1);
             return bookings;
         }
 

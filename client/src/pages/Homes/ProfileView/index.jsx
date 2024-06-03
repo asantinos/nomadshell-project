@@ -82,8 +82,8 @@ const ProfileView = () => {
             {isLoading ? (
                 <Loader />
             ) : (
-                <>
-                    <main className="h-auto pt-header">
+                <div className="flex flex-col min-h-screen">
+                    <main className="flex-grow pt-header">
                         <section>
                             <div className="p-6 max-w-7xl mx-auto">
                                 <div className="flex items-center justify-between gap-8">
@@ -208,7 +208,7 @@ const ProfileView = () => {
                     </main>
 
                     <Footer />
-                </>
+                </div>
             )}
         </>
     );

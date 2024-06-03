@@ -265,7 +265,7 @@ function AdminEditHome() {
                         <div className="text-center mb-8">
                             <h3 className="text-4xl font-bold">Edit home</h3>
                             <p className="text-lg mt-4">
-                                Update your home details
+                                Update home details
                             </p>
                         </div>
 
@@ -495,7 +495,7 @@ function AdminEditHome() {
                                     disabled={loading || uploading}
                                     className="p-3 bg-neutral-800 text-white rounded-2xl uppercase hover:bg-black disabled:opacity-80"
                                 >
-                                    {loading ? "Editing..." : "Edit Home"}
+                                    {loading ? "Editing..." : "Update Home"}
                                 </button>
                                 {error && (
                                     <p className="text-center bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-2xl">
