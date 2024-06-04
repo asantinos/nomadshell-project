@@ -7,6 +7,8 @@ import axios from "axios";
 import Loader from "@components/Loader";
 import Footer from "@components/Footer";
 
+import Location from "@icons/location";
+
 const ProfileView = () => {
     const { currentUser } = useSelector((state) => state.user);
     const { id } = useParams();
@@ -142,61 +144,57 @@ const ProfileView = () => {
                                             <>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 mb-8">
                                                     {userHomes.map((home) => (
-                                                        <div
-                                                            key={home._id}
-                                                            className="bg-gray-lighter rounded-3xl p-6"
-                                                        >
-                                                            <div className="flex items-center justify-between">
-                                                                <Link
-                                                                    to={`/homes/${home._id}`}
-                                                                    className="text-black font-bold"
-                                                                >
-                                                                    {home.title}
-                                                                </Link>
-                                                            </div>
-                                                            <p className="text-gray-500 mt-4">
-                                                                {
-                                                                    home.description
-                                                                }
-                                                            </p>
-                                                            <p className="text-gray-500 mt-4">
-                                                                {home.type}
-                                                            </p>
-                                                            <p className="text-gray-500 mt-4">
-                                                                {home.price} /
-                                                                night
-                                                            </p>
-                                                            <p className="text-gray-500 mt-4">
-                                                                {home.sqrt} sqrt
-                                                            </p>
-                                                            <p className="text-gray-500 mt-4">
-                                                                {home.bedrooms}{" "}
-                                                                bedrooms
-                                                            </p>
-                                                            <p className="text-gray-500 mt-4">
-                                                                {home.bathrooms}{" "}
-                                                                bathrooms
-                                                            </p>
-                                                            <p className="text-gray-500 mt-4">
-                                                                {home.parking
-                                                                    ? "Parking 🚗"
-                                                                    : "No parking"}
-                                                            </p>
-                                                            <p className="text-gray-500 mt-4">
-                                                                Location:{" "}
-                                                                {
-                                                                    home
-                                                                        .location
-                                                                        .city
-                                                                }
-                                                                ,{" "}
-                                                                {
-                                                                    home
-                                                                        .location
-                                                                        .country
-                                                                }
+                                                        <div key={home._id} className="bg-gray-lighter rounded-3xl p-6">
+                                                        <div className="flex items-center justify-between">
+                                                            <Link
+                                                                to={`/homes/${home._id}`}
+                                                                className="flex items-center gap-2 mb-4"
+                                                            >
+                                                                <img
+                                                                    src={home.images[0]}
+                                                                    alt={home.title}
+                                                                    className="h-10 w-10 object-cover rounded-2xl"
+                                                                />
+                                                                <span className="text-black font-bold">{home.title}</span>
+                                                            </Link>
+                                                        </div>
+                                                        <p className="text-gray-500 text-sm -mt-1">{home.description}</p>
+                                                        <div className="flex items-center gap-1 mt-1">
+                                                            <Location color={"#9194A1"} size={16} />
+                                                            <p className="text-sm font-medium text-gray-light">
+                                                                {home.location.city}, {home.location.country}
                                                             </p>
                                                         </div>
+                                                        <div className="flex items-center gap-2 mt-2 text-gray-light font-normal">
+                                                            <div className="flex items-center gap-1">
+                                                                <p className="text-sm">{home.bedrooms} bedrooms</p>
+                                                            </div>
+                                                            ·
+                                                            <div className="flex items-center gap-1">
+                                                                <p className="text-sm">{home.bathrooms} bathrooms</p>
+                                                            </div>
+                                                            ·
+                                                            <div className="flex items-center gap-1">
+                                                                <p className="text-sm">{home.sqrt} m²</p>
+                                                            </div>
+                                                        </div>
+                                                        <p className="font-normal text-sm text-gray-light mt-2">
+                                                            {home.parking ? "Parking" : "No parking"}
+                                                        </p>
+                                                        <div className="flex items-center gap-4 mt-2">
+                                                            <p className="text-sm font-medium text-gray-dark">
+                                                                {home.type}
+                                                            </p>
+                                                        </div>
+                                                        <h3 className="text-xl font-bold text-black mt-4">
+                                                            <span className="text-xl mr-1">{home.price}</span>
+                                                            NP
+                                                            <span className="font-normal text-sm text-gray-dark">
+                                                                {" "}
+                                                                / night
+                                                            </span>
+                                                        </h3>
+                                                    </div>
                                                     ))}
                                                 </div>
                                             </>
