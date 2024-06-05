@@ -160,110 +160,108 @@ function Home() {
                                 className="mySwiper p-3"
                             >
                                 <SwiperSlide>
-                                    <div className="shadow-medium p-6 rounded-2xl">
+                                    <div className="h-60 sm:h-52 flex flex-col justify-between shadow-medium p-6 rounded-2xl">
                                         <p className="text-lg">
-                                            "Nomadshell is the best thing that
-                                            ever happened to me. I've met so
-                                            many amazing people and stayed in
-                                            some incredible places."
+                                            "Life's adventures have led me to
+                                            the most unexpected places, each one
+                                            a treasure trove of memories waiting
+                                            to be unearthed."
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
                                                 src="https://placehold.co/50"
-                                                alt="John Doe"
+                                                alt="Alexandra Smith"
                                                 className="w-8 h-8 rounded-full inline-block mr-2"
                                             />
-                                            - John Doe 1
+                                            - Alexandra Smith
                                         </p>
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className="shadow-medium p-6 rounded-2xl">
+                                    <div className="h-60 sm:h-52 flex flex-col justify-between shadow-medium p-6 rounded-2xl">
                                         <p className="text-lg">
-                                            "I've been using Nomadshell for
-                                            years and it's always been a great
-                                            experience. I love the community and
-                                            the places I've stayed at."
+                                            "In the tapestry of life, each
+                                            thread represents a moment of
+                                            discovery. I cherish every stitch
+                                            woven by my journeys."
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
                                                 src="https://placehold.co/50"
-                                                alt="Jane Doe"
+                                                alt="Michael Johnson"
                                                 className="w-8 h-8 rounded-full inline-block mr-2"
                                             />
-                                            - Jane Doe 2
+                                            - Michael Johnson
                                         </p>
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className="shadow-medium p-6 rounded-2xl">
+                                    <div className="h-60 sm:h-52 flex flex-col justify-between shadow-medium p-6 rounded-2xl">
                                         <p className="text-lg">
-                                            "Nomadshell is the best thing that
-                                            ever happened to me. I've met so
-                                            many amazing people and stayed in
-                                            some incredible places."
+                                            "In the dance of life, every step is
+                                            an exploration, every rhythm a new
+                                            experience waiting to be embraced."
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
                                                 src="https://placehold.co/50"
-                                                alt="Jane Doe"
+                                                alt="Sophia Martinez"
                                                 className="w-8 h-8 rounded-full inline-block mr-2"
                                             />
-                                            - Jane Doe 3
+                                            - Sophia Martinez
                                         </p>
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className="shadow-medium p-6 rounded-2xl">
+                                    <div className="h-60 sm:h-52 flex flex-col justify-between shadow-medium p-6 rounded-2xl">
                                         <p className="text-lg">
-                                            "I've been using Nomadshell for
-                                            years and it's always been a great
-                                            experience. I love the community and
-                                            the places I've stayed at."
+                                            "Life's journey is a collection of
+                                            moments, each one a chapter in the
+                                            story of our existence."
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
                                                 src="https://placehold.co/50"
-                                                alt="Jane Doe"
+                                                alt="Christopher Brown"
                                                 className="w-8 h-8 rounded-full inline-block mr-2"
                                             />
-                                            - Jane Doe 4
+                                            - Christopher Brown
                                         </p>
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className="shadow-medium p-6 rounded-2xl">
+                                    <div className="h-60 sm:h-52 flex flex-col justify-between shadow-medium p-6 rounded-2xl">
                                         <p className="text-lg">
-                                            "Nomadshell is the best thing that
-                                            ever happened to me. I've met so
-                                            many amazing people and stayed in
-                                            some incredible places."
+                                            "Life's canvas is painted with the
+                                            hues of exploration, each stroke
+                                            revealing a new landscape of
+                                            possibilities."
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
                                                 src="https://placehold.co/50"
-                                                alt="Jane Doe"
+                                                alt="Olivia Taylor"
                                                 className="w-8 h-8 rounded-full inline-block mr-2"
                                             />
-                                            - Jane Doe 5
+                                            - Olivia Taylor
                                         </p>
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className="shadow-medium p-6 rounded-2xl">
+                                    <div className="h-60 sm:h-52 flex flex-col justify-between shadow-medium p-6 rounded-2xl">
                                         <p className="text-lg">
-                                            "I've been using Nomadshell for
-                                            years and it's always been a great
-                                            experience. I love the community and
-                                            the places I've stayed at."
+                                            "Every sunrise brings a new chance
+                                            to explore, to discover, and to
+                                            embrace the beauty of the world
+                                            around us."
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
                                                 src="https://placehold.co/50"
-                                                alt="Jane Doe"
+                                                alt="Benjamin Turner"
                                                 className="w-8 h-8 rounded-full inline-block mr-2"
                                             />
-                                            - Jane Doe 6
+                                            - Benjamin Turner
                                         </p>
                                     </div>
                                 </SwiperSlide>
