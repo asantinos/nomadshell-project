@@ -155,7 +155,7 @@ function Home() {
                                     slidesPerView: 2,
                                 })}
                                 autoplay={{
-                                    delay: 5000,
+                                    delay: 3000,
                                 }}
                                 className="mySwiper p-3"
                             >
@@ -169,9 +169,9 @@ function Home() {
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
-                                                src="https://placehold.co/50"
+                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YXZhdGFyfGVufDB8fDB8fHww"
                                                 alt="Alexandra Smith"
-                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                                className="w-8 h-8 rounded-full inline-block mr-2 cover"
                                             />
                                             - Alexandra Smith
                                         </p>
@@ -187,9 +187,9 @@ function Home() {
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
-                                                src="https://placehold.co/50"
+                                                src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fHww"
                                                 alt="Michael Johnson"
-                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                                className="w-8 h-8 rounded-full inline-block mr-2 cover"
                                             />
                                             - Michael Johnson
                                         </p>
@@ -204,9 +204,9 @@ function Home() {
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
-                                                src="https://placehold.co/50"
+                                                src="https://plus.unsplash.com/premium_photo-1658527049634-15142565537a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YXZhdGFyfGVufDB8fDB8fHww"
                                                 alt="Sophia Martinez"
-                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                                className="w-8 h-8 rounded-full inline-block mr-2 cover"
                                             />
                                             - Sophia Martinez
                                         </p>
@@ -221,9 +221,9 @@ function Home() {
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
-                                                src="https://placehold.co/50"
+                                                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YXZhdGFyfGVufDB8fDB8fHww"
                                                 alt="Christopher Brown"
-                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                                className="w-8 h-8 rounded-full inline-block mr-2 cover"
                                             />
                                             - Christopher Brown
                                         </p>
@@ -239,9 +239,9 @@ function Home() {
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
-                                                src="https://placehold.co/50"
+                                                src="https://plus.unsplash.com/premium_photo-1674180786953-4223a4208d9a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YXZhdGFyfGVufDB8fDB8fHww"
                                                 alt="Olivia Taylor"
-                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                                className="w-8 h-8 rounded-full inline-block mr-2 cover"
                                             />
                                             - Olivia Taylor
                                         </p>
@@ -257,9 +257,9 @@ function Home() {
                                         </p>
                                         <p className="flex items-center gap-2 text-lg mt-4 font-bold">
                                             <img
-                                                src="https://placehold.co/50"
+                                                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YXZhdGFyfGVufDB8fDB8fHww"
                                                 alt="Benjamin Turner"
-                                                className="w-8 h-8 rounded-full inline-block mr-2"
+                                                className="w-8 h-8 rounded-full inline-block mr-2 cover"
                                             />
                                             - Benjamin Turner
                                         </p>
