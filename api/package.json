@@ -28,5 +28,8 @@
         "jsdoc": "^4.0.3",
         "mongodb-memory-server": "^9.3.0",
         "supertest": "^7.0.0"
+    },
+    "jest": {
+        "testEnvironment": "node"
     }
 }
